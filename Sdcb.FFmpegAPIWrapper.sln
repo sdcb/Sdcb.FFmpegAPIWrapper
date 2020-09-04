@@ -7,12 +7,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdcb.FFmpegAPIWrapper", "Sd
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CleanLocalNuGet|Any CPU = CleanLocalNuGet|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		DebugPackage|Any CPU = DebugPackage|Any CPU
+		NuGetPublish|Any CPU = NuGetPublish|Any CPU
+		NuGetPublish-Preview|Any CPU = NuGetPublish-Preview|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C69CD03A-6C19-4039-A243-B40006C009F7}.CleanLocalNuGet|Any CPU.ActiveCfg = CleanLocalNuGet|Any CPU
+		{C69CD03A-6C19-4039-A243-B40006C009F7}.CleanLocalNuGet|Any CPU.Build.0 = CleanLocalNuGet|Any CPU
 		{C69CD03A-6C19-4039-A243-B40006C009F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C69CD03A-6C19-4039-A243-B40006C009F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C69CD03A-6C19-4039-A243-B40006C009F7}.DebugPackage|Any CPU.ActiveCfg = DebugPackage|Any CPU
+		{C69CD03A-6C19-4039-A243-B40006C009F7}.DebugPackage|Any CPU.Build.0 = DebugPackage|Any CPU
+		{C69CD03A-6C19-4039-A243-B40006C009F7}.NuGetPublish|Any CPU.ActiveCfg = NuGetPublish|Any CPU
+		{C69CD03A-6C19-4039-A243-B40006C009F7}.NuGetPublish|Any CPU.Build.0 = NuGetPublish|Any CPU
+		{C69CD03A-6C19-4039-A243-B40006C009F7}.NuGetPublish-Preview|Any CPU.ActiveCfg = NuGetPublish-Preview|Any CPU
+		{C69CD03A-6C19-4039-A243-B40006C009F7}.NuGetPublish-Preview|Any CPU.Build.0 = NuGetPublish-Preview|Any CPU
 		{C69CD03A-6C19-4039-A243-B40006C009F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C69CD03A-6C19-4039-A243-B40006C009F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

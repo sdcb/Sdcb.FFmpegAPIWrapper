@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/sdcb/Sdcb.FFmpegAPIWrapper</PackageProjectUrl>
@@ -15,7 +15,38 @@
     <ApplicationIcon></ApplicationIcon>
     <PackageIcon>ffmpeg.png</PackageIcon>
     <PackageTags>linqpad-samples ffmpeg</PackageTags>
+    <Configurations>Debug;Release;DebugPackage;NuGetPublish;CleanLocalNuGet;NuGetPublish-Preview</Configurations>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Version>4.3.0.0</Version>
   </PropertyGroup>
+
+  <Target Name="CleanLocalNuGet" Condition="'$(Configuration)'=='CleanLocalNuGet'">
+    <Delete Files="$(SolutionDir)nuget/*.nupkg" />
+  </Target>
+
+  <PropertyGroup>
+    <PackageVersionSuffix>$([System.DateTime]::Now.ToString(&quot;yyyyMMdd'-'HHmmss&quot;))</PackageVersionSuffix>
+  </PropertyGroup>
+
+  <Target Name="DebugPackage" AfterTargets="Build" Condition="'$(Configuration)'=='DebugPackage'">
+    <PropertyGroup>
+      <PackageVersion>$(Version)-build-$(PackageVersionSuffix)</PackageVersion>
+    </PropertyGroup>
+    <Exec Command="dotnet pack -p:PackageVersion=$(PackageVersion) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget" />
+  </Target>
+
+  <Target Name="NuGetPublish-Preview" AfterTargets="Build" Condition="'$(Configuration)'=='NuGetPublish-Preview'">
+    <PropertyGroup>
+      <PackageVersion>$(Version)-preview-$(PackageVersionSuffix)</PackageVersion>
+    </PropertyGroup>
+    <Exec Command="dotnet pack -p:PackageVersion=$(PackageVersion) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
+    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(PackageVersion).nupkg -src nuget.org" />
+  </Target>
+
+  <Target Name="NuGetPublish" AfterTargets="Build" Condition="'$(Configuration)'=='NuGetPublish'">
+    <Exec Command="dotnet pack -p:PackageVersion=$(Version) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
+    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(Version).nupkg -src nuget.org" />
+  </Target>
 
   <ItemGroup>
     <PackageReference Include="FFmpeg.AutoGen" Version="4.3.0.1" />
