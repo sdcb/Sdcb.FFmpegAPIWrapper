@@ -1,11 +1,44 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/sdcb/Sdcb.FFmpegAPIWrapper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/sdcb/Sdcb.FFmpegAPIWrapper</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Description>API Wrapper for FFmpeg library for .NET, note this is not a CLI wrapper.</Description>
+    <Authors>sdcb</Authors>
+    <Company>sdcb</Company>
+    <Copyright>sdcb</Copyright>
+    <ApplicationIcon></ApplicationIcon>
+    <PackageIcon>ffmpeg.png</PackageIcon>
+    <PackageTags>linqpad-samples ffmpeg</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FFmpeg.AutoGen" Version="4.3.0.1" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\asset\ffmpeg.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="linqpad-samples\*.linq" Pack="True" PackagePath="linqpad-samples" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="linqpad-samples\" />
   </ItemGroup>
 
 </Project>
