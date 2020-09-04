@@ -14,11 +14,19 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
 
         public static unsafe explicit operator MediaIO(AVIOContext* ptr) => new MediaIO(ptr);
 
-        public static unsafe MediaIO Create(string url, MediaIOFlags flags)
+        public static string GetUrlProtocol(string url) => avio_find_protocol_name(url);
+
+        public static void Move(string source, string destination) => avpriv_io_move(source, destination);
+
+        public static void Delete(string source) => avpriv_io_delete(source);
+
+        public static MediaIOFlags Check(string url, MediaIOFlags flags) => (MediaIOFlags)avio_check(url, (int)flags).ThrowIfError();
+
+        public static unsafe MediaIO Create(string url, MediaIOFlags flags = MediaIOFlags.Read)
         {
-            AVIOContext* pCtx = null;
-            avio_open2(&pCtx, url, (int)flags, null, null).ThrowIfError();
-            return new MediaIO(pCtx);
+            AVIOContext* cts = null;
+            avio_open2(&cts, url, (int)flags, null, null).ThrowIfError();
+            return new MediaIO(cts);
         }
 
         public unsafe void Write(ReadOnlySpan<byte> data)
