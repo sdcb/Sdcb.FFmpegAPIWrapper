@@ -3,7 +3,7 @@ using System;
 using System.Runtime.InteropServices;
 using static FFmpeg.AutoGen.ffmpeg;
 
-namespace Sdcb.FFmpegAPIWrapper.Common.Logging
+namespace Sdcb.FFmpegAPIWrapper.Common
 {
     public static class FFmpegLogger
     {

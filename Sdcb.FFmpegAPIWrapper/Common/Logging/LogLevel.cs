@@ -1,6 +1,6 @@
 ﻿using FFmpeg.AutoGen;
 
-namespace Sdcb.FFmpegAPIWrapper.Common.Logging
+namespace Sdcb.FFmpegAPIWrapper.Common
 {
     /// <summary>
     /// AV_LOG_
