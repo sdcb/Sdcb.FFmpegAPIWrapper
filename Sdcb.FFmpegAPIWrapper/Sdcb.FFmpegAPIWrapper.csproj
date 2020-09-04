@@ -17,7 +17,7 @@
     <PackageTags>linqpad-samples ffmpeg</PackageTags>
     <Configurations>Debug;Release;DebugPackage;NuGetPublish;CleanLocalNuGet;NuGetPublish-Preview</Configurations>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>4.3.0.0</Version>
+    <Version>4.3.0</Version>
   </PropertyGroup>
 
   <Target Name="CleanLocalNuGet" Condition="'$(Configuration)'=='CleanLocalNuGet'">
@@ -25,7 +25,7 @@
   </Target>
 
   <PropertyGroup>
-    <PackageVersionSuffix>$([System.DateTime]::Now.ToString(&quot;yyyyMMdd'-'HHmmss&quot;))</PackageVersionSuffix>
+    <PackageVersionSuffix>$([System.DateTime]::Now.ToString("yyyyMMdd'-'HHmmss"))</PackageVersionSuffix>
   </PropertyGroup>
 
   <Target Name="DebugPackage" AfterTargets="Build" Condition="'$(Configuration)'=='DebugPackage'">
@@ -40,12 +40,12 @@
       <PackageVersion>$(Version)-preview-$(PackageVersionSuffix)</PackageVersion>
     </PropertyGroup>
     <Exec Command="dotnet pack -p:PackageVersion=$(PackageVersion) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
-    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(PackageVersion).nupkg -src nuget.org" />
+    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(PackageVersion).nupkg -Source https://nuget.org" />
   </Target>
 
   <Target Name="NuGetPublish" AfterTargets="Build" Condition="'$(Configuration)'=='NuGetPublish'">
     <Exec Command="dotnet pack -p:PackageVersion=$(Version) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
-    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(Version).nupkg -src nuget.org" />
+    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(Version).nupkg -Source https://nuget.org" />
   </Target>
 
   <ItemGroup>
