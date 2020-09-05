@@ -3,6 +3,7 @@ using Sdcb.FFmpegAPIWrapper.Common;
 using FFmpeg.AutoGen;
 using System;
 using System.Buffers;
+using System.Text;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
 {
@@ -39,29 +40,16 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         /// </summary>
         public static unsafe MediaIO Create(string url, MediaIOFlags flags = MediaIOFlags.Read)
         {
-            AVIOContext* cts = null;
-            avio_open2(&cts, url, (int)flags, null, null).ThrowIfError();
-            return new MediaIO(cts);
+            AVIOContext* ctx = null;
+            avio_open2(&ctx, url, (int)flags, null, null).ThrowIfError();
+            return new MediaIO(ctx);
         }
 
-        /// <summary>
-        /// <see cref="avio_write(AVIOContext*, byte*, int)"/>
-        /// </summary>
-        public unsafe void Write(ReadOnlySpan<byte> data)
+        public static unsafe DynamicMediaIO CreateDynamic()
         {
-            fixed(byte* pin = data)
-            {
-                avio_write(this, pin, data.Length);
-            }
-        }
-
-        /// <summary>
-        /// <see cref="avio_write(AVIOContext*, byte*, int)"/>
-        /// </summary>
-        public unsafe void Write(ReadOnlyMemory<byte> data)
-        {
-            MemoryHandle pin = data.Pin();
-            avio_write(this, (byte*)pin.Pointer, data.Length);
+            AVIOContext* ctx = null;
+            avio_open_dyn_buf(&ctx).ThrowIfError();
+            return new DynamicMediaIO(ctx);
         }
 
         /// <summary>
@@ -71,17 +59,19 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         {
             fixed(byte* pin = data)
             {
-                return avio_read(this, pin, data.Length);
+                return avio_read(this, pin, data.Length).ThrowIfError();
             }
         }
 
         /// <summary>
-        /// <see cref="avio_read(AVIOContext*, byte*, int)"/>
+        /// <see cref="avio_read_partial(AVIOContext*, byte*, int)"/>
         /// </summary>
-        public unsafe int Read(Memory<byte> data)
+        public unsafe int ReadPartial(Span<byte> data)
         {
-            MemoryHandle pin = data.Pin();
-            return avio_read(this, (byte*)pin.Pointer, data.Length);
+            fixed(byte* p = data)
+            {
+                return avio_read_partial(this, p, data.Length).ThrowIfError();
+            }
         }
 
         /// <summary>
@@ -137,6 +127,102 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         /// </summary>
         /// <returns>return 0 if EOF, so you cannot use it if EOF handling is necessary</returns>
         public unsafe ulong ReadUInt64BigEndian() => avio_rb64(this);
+
+        /// <summary>
+        /// <see cref="avio_get_str(AVIOContext*, int, byte*, int)"/>
+        /// </summary>
+        public unsafe int ReadString(Span<byte> data, int maxLength)
+        {
+            fixed(byte* p = data)
+            {
+                return avio_get_str(this, maxLength, p, data.Length).ThrowIfError();
+            }
+        }
+
+        /// <summary>
+        /// <para>Read a UTF-16 string and convert it to UTF-8.</para>
+        /// <see cref="avio_get_str16le(AVIOContext*, int, byte*, int)"/>
+        /// </summary>
+        public unsafe int ReadStringUtf16LE(Span<byte> data, int maxLength)
+        {
+            fixed(byte* p = data)
+            {
+                return avio_get_str16le(this, maxLength, p, data.Length).ThrowIfError();
+            }
+        }
+
+        /// <summary>
+        /// <para>Read a UTF-16 string and convert it to UTF-8.</para>
+        /// <see cref="avio_get_str16le(AVIOContext*, int, byte*, int)"/>
+        /// </summary>
+        public unsafe int ReadStringUtf16BE(Span<byte> data, int maxLength)
+        {
+            fixed(byte* p = data)
+            {
+                return avio_get_str16be(this, maxLength, p, data.Length).ThrowIfError();
+            }
+        }
+
+        /// <summary>
+        /// <see cref="avio_write(AVIOContext*, byte*, int)"/>
+        /// </summary>
+        public unsafe void Write(ReadOnlySpan<byte> data)
+        {
+            fixed (byte* pin = data)
+            {
+                avio_write(this, pin, data.Length);
+            }
+        }
+
+        /// <summary>
+        /// <see cref="avio_put_str(AVIOContext*, string)"/>
+        /// </summary>
+        /// <param name="text">NULL-terminated string.</param>
+        /// <returns>number of bytes written.</returns>
+        public unsafe int WriteString(string text) => avio_put_str(this, text);
+
+        /// <summary>
+        /// Convert an string to UTF-16LE and write it.
+        /// <see cref="avio_put_str16le(AVIOContext*, string)"/>
+        /// </summary>
+        /// <param name="text">NULL-terminated UTF-8 string</param>
+        /// <returns>number of bytes written.</returns>
+        public unsafe int WriteStringUtf16LE(string text) => avio_put_str16le(this, text);
+
+        /// <summary>
+        /// Convert an string to UTF-16BE and write it.
+        /// <see cref="avio_put_str16be(AVIOContext*, string)"/>
+        /// </summary>
+        /// <param name="text">NULL-terminated UTF-8 string</param>
+        /// <returns>number of bytes written.</returns>
+        public unsafe int WriteStringUtf16BE(string text) => avio_put_str16be(this, text);
+
+        /// <summary>
+        /// Mark the written bytestream as a specific type.
+        /// <para>Zero-length ranges are omitted from the output.</para>
+        /// <see cref="avio_write_marker(AVIOContext*, long, AVIODataMarkerType)"/>
+        /// </summary>
+        /// <param name="time">the stream time the current bytestream pos corresponds to 
+        /// (in AV_TIME_BASE units), or AV_NOPTS_VALUE if unknown or not applicable</param>
+        /// <param name="type">the kind of data written starting at the current pos</param>
+        public unsafe void WriteMarker(long time, MediaIODataMarkerTypes type) => avio_write_marker(this, time, (AVIODataMarkerType)type);
+
+        /// <summary>
+        /// <see cref="avio_flush(AVIOContext*)"/>
+        /// </summary>
+        public unsafe void Flush() => avio_flush(this);
+
+        /// <summary>
+        /// <para>Similar to feof() but also returns nonzero on read errors.</para>
+        /// <para>@return non zero if and only if at end of file or a read error happened when reading.</para>
+        /// <see cref="avio_feof(AVIOContext*)"/>
+        /// </summary>
+        public unsafe int EOF => avio_feof(this);
+
+        /// <summary>
+        /// <see cref="avio_size(AVIOContext*)"/>
+        /// </summary>
+        public unsafe long Size => avio_size(this).ThrowIfError();
 
         /// <summary>
         /// <see cref="avio_close(AVIOContext*)"/>

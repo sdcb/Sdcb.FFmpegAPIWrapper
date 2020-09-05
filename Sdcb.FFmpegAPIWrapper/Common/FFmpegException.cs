@@ -31,5 +31,14 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             }
 			return errorCode;
         }
-    }
+
+		public static long ThrowIfError(this long errorCode, string message = null)
+		{
+			if (errorCode < 0)
+			{
+				throw FFmpegException.FromErrorCode((int)errorCode, message);
+			}
+			return errorCode;
+		}
+	}
 }

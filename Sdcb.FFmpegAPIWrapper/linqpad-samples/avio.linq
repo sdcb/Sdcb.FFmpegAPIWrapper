@@ -27,7 +27,7 @@ void TestReadWrite()
 	string tempFile = Path.GetTempFileName();
 	{
 		using var io = MediaIO.Create(tempFile, MediaIOFlags.Write);
-		io.Write(Encoding.UTF8.GetBytes("Hello World").AsMemory());
+		io.Write(Encoding.UTF8.GetBytes("Hello World").AsSpan());
 	}
 	string tempFile2 = tempFile + ".temp";
 	MediaIO.Move(tempFile, tempFile2);
@@ -37,7 +37,7 @@ void TestReadWrite()
 	File.Exists(tempFile2).Dump("exist " + tempFile2 + " (deleted)");
 	{
 		using var io = MediaIO.Create(tempFile, MediaIOFlags.Read);
-		var buffer = new byte[4096].AsMemory();
+		var buffer = new byte[4096].AsSpan();
 		int len = io.Read(buffer);
 		string text = Encoding.UTF8.GetString(buffer.Slice(0, len).ToArray());
 		Console.WriteLine(text);
@@ -49,7 +49,7 @@ void TestReadHttp()
 {
 	MediaIO.Check("https://www.baidu.com", MediaIOFlags.Read).Dump("check https://www.baidu.com - read");
 	using var io2 = MediaIO.Create("https://www.baidu.com");
-	var buffer = new byte[4096].AsMemory();
+	var buffer = new byte[4096].AsSpan();
 	int len = io2.Read(buffer);
 	Encoding.UTF8.GetString(buffer.Slice(0, len).ToArray()).Length.Dump("https://www.baidu.com length");
 }
