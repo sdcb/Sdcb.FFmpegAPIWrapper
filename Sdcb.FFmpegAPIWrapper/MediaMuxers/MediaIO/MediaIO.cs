@@ -43,11 +43,35 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
             return new MediaIO(ctx);
         }
 
+        /// <summary>
+        /// <see cref="avio_open_dyn_buf(AVIOContext**)"/>
+        /// </summary>
         public static unsafe DynamicMediaIO CreateDynamic()
         {
             AVIOContext* ctx = null;
             avio_open_dyn_buf(&ctx).ThrowIfError();
             return new DynamicMediaIO(ctx);
+        }
+
+        /// <summary>
+        /// <para>Similar to feof() but also returns nonzero on read errors.</para>
+        /// <para>@return non zero if and only if at end of file or a read error happened when reading.</para>
+        /// <see cref="avio_feof(AVIOContext*)"/>
+        /// </summary>
+        public unsafe int EOF => avio_feof(this);
+
+        /// <summary>
+        /// <see cref="avio_size(AVIOContext*)"/>
+        /// </summary>
+        public unsafe long Size => avio_size(this).ThrowIfError();
+
+        /// <summary>
+        /// <see cref="avio_tell(AVIOContext*)"/>
+        /// </summary>
+        public unsafe long Position
+        {
+            get => avio_tell(this).ThrowIfError();
+            set => Seek(value, MediaIOSeek.Begin);
         }
 
         /// <summary>
@@ -219,16 +243,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         }
 
         /// <summary>
-        /// <para>Similar to feof() but also returns nonzero on read errors.</para>
-        /// <para>@return non zero if and only if at end of file or a read error happened when reading.</para>
-        /// <see cref="avio_feof(AVIOContext*)"/>
+        /// Skip given number of bytes forward
         /// </summary>
-        public unsafe int EOF => avio_feof(this);
-
-        /// <summary>
-        /// <see cref="avio_size(AVIOContext*)"/>
-        /// </summary>
-        public unsafe long Size => avio_size(this).ThrowIfError();
+        /// <param name="offset"></param>
+        /// <returns>new position or AVERROR.</returns>
+        public unsafe long Skip(long offset) => avio_skip(this, offset).ThrowIfError();
 
         /// <summary>
         /// <see cref="avio_close(AVIOContext*)"/>
