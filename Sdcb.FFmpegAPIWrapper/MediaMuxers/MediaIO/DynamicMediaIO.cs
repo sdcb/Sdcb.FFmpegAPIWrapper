@@ -11,6 +11,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         {
         }
 
+        /// <summary>
+        /// <see cref="avio_get_dyn_buf(AVIOContext*, byte**)"/>
+        /// </summary>
         public unsafe Span<byte> GetBuffer()
         {
             byte* buffer = null;
@@ -18,6 +21,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
             return new Span<byte>(buffer, length);
         }
 
+        /// <summary>
+        /// <see cref="avio_close_dyn_buf(AVIOContext*, byte**)"/>
+        /// </summary>
         public unsafe DynamicMediaIOMemory GetBufferAndClose()
         {
             byte* buffer = null;

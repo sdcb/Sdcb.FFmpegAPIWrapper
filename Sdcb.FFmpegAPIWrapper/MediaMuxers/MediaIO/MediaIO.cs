@@ -2,8 +2,6 @@
 using Sdcb.FFmpegAPIWrapper.Common;
 using FFmpeg.AutoGen;
 using System;
-using System.Buffers;
-using System.Text;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
 {
@@ -205,12 +203,20 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         /// <param name="time">the stream time the current bytestream pos corresponds to 
         /// (in AV_TIME_BASE units), or AV_NOPTS_VALUE if unknown or not applicable</param>
         /// <param name="type">the kind of data written starting at the current pos</param>
-        public unsafe void WriteMarker(long time, MediaIODataMarkerTypes type) => avio_write_marker(this, time, (AVIODataMarkerType)type);
+        public unsafe void WriteMarker(long time, DataMarkerTypes type) => avio_write_marker(this, time, (AVIODataMarkerType)type);
 
         /// <summary>
         /// <see cref="avio_flush(AVIOContext*)"/>
         /// </summary>
         public unsafe void Flush() => avio_flush(this);
+
+        /// <summary>
+        /// <see cref="avio_seek(AVIOContext*, long, int)"/>
+        /// </summary>
+        public unsafe long Seek(long offset, MediaIOSeek origin)
+        {
+            return avio_seek(this, offset, (int)origin).ThrowIfError();
+        }
 
         /// <summary>
         /// <para>Similar to feof() but also returns nonzero on read errors.</para>

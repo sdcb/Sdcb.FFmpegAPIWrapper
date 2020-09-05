@@ -8,7 +8,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
     /// </para>
     /// <see cref="AVIODataMarkerType"/>
     /// </summary>
-    public enum MediaIODataMarkerTypes
+    public enum DataMarkerTypes
     {
         /// <summary>
         /// Header data; this needs to be present for the stream to be decodeable.
