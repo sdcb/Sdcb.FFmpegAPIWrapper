@@ -4,9 +4,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 {
     public abstract class FFmpegHandle : IDisposable
     {
-        protected readonly IntPtr _handle;
-
-        private bool _disposed;
+        protected IntPtr _handle;
 
         protected FFmpegHandle(IntPtr handle)
         {
@@ -17,14 +15,14 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         private void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (_handle != IntPtr.Zero)
             {
                 if (disposing)
                 {
                     Close();
                 }
 
-                _disposed = true;
+                _handle = IntPtr.Zero;
             }
         }
 

@@ -7,18 +7,29 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 {
     public static class FFmpegLogger
     {
+		/// <summary>
+		/// <see cref="av_log_get_level"/>
+		/// <see cref="av_log_set_level(int)"/>
+		/// </summary>
 		public static LogLevel LogLevel
         {
 			get => (LogLevel)av_log_get_level();
 			set => av_log_set_level((int)value);
         }
 
+		/// <summary>
+		/// <see cref="av_log_get_flags"/>
+		/// <see cref="av_log_set_flags(int)"/>
+		/// </summary>
 		public static LogFlags LogFlags
         {
 			get => (LogFlags)av_log_get_flags();
 			set => av_log_set_flags((int)value);
         }
 
+		/// <summary>
+		/// <see cref="av_log_set_callback(av_log_set_callback_callback_func)"/>
+		/// </summary>
 		public static unsafe Action<string> LogWriter
         {
 			set => av_log_set_callback(value switch
@@ -37,7 +48,11 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 			});
         }
 
+		/// <summary>
+		/// <see cref="av_log(void*, int, string)"/>
+		/// </summary>
 		public unsafe static void Log(LogLevel level, string message) => av_log(null, (int)level, message);
+
 		public static void LogTrace(string message) => Log(LogLevel.Trace, message);
 		public static void LogDebug(string message) => Log(LogLevel.Debug, message);
 		public static void LogVerbose(string message) => Log(LogLevel.Verbose, message);
