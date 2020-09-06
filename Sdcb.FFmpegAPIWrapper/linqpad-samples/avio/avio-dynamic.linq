@@ -7,7 +7,7 @@
   <Namespace>System.Runtime.CompilerServices</Namespace>
 </Query>
 
-using var io = MediaIO.CreateDynamic();
+using var io = MediaIO.OpenDynamic();
 io.WriteString("Hello World");
 io.Flush();
 GetContent(io).Dump();
