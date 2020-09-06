@@ -5,53 +5,12 @@ using System;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
 {
-    public class MediaIO : FFmpegHandle
+    /// <summary>
+    /// <see cref="AVIOContext"/>
+    /// </summary>
+    public partial class MediaIO : FFmpegHandle
     {
         protected unsafe MediaIO(AVIOContext* ptr): base((IntPtr)ptr) { }
-
-        public static unsafe implicit operator AVIOContext*(MediaIO data) => (AVIOContext*)data._handle;
-
-        public static unsafe explicit operator MediaIO(AVIOContext* ptr) => new MediaIO(ptr);
-
-        /// <summary>
-        /// <see cref="avio_find_protocol_name(string)"/>
-        /// </summary>
-        public static string GetUrlProtocol(string url) => avio_find_protocol_name(url);
-
-        /// <summary>
-        /// <see cref="avpriv_io_move(string, string)"/>
-        /// </summary>
-        public static void Move(string source, string destination) => avpriv_io_move(source, destination);
-
-        /// <summary>
-        /// <see cref="avpriv_io_delete(string)"/>
-        /// </summary>
-        public static void Delete(string source) => avpriv_io_delete(source);
-
-        /// <summary>
-        /// <see cref="avio_check(string, int)"/>
-        /// </summary>
-        public static MediaIOFlags Check(string url, MediaIOFlags flags) => (MediaIOFlags)avio_check(url, (int)flags).ThrowIfError();
-
-        /// <summary>
-        /// <see cref="avio_open2(AVIOContext**, string, int, AVIOInterruptCB*, AVDictionary**)"/>
-        /// </summary>
-        public static unsafe MediaIO Create(string url, MediaIOFlags flags = MediaIOFlags.Read)
-        {
-            AVIOContext* ctx = null;
-            avio_open2(&ctx, url, (int)flags, null, null).ThrowIfError();
-            return new MediaIO(ctx);
-        }
-
-        /// <summary>
-        /// <see cref="avio_open_dyn_buf(AVIOContext**)"/>
-        /// </summary>
-        public static unsafe DynamicMediaIO CreateDynamic()
-        {
-            AVIOContext* ctx = null;
-            avio_open_dyn_buf(&ctx).ThrowIfError();
-            return new DynamicMediaIO(ctx);
-        }
 
         /// <summary>
         /// <para>Similar to feof() but also returns nonzero on read errors.</para>
@@ -243,11 +202,46 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         }
 
         /// <summary>
+        /// <see cref="avio_seek_time(AVIOContext*, -1, long, int)"/>
+        /// </summary>
+        public unsafe long SeekTime(long timestamp, int flags) => avio_seek_time(this, -1, timestamp, flags);
+
+        /// <summary>
+        /// <see cref="avio_seek_time(AVIOContext*, int, long, int)"/>
+        /// </summary>
+        public unsafe long SeekStreamTime(int streamIndex, long timestamp, int flags) => avio_seek_time(this, streamIndex, timestamp, flags).ThrowIfError();
+
+        /// <summary>
         /// Skip given number of bytes forward
         /// </summary>
         /// <param name="offset"></param>
         /// <returns>new position or AVERROR.</returns>
         public unsafe long Skip(long offset) => avio_skip(this, offset).ThrowIfError();
+
+        /// <summary>
+        /// <see cref="avio_pause(AVIOContext*, int)"/>
+        /// </summary>
+        public unsafe void Pause() => avio_pause(this, 1).ThrowIfError();
+
+        /// <summary>
+        /// <see cref="avio_pause(AVIOContext*, int)"/>
+        /// </summary>
+        public unsafe void Resume() => avio_pause(this, 0).ThrowIfError();
+
+        /// <summary>
+        /// <see cref="avio_accept(AVIOContext*, AVIOContext**)"/>
+        /// </summary>
+        public unsafe MediaIO Accept()
+        {
+            AVIOContext* ctx;
+            avio_accept(this, &ctx).ThrowIfError();
+            return FromNative(ctx);
+        }
+
+        /// <summary>
+        /// <see cref="avio_handshake(AVIOContext*)"/>
+        /// </summary>
+        public unsafe int Handshake() => avio_handshake(this).ThrowIfError();
 
         /// <summary>
         /// <see cref="avio_close(AVIOContext*)"/>
