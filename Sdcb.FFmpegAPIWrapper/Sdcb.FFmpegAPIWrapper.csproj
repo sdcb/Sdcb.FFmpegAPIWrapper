@@ -30,7 +30,7 @@
 
   <Target Name="DebugPackage" AfterTargets="Build" Condition="'$(Configuration)'=='DebugPackage'">
     <PropertyGroup>
-      <PackageVersion>$(Version)-build-$(PackageVersionSuffix)</PackageVersion>
+      <PackageVersion>$(Version)-preview-$(PackageVersionSuffix)</PackageVersion>
     </PropertyGroup>
     <Exec Command="dotnet pack -p:PackageVersion=$(PackageVersion) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget" />
   </Target>

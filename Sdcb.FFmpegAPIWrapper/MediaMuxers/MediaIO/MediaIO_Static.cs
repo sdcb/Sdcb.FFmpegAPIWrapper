@@ -31,12 +31,23 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         }
 
         /// <summary>
-        /// <see cref="avio_alloc_context(byte*, int, int, void*, avio_alloc_context_read_packet_func, avio_alloc_context_write_packet_func, avio_alloc_context_seek_func)"/>
+        /// <see cref="avio_alloc_context(byte*, int, 0, void*, avio_alloc_context_read_packet_func, avio_alloc_context_write_packet_func, avio_alloc_context_seek_func)"/>
         /// </summary>
-        public static unsafe MediaIO FromStream(Stream stream, MediaIOFlags flags = MediaIOFlags.Read | MediaIOFlags.Write, int bufferSize = 32768)
+        public static MediaIO ReadStream(Stream stream, int bufferSize = 32768) => FromStream(stream, 0, bufferSize);
+
+        /// <summary>
+        /// <see cref="avio_alloc_context(byte*, int, 1, void*, avio_alloc_context_read_packet_func, avio_alloc_context_write_packet_func, avio_alloc_context_seek_func)"/>
+        /// </summary>
+        public static MediaIO WriteStream(Stream stream, int bufferSize = 32768) => FromStream(stream, 1, bufferSize);
+
+        private static unsafe MediaIO FromStream(Stream stream, int writeFlag, int bufferSize = 32768)
         {
-            void* buffer = av_malloc((ulong)bufferSize);
-            AVIOContext* ctx = avio_alloc_context((byte*)buffer, bufferSize, (int)flags,
+            byte* buffer = (byte*)av_malloc((ulong)bufferSize);
+            if (buffer == null)
+            {
+                throw FFmpegException.FromErrorCode(AVERROR(ENOMEM), "Failed to alloc MediaIO buffer");
+            }
+            AVIOContext* ctx = avio_alloc_context(buffer, bufferSize, writeFlag,
                 opaque: null, 
                 read_packet: new avio_alloc_context_read_packet(Read), 
                 write_packet: new avio_alloc_context_write_packet(Write), 
@@ -45,9 +56,14 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
             {
                 throw FFmpegException.FromErrorCode(AVERROR(ENOMEM), "Failed to alloc AVIOContext");
             }
+
             return new MediaIO(ctx);
 
-            int Read(void* opaque, byte* buffer, int length) => stream.Read(new Span<byte>(buffer, length));
+            int Read(void* opaque, byte* buffer, int length)
+            {
+                int c = stream.Read(new Span<byte>(buffer, length));
+                return c == 0 ? AVERROR_EOF : c;
+            }
             int Write(void* opaque, byte* buffer, int length)
             {
                 stream.Write(new Span<byte>(buffer, length));
@@ -61,23 +77,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
                 MediaIOSeek.Size => stream.Length, 
                 _ => throw new NotSupportedException(), 
             };
-        }
-
-        /// <summary>
-        /// <see cref="avio_alloc_context(byte*, int, int, void*, avio_alloc_context_read_packet_func, avio_alloc_context_write_packet_func, avio_alloc_context_seek_func)"/>
-        /// </summary>
-        public static unsafe MediaIO FromBuffer(byte* buffer, int bufferSize, MediaIOFlags flags = MediaIOFlags.Read | MediaIOFlags.Write)
-        {
-            AVIOContext* ctx = avio_alloc_context(buffer, bufferSize, (int)flags,
-                opaque: null,
-                read_packet: null,
-                write_packet: null,
-                seek: null);
-            if (ctx == null)
-            {
-                throw FFmpegException.FromErrorCode(AVERROR(ENOMEM), "Failed to alloc AVIOContext");
-            }
-            return FromNative(ctx);
         }
 
         public static unsafe MediaIO FromNative(AVIOContext* p) => new MediaIO(p);
