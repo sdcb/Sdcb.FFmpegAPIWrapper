@@ -1,6 +1,7 @@
 <Query Kind="Statements">
   <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
   <Namespace>Sdcb.FFmpegAPIWrapper.Common.Logging</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
 </Query>
 
 Util.NewProcess = true;
