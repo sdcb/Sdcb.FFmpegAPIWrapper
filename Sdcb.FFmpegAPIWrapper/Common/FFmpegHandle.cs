@@ -19,8 +19,9 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             {
                 if (disposing)
                 {
-                    Close();
+                    // dispose managed stuffs, current nothing for ffmpeg.
                 }
+                Close();
 
                 _handle = IntPtr.Zero;
             }
