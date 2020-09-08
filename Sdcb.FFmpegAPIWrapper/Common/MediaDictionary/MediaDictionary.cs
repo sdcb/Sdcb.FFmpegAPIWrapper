@@ -24,7 +24,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             return new MediaDictionary(destination);
         }
 
-        public static MediaDictionary FromDictionary(Dictionary<string, string> dict)
+        public static MediaDictionary FromDictionary(IDictionary<string, string> dict)
         {
             MediaDictionary md = CreateEmpty();
             foreach (var entry in dict)
