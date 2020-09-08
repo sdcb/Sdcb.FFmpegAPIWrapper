@@ -4,7 +4,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
     [Flags]
-    public enum MediaDictionaryFlags : int
+    public enum MediaDictionaryReadFlags : int
     {
         /// <summary>
         /// <see cref="AV_DICT_MATCH_CASE"/>
@@ -15,10 +15,11 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         /// <see cref="AV_DICT_IGNORE_SUFFIX"/>
         /// </summary>
         IgnoreSuffix = 2,
+    }
 
-        //AV_DICT_DONT_STRDUP_KEY = 4, // Not suppord in managed code
-        //AV_DICT_DONT_STRDUP_VAL = 8, // Not suppord in managed code
-
+    [Flags]
+    public enum MediaDictionarySetFlags : int
+    {
         /// <summary>
         /// <see cref="AV_DICT_DONT_OVERWRITE"/>
         /// </summary>

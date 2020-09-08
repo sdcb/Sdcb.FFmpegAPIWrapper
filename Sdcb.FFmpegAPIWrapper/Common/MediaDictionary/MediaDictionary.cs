@@ -49,7 +49,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         {
             get
             {
-                AVDictionaryEntry* entry = av_dict_get(this, key, null, (int)MediaDictionaryFlags.CaseSensitive);
+                AVDictionaryEntry* entry = av_dict_get(this, key, null, (int)MediaDictionaryReadFlags.CaseSensitive);
                 if (entry == null)
                 {
                     throw new KeyNotFoundException(key);
@@ -71,7 +71,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             if (value == null) throw new ArgumentNullException(nameof(value)); // in AVDictionary, value is also not-null.
 
             AVDictionary* ptr = this;
-            av_dict_set(&ptr, key, value, (int)MediaDictionaryFlags.NoOverwrite).ThrowIfError();
+            av_dict_set(&ptr, key, value, (int)MediaDictionarySetFlags.NoOverwrite).ThrowIfError();
             _handle = (IntPtr)ptr;
         }
 
@@ -79,7 +79,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
 
-            AVDictionaryEntry* entry = av_dict_get(this, key, null, (int)MediaDictionaryFlags.CaseSensitive);
+            AVDictionaryEntry* entry = av_dict_get(this, key, null, (int)MediaDictionaryReadFlags.CaseSensitive);
             return entry != null;
         }
 
@@ -90,14 +90,14 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             AVDictionary* ptr = this;
             bool containsKey = ContainsKey(key);
 
-            av_dict_set(&ptr, key, null, (int)MediaDictionaryFlags.NoOverwrite).ThrowIfError();
+            av_dict_set(&ptr, key, null, 0).ThrowIfError();
             _handle = (IntPtr)ptr;
             return containsKey;
         }
 
         public bool TryGetValue(string key, out string value)
         {
-            AVDictionaryEntry* entry = av_dict_get(this, key, null, (int)MediaDictionaryFlags.CaseSensitive);
+            AVDictionaryEntry* entry = av_dict_get(this, key, null, (int)MediaDictionaryReadFlags.CaseSensitive);
             if (entry == null)
             {
                 value = null;
@@ -146,17 +146,13 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
-            IntPtr opaque = AllocOpaque();
-            try
+            IntPtr opaque = IntPtr.Zero;
+            while (true)
             {
-                while ((opaque = av_dict_get_safe(this, opaque)) != IntPtr.Zero)
-                {
-                    yield return GenerateResult(opaque);
-                }
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(opaque);
+                opaque = av_dict_get_safe(this, opaque);
+                if (opaque == IntPtr.Zero) yield break;
+
+                yield return GenerateResult(opaque);
             }
 
             static KeyValuePair<string, string> GenerateResult(IntPtr ptr)
@@ -169,19 +165,22 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
             static IntPtr av_dict_get_safe(MediaDictionary dict, IntPtr prev)
             {
-                return (IntPtr)av_dict_get(dict, "", (AVDictionaryEntry*)prev, (int)MediaDictionaryFlags.IgnoreSuffix);
-            }
-
-            static IntPtr AllocOpaque()
-            {
-                IntPtr address = Marshal.AllocHGlobal(IntPtr.Size);
-                (*(IntPtr*)(address)) = new IntPtr(0);
-                return address;
+                return (IntPtr)av_dict_get(dict, "", (AVDictionaryEntry*)prev, (int)MediaDictionaryReadFlags.IgnoreSuffix);
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         #endregion
+
+        public void Set(string key, string value, MediaDictionarySetFlags flags = MediaDictionarySetFlags.NoOverwrite)
+        {
+            if (key == null) throw new ArgumentNullException(nameof(key));
+            if (value == null) throw new ArgumentNullException(nameof(value)); // in AVDictionary, value is also not-null.
+
+            AVDictionary* ptr = this;
+            av_dict_set(&ptr, key, value, (int)flags).ThrowIfError();
+            _handle = (IntPtr)ptr;
+        }
 
         protected override void Close()
         {
