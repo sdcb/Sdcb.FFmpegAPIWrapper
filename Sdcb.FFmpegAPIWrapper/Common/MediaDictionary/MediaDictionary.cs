@@ -24,6 +24,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             return new MediaDictionary(destination);
         }
 
+        internal void Reset(AVDictionary* dict) => _handle = (IntPtr)dict;
+
         public static MediaDictionary FromDictionary(IDictionary<string, string> dict)
         {
             MediaDictionary md = CreateEmpty();
@@ -60,7 +62,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             set
             {
                 AVDictionary* ptr = this;
-                av_dict_set(&ptr, key, value, 0).ThrowIfError();
+                av_dict_set(&ptr, key, value, (int)MediaDictionarySetFlags.None).ThrowIfError();
                 _handle = (IntPtr)ptr;
             }
         }
@@ -69,6 +71,11 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
             if (value == null) throw new ArgumentNullException(nameof(value)); // in AVDictionary, value is also not-null.
+
+            if (ContainsKey(key))
+            {
+                throw new ArgumentException($"An item with the same key has already been added. Key: {key}");
+            }
 
             AVDictionary* ptr = this;
             av_dict_set(&ptr, key, value, (int)MediaDictionarySetFlags.NoOverwrite).ThrowIfError();

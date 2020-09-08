@@ -20,6 +20,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
     [Flags]
     public enum MediaDictionarySetFlags : int
     {
+        None = 0, 
+
         /// <summary>
         /// <see cref="AV_DICT_DONT_OVERWRITE"/>
         /// </summary>

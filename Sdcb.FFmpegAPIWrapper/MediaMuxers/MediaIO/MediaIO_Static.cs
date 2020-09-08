@@ -13,10 +13,20 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         /// <summary>
         /// <see cref="avio_open2(AVIOContext**, string, int, AVIOInterruptCB*, AVDictionary**)"/>
         /// </summary>
-        public static unsafe MediaIO Open(string url, MediaIOFlags flags = MediaIOFlags.Read)
+        public static unsafe MediaIO Open(string url, MediaIOFlags flags = MediaIOFlags.Read, MediaDictionary options = default)
         {
             AVIOContext* ctx = null;
-            avio_open2(&ctx, url, (int)flags, null, null).ThrowIfError();
+            if (options != null)
+            {
+                AVDictionary* dict = options;
+                avio_open2(&ctx, url, (int)flags, null, &dict).ThrowIfError();
+                options.Reset(dict);
+            }
+            else
+            {
+                avio_open2(&ctx, url, (int)flags, null, null).ThrowIfError();
+            }
+            
             return new MediaIO(ctx);
         }
 

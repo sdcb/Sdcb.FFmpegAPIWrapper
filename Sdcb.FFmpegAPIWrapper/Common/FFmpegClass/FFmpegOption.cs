@@ -11,10 +11,10 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         public FFmpegOption(AVOptionBugFixed* p)
         {
             if (p == null) throw new ArgumentNullException(nameof(p));
-            _p = p; 
+            _p = p;
         }
 
-        public static implicit operator AVOptionBugFixed* (FFmpegOption data) => data._p;
+        public static implicit operator AVOptionBugFixed*(FFmpegOption data) => data._p;
 
         public string Name => Marshal.PtrToStringAnsi((IntPtr)_p->name);
 
@@ -24,7 +24,12 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public FFmpegOptionType Type => (FFmpegOptionType)_p->type;
 
-        public IntPtr DefaultValue => _p->default_val.ptr;
+        public object DefaultValue => Type switch
+        {
+            FFmpegOptionType.String => Marshal.PtrToStringUTF8(_p->default_val.ptr), 
+            FFmpegOptionType.Rational => _p->default_val.q, 
+            _ => _p->default_val.ptr
+        };
 
         public double Min => _p->min;
 
