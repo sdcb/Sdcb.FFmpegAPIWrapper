@@ -30,6 +30,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
             return new MediaIO(ctx);
         }
 
+        public static unsafe MediaIO OpenRead(string url, MediaDictionary options) => Open(url, MediaIOFlags.Read, options);
+        public static unsafe MediaIO OpenWrite(string url, MediaDictionary options) => Open(url, MediaIOFlags.Write, options);
+
         /// <summary>
         /// <see cref="avio_open_dyn_buf(AVIOContext**)"/>
         /// </summary>
