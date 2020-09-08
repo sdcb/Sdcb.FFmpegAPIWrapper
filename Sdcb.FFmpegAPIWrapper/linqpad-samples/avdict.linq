@@ -9,7 +9,7 @@
   <Namespace>System.Runtime.InteropServices</Namespace>
 </Query>
 
-var dic = MediaDictionary.CreateEmpty();
+using var dic = MediaDictionary.CreateEmpty();
 dic.Add("1", "One");
 dic["2"] = "Two";
 dic["3"] = "Three";
@@ -26,7 +26,7 @@ dic.Remove("3").Dump("Remove \"3\" again");
 
 dic.Dump();
 
-var dic2 = MediaDictionary.Copy(dic);
+using var dic2 = MediaDictionary.Copy(dic);
 dic["4"] = "Four";
 dic2["4"] = "Four for dic2";
 
@@ -34,3 +34,15 @@ new { dic, dic2 }.Dump();
 
 dic2.Dispose();
 dic2.Dump("Disposed dic2");
+
+dic.Set("5", "Five");
+dic.Set("5", "Five2", MediaDictionarySetFlags.AllowSameKey);
+dic.Dump("Same key");
+dic.Remove("5").Dump("remove 5 once");
+dic.Remove("5").Dump("remove 5 again");
+dic.Remove("5").Dump("remove 5 again");
+
+dic.Set("6", "Six", MediaDictionarySetFlags.AppendValue);
+dic.Set("6", "Six", MediaDictionarySetFlags.AppendValue);
+dic.Set("6", "Six", MediaDictionarySetFlags.AppendValue);
+dic["6"].Dump();
