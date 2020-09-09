@@ -11,7 +11,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// <summary>
     /// <see cref="AVCodec"/>
     /// </summary>
-    public unsafe partial class MediaCodec
+    public unsafe partial struct MediaCodec
     {
         AVCodec* _p;
 
@@ -53,7 +53,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		public IEnumerable<AVRational> SupportedFrameRates => NativeUtils.ReadSequence(
 			p: (IntPtr)_p->supported_framerates,
 			unitSize: sizeof(AVRational),
-			exitCondition: p => ((AVRational*)_p)->num == 0,
+			exitCondition: p => ((AVRational*)p)->num == 0,
             valGetter: p => *((AVRational*)p));
 
 		/// <summary>
@@ -121,6 +121,16 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		/// </summary>
 		public int PrivateSize => _p->priv_data_size;
 
+		/// <summary>
+		/// <see cref="av_codec_is_encoder(AVCodec*)"/>
+		/// </summary>
+		public bool IsEncoder => av_codec_is_encoder(this) != 0;
+
+		/// <summary>
+		/// <see cref="av_codec_is_decoder(AVCodec*)"/>
+		/// </summary>
+		public bool IsDecoder => av_codec_is_decoder(this) != 0;
+
 
 		public Dictionary<string, string> Defaults => NativeUtils.ReadSequence(
 				p: (IntPtr)_p->defaults, 
@@ -129,11 +139,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 				valGetter: p => *((AvCodecDefaultDef*)p)
 			)
 			.ToDictionary(k => Marshal.PtrToStringAnsi(k.key), v => Marshal.PtrToStringAnsi(v.value));
-
-
-		public unsafe static MediaCodec FromNative(IntPtr p) => FromNative((AVCodec*)p);
-
-		public unsafe static MediaCodec FromNative(AVCodec* p) => new MediaCodec(p);
 
 		private unsafe struct AvCodecDefaultDef
 		{

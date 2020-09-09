@@ -29,7 +29,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public string Name => Marshal.PtrToStringUTF8((IntPtr)_p->class_name);
 
-        public string Version => string.Join(".", BitConverter.GetBytes(_p->version).Reverse().Skip(1));
+        public string Version => _p->version.ToVersionString();
 
         public FFmpegCategory Category => (FFmpegCategory)_p->category;
 

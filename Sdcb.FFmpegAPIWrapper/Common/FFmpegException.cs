@@ -6,6 +6,10 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 {
     public class FFmpegException : Exception
 	{
+		public FFmpegException(string message) : base(message)
+		{
+		}
+
 		private FFmpegException(int errorCode, string message) : base(message)
 		{
 			HResult = errorCode;
@@ -16,8 +20,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 			byte* buffer = stackalloc byte[AV_ERROR_MAX_STRING_SIZE];
 			av_strerror(errorCode, buffer, AV_ERROR_MAX_STRING_SIZE);
 			string prefix = info ?? $"FFmpeg error {errorCode}";
-			string message = $"[{prefix}]: {Marshal.PtrToStringUTF8((IntPtr)buffer)}";
-			return new FFmpegException(errorCode, message);
+			string errorMessage = $"[{prefix}]: {Marshal.PtrToStringUTF8((IntPtr)buffer)}";
+			return new FFmpegException(errorCode, errorMessage);
 		}
 	}
 
