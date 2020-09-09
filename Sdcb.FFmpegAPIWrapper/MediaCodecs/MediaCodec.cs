@@ -11,7 +11,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// <summary>
     /// <see cref="AVCodec"/>
     /// </summary>
-    public unsafe class MediaCodec
+    public unsafe partial class MediaCodec
     {
         AVCodec* _p;
 
@@ -21,8 +21,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 
             _p = ptr;
         }
-
-        public static implicit operator AVCodec*(MediaCodec data) => data._p;
 
 		/// <summary>
 		/// <see cref="AVCodec.name"/>
@@ -127,7 +125,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		public Dictionary<string, string> Defaults => NativeUtils.ReadSequence(
 				p: (IntPtr)_p->defaults, 
 				unitSize: sizeof(AvCodecDefaultDef), 
-				exitCondition: p => ((AvCodecDefaultDef*)p)->key == null, 
+				exitCondition: p => ((AvCodecDefaultDef*)p)->key == IntPtr.Zero, 
 				valGetter: p => *((AvCodecDefaultDef*)p)
 			)
 			.ToDictionary(k => Marshal.PtrToStringAnsi(k.key), v => Marshal.PtrToStringAnsi(v.value));
@@ -139,8 +137,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 
 		private unsafe struct AvCodecDefaultDef
 		{
+#pragma warning disable CS0649 // never need to assign the values
 			public IntPtr key;
 			public IntPtr value;
+#pragma warning restore CS0649
 		};
 	}
 }

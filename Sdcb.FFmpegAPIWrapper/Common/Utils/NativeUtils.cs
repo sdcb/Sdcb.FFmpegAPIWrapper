@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
@@ -13,6 +14,29 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 			{
 				yield return valGetter(p);
 				p += unitSize;
+			}
+		}
+
+		public static IEnumerable<IntPtr> EnumeratePtrIterator(Func<IntPtr, IntPtr> iterator)
+		{
+			IntPtr opaque = AllocOpaque();
+			try
+			{
+				for (var p = IntPtr.Zero; (p = iterator(opaque)) != IntPtr.Zero;)
+				{
+					yield return p;
+				}
+			}
+			finally
+			{
+				Marshal.FreeHGlobal(opaque);
+			}
+
+			unsafe static IntPtr AllocOpaque()
+			{
+				IntPtr address = Marshal.AllocHGlobal(IntPtr.Size);
+				(*(IntPtr*)(address)) = new IntPtr(0);
+				return address;
 			}
 		}
 	}

@@ -148,12 +148,12 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
                 IntPtr address = Marshal.AllocHGlobal(IntPtr.Size);
                 (*(IntPtr*)(address)) = new IntPtr(0);
                 return address;
-            }
+            }            
+        }
 
-            unsafe static string avio_enum_protocols_internal(IntPtr opaque, int output)
-            {
-                return avio_enum_protocols((void**)opaque, output);
-            }
+        private unsafe static string avio_enum_protocols_internal(IntPtr opaque, int output)
+        {
+            return avio_enum_protocols((void**)opaque, output);
         }
 
         public static unsafe FFmpegClass GetProtocolClass(string protocol) => FFmpegClass.FromNative(avio_protocol_get_class(protocol));
