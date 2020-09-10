@@ -48,7 +48,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_version"/>
         /// </summary>
-        public static string Version => avcodec_version().ToVersionString();
+        public static string Version => avcodec_version().ToFourCC();
 
         /// <summary>
         /// <see cref="avcodec_configuration"/>
