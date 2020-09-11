@@ -1,9 +1,11 @@
 Sdcb.FFmpegAPIWrapper ![NuGet Version](https://img.shields.io/nuget/v/Sdcb.FFmpegAPIWrapper)
 =====================
 
-A [FFmpeg.AutoGen](https://github.com/Ruslan-B/FFmpeg.AutoGen) Warpper Library. 
+.NET FFmpeg API Warpper Library, currently based on [FFmpeg.AutoGen](https://github.com/Ruslan-B/FFmpeg.AutoGen). 
 
-## Status
+Status
+======
+
 ### Common
 - [x] Basic - `FFmpegException`, `FFmpegLogger`, `FFmpegHandle`
 - [x] `AVClass` - `FFmpegClass`
@@ -21,6 +23,8 @@ A [FFmpeg.AutoGen](https://github.com/Ruslan-B/FFmpeg.AutoGen) Warpper Library.
 
 ### Others(filters, libswscale, ...) (not started)
 
-## Known other famous FFmpeg API wrapper in Github
+Known other famous FFmpeg API wrapper in Github
+===============================================
+
 * [EmguFFmpeg](https://github.com/IOL0ol1/EmguFFmpeg)
 * [FFMediaToolkit](https://github.com/radek-k/FFMediaToolkit)
