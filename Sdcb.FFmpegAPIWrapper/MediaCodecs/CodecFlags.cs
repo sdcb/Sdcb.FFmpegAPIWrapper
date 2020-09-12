@@ -7,7 +7,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// AV_CODEC_FLAG_*
     /// </summary>
     [Flags]
-    public enum MediaCodecFlags : uint
+    public enum CodecFlags : uint
     {
         Unaligned = AV_CODEC_FLAG_UNALIGNED,
 
@@ -52,7 +52,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// AV_CODEC_FLAG2_*
     /// </summary>
     [Flags]
-    public enum MediaCodecFlags2 : uint
+    public enum CodecFlags2 : uint
     {
         Fast = AV_CODEC_FLAG2_FAST, 
 

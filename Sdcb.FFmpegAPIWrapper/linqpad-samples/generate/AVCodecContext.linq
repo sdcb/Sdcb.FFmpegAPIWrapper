@@ -3,6 +3,8 @@
   <Namespace>FFmpeg.AutoGen</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
   <Namespace>System.CodeDom.Compiler</Namespace>
+  <Namespace>Microsoft.CSharp</Namespace>
+  <Namespace>System.CodeDom</Namespace>
 </Query>
 
 Environment.CurrentDirectory = Path.GetFullPath(Path.Combine(Util.CurrentQuery.Location, @"..\..\MediaCodecs"));
@@ -11,50 +13,29 @@ using var writer = new IndentedTextWriter(_file, new string(' ', 4));
 
 WriteUsings();
 WriteNamespace("Sdcb.FFmpegAPIWrapper.MediaCodecs", 
-	() => WriteClass("MediaCodecContext2 : FFmpegHandle", WriteClassBodies));
+	() => WriteClass("MediaCodecContext : FFmpegHandle", WriteClassBodies));
 	
-IEnumerable<string> WriteField(FieldInfo fieldInfo)
-{
-	var m = TypeMap(fieldInfo.FieldType);
-	//	return @$"public {m.type} {fieldInfo.Name}
-	//{{
-	//    get => Pointer->{fieldInfo.Name};
-	//    set => Pointer->{fieldInfo.Name} = value;
-	//}}";
-	yield return $@"public {m.type} {fieldInfo.Name}";
-	yield return $@"{{";
-	yield return $@"    get => ";
-	yield return $@"    set => ";
-	yield return $@"}}";	
-	
-	(string type, string conv) TypeMap(Type type)
-	{
-		return type.Name switch
-		{
-			"Int32" => ("int", null),
-			"UInt32" => ("uint", null),
-			"Int64" => ("long", null),
-			"UInt64" => ("ulong", null),
-			"Single" => ("float", null),
-			"AVClass*" => ("FFmpegClass", ".FromNative"),
-			"AVCodec*" => ("MediaCodec", ".FromNative"),
-			"AVRational" => ("FFmpegRational", null),
-			"void*" => ("IntPtr", "force"), 
-			//var x when x.EndsWith("*") => "IntPtr",
-			var x => (x, null),
-		};
-	}
-}
 
 void WriteClassBodies()
 {
 	WriteLine("private AVCodecContext* Pointer => this;");
 	WriteLine();
-	WriteLine("public static implicit operator AVCodecContext*(MediaCodecContext2 data) => (AVCodecContext*)data._handle;");
+	WriteLine("public static implicit operator AVCodecContext*(MediaCodecContext data) => (AVCodecContext*)data._handle;");
 	WriteLine();
-	foreach (var line in string.Join("\r\n\r\n", typeof(AVCodecContext)
+	
+    WriteLine("public MediaCodecContext(AVCodecContext* ptr) : base((IntPtr)ptr) ");
+    WriteLine("{");
+    WriteLine("    if (ptr == null)");
+    WriteLine("    {");
+    WriteLine("        throw new ArgumentNullException(nameof(ptr));");
+    WriteLine("    }");
+    WriteLine("}");
+	WriteLine();
+	
+	using var c = new FieldInfoConverter();
+	foreach (string line in string.Join("\r\n\r\n", typeof(AVCodecContext)
 		.GetFields()
-		.Select(WriteField))
+		.Select(c.Convert))
 		.Split("\r\n"))
 	{
 		WriteLine(line);
@@ -63,10 +44,10 @@ void WriteClassBodies()
 
 void WriteUsings()
 {
+	WriteLine("using System;");
 	WriteLine("using Sdcb.FFmpegAPIWrapper.Common;");
 	WriteLine("using FFmpeg.AutoGen;");
 	WriteLine("using static FFmpeg.AutoGen.ffmpeg;");
-	WriteLine("using System;");
 	WriteLine();
 }
 
@@ -95,10 +76,141 @@ void PushIndent(Action action)
 
 void WriteLine(string text = null) => writer.WriteLine(text);
 
-record TypeConversionInfo
+public class FieldInfoConverter : IDisposable
 {
-	public static TypeConversionInfo FromTypeString(string typeName)
+	public string Convert(FieldInfo field)
 	{
+		string fieldName = IdentifierConvert(field.Name);
+		string propName = PascalCase(fieldName);
+		(string destType, string method) = FromTypeString(field);
+		string docKey = $"F:{field.DeclaringType.FullName}.{fieldName}";
+		string document = "";
+		if (docs.TryGetValue(docKey, out document))
+		{
+			document = String.Join("\r\n", document
+				.Split("\r\n")
+				.Select(x => "/// " + x)) + "\r\n";
+		}		
 		
+		return document + method switch
+		{
+			null =>
+				$"public {destType} {propName}\r\n" +
+				$"{{\r\n" +
+				$"    get => Pointer->{fieldName};\r\n" +
+				$"    set => Pointer->{fieldName} = value;\r\n" +
+				$"}}",
+			"force" =>
+				$"public {destType} {propName}\r\n" +
+				$"{{\r\n" +
+				$"    get => ({destType})Pointer->{fieldName};\r\n" +
+				$"    set => Pointer->{fieldName} = ({GetFriendlyTypeName(field.FieldType)})value;\r\n" +
+				$"}}",
+			var x when x.StartsWith(".") =>
+				$"public {destType} {propName}\r\n" +
+				$"{{\r\n" +
+				$"    get => {destType}{method}(Pointer->{fieldName});\r\n" +
+				$"    set => Pointer->{fieldName} = value;\r\n" +
+				$"}}",
+			_ => throw new ArgumentOutOfRangeException(method),
+		};
 	}
+
+	string PascalCase(string input)
+	{
+		return string.Concat(input
+			.Split('_')
+			.Select(x => char.ToUpper(x[0]) + x[1..]));
+	}
+
+	string IdentifierConvert(string syntax)
+	{
+		return compiler.IsValidIdentifier(syntax) ? syntax : "@" + syntax;
+	}
+
+	(string destType, string method) FromTypeString(FieldInfo field)
+	{
+		Type fieldType = field.FieldType;
+		return fieldType.Name switch
+		{
+			"AVClass*" => ("FFmpegClass", ".FromNative"),
+			"AVCodec*" => ("MediaCodec", ".FromNative"),
+			"AVRational" => ("MediaRational", null),
+			"Void*" => ("IntPtr", "force"), 
+			var x when field.Name == "flags" => ("CodecFlags", "force"), 
+			var x when field.Name == "flags2" => ("CodecFlags2", "force"), 
+			var x when GetFriendlyTypeName(fieldType) != x => (GetFriendlyTypeName(fieldType), null),
+			var x => new (x, null),
+		};
+	}
+
+	string GetFriendlyTypeName(Type type, bool includeNamespace = false)
+	{
+		var aliasMapping = new Dictionary<Type, string>()
+		{
+			{ typeof(void), "void" },
+			{ typeof(char), "char" },
+			{ typeof(string), "string" },
+			{ typeof(bool), "bool" },
+			{ typeof(object), "object" },
+			{ typeof(float), "float" },
+			{ typeof(double), "double" },
+			{ typeof(decimal), "decimal" },
+			{ typeof(sbyte), "sbyte" },
+			{ typeof(short), "short" },
+			{ typeof(int), "int" },
+			{ typeof(long), "long" },
+			{ typeof(byte), "byte" },
+			{ typeof(ushort), "ushort" },
+			{ typeof(uint), "uint" },
+			{ typeof(ulong), "ulong" },
+		};
+
+		return GetTypeNameCore(type);
+
+		string GetTypeNameCore(Type type)
+		{
+			if (type.IsPointer)
+				return GetTypeNameCore(type.GetElementType()) + "*";
+			if (type.IsByRef)
+				return GetTypeNameCore(type.GetElementType());
+
+			if (type.IsArray)
+			{
+				Type elementType = type.GetElementType();
+				int dimensions = type.GetArrayRank();
+
+				return String.Format("{0}[{1}]", GetTypeNameCore(elementType), new string(',', dimensions - 1));
+			}
+
+			if (type.IsGenericType && !type.IsGenericTypeDefinition)
+			{
+				Type baseType = type.GetGenericTypeDefinition();
+
+				Type[] typeArgs = type.GetGenericArguments();
+
+				if (baseType.IsValueType && baseType.Name == "Nullable`1")
+					return GetTypeNameCore(typeArgs[0]) + "?";
+
+				string argStrings = String.Join(", ", typeArgs.Select(GetTypeNameCore));
+
+				return String.Format("{0}<{1}>", GetTypeNameCore(baseType).Split(new char[] { '`' }, 2)[0], argStrings);
+			}
+
+			if (aliasMapping.TryGetValue(type, out string alias))
+			{
+				return alias;
+			}
+
+			return includeNamespace ? type.FullName : type.Name;
+		}
+	}
+
+	CodeDomProvider compiler = new CSharpCodeProvider();
+
+	Dictionary<string, string> docs = XDocument.Load(Path.Combine(Path.GetDirectoryName(typeof(AVRational).Assembly.Location), Path.GetFileNameWithoutExtension(typeof(AVRational).Assembly.Location)) + ".xml")
+		.XPathSelectElements("doc/members/member")
+		.ToDictionary(k => k.Attribute("name").Value, v => string.Join("\r\n", v.Nodes().Select(x => x.ToString())));
+
+	public void Dispose() => compiler.Dispose();
 }

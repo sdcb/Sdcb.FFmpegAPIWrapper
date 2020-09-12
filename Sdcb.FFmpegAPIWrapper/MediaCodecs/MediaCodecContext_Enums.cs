@@ -8,7 +8,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     public unsafe partial class MediaCodecContext
     {
         [Flags]
-        public enum SliceFlags
+        public enum CodecSliceFlags
         {
             /// <summary>
             /// draw_horiz_band() is called in coded order instead of display
