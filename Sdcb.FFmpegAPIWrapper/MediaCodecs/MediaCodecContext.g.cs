@@ -7,6 +7,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
     public unsafe partial class MediaCodecContext : FFmpegHandle
     {
+    {
         private AVCodecContext* Pointer => this;
         
         public static implicit operator AVCodecContext*(MediaCodecContext data) => (AVCodecContext*)data._handle;
@@ -63,7 +64,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             set => Pointer->priv_data = (void*)value;
         }
         
-        public AVCodecInternal* @internal
+        public AVCodecInternal* Internal
         {
             get => Pointer->@internal;
             set => Pointer->@internal = value;
@@ -346,10 +347,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>interlaced DCT comparison function - encoding: Set by user. - decoding: unused</summary>
-        public int IldctCmp
+        public InterlacedDctComparison IldctCmp
         {
-            get => Pointer->ildct_cmp;
-            set => Pointer->ildct_cmp = value;
+            get => (InterlacedDctComparison)Pointer->ildct_cmp;
+            set => Pointer->ildct_cmp = (int)value;
         }
         
         /// <summary>ME diamond size &amp; shape - encoding: Set by user. - decoding: unused</summary>
@@ -401,17 +402,17 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>slice flags - encoding: unused - decoding: Set by user.</summary>
-        public int SliceFlags
+        public CodecSliceFlags SliceFlags
         {
-            get => Pointer->slice_flags;
-            set => Pointer->slice_flags = value;
+            get => (CodecSliceFlags)Pointer->slice_flags;
+            set => Pointer->slice_flags = (int)value;
         }
         
         /// <summary>macroblock decision mode - encoding: Set by user. - decoding: unused</summary>
-        public int MbDecision
+        public MacroblockDecisions MbDecision
         {
-            get => Pointer->mb_decision;
-            set => Pointer->mb_decision = value;
+            get => (MacroblockDecisions)Pointer->mb_decision;
+            set => Pointer->mb_decision = (int)value;
         }
         
         /// <summary>custom intra quantization matrix Must be allocated with the av_malloc() family of functions, and will be freed in avcodec_free_context(). - encoding: Set/allocated by user, freed by libavcodec. Can be NULL. - decoding: Set/allocated/freed by libavcodec.</summary>
@@ -1328,5 +1329,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             get => Pointer->export_side_data;
             set => Pointer->export_side_data = value;
         }
+    }
     }
 }
