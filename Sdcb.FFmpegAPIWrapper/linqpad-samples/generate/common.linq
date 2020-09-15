@@ -5,17 +5,13 @@
   <Namespace>System.CodeDom.Compiler</Namespace>
   <Namespace>Microsoft.CSharp</Namespace>
   <Namespace>System.CodeDom</Namespace>
+  <Namespace>System.Web</Namespace>
 </Query>
 
 void Main()
 {
-	
-}
 
-Dictionary<string, string> docs = XDocument
-	.Load(Path.Combine(Path.GetDirectoryName(typeof(AVRational).Assembly.Location), Path.GetFileNameWithoutExtension(typeof(AVRational).Assembly.Location)) + ".xml")
-	.XPathSelectElements("doc/members/member")
-	.ToDictionary(k => k.Attribute("name").Value, v => string.Join("\r\n", v.Nodes().Select(x => x.ToString())));
+}
 
 string GetFriendlyTypeName(Type type, bool includeNamespace = false)
 {
@@ -111,4 +107,71 @@ CodeDomProvider csharpCompiler = new CSharpCodeProvider();
 string IdentifierConvert(string syntax)
 {
 	return csharpCompiler.IsValidIdentifier(syntax) ? syntax : "@" + syntax;
+}
+
+Dictionary<string, DocumentEntry> docs = XDocument
+	.Load(Path.Combine(Path.GetDirectoryName(typeof(AVRational).Assembly.Location), Path.GetFileNameWithoutExtension(typeof(AVRational).Assembly.Location)) + ".xml")
+	.XPathSelectElements("doc/members/member")
+	.ToDictionary(k => k.Attribute("name").Value, v =>
+	{
+		return new DocumentEntry(
+			v.XPathSelectElement("summary")?.Value,
+			v.XPathSelectElements("param").Select(x => new DocumentParameter(x.Attribute("name").Value, x.Value)).ToArray(),
+			v.XPathSelectElement("results")?.Value);
+	});
+
+bool TryGetFieldDocument(FieldInfo field, out DocumentEntry value) => docs.TryGetValue($"F:{field.DeclaringType.FullName}.{field.Name}", out value);
+
+string BuildPropertyXml(FieldInfo field)
+{
+	TryGetFieldDocument(field, out DocumentEntry d);
+	var sb = new StringBuilder();
+	
+	sb.AppendLine("/// <summary>");
+	if (d?.summary != null)
+	{
+		foreach (var line in d.summary.Split('.', StringSplitOptions.RemoveEmptyEntries))
+		{
+			sb.AppendLine("/// <para>" + HttpUtility.HtmlEncode(line) + ".</para>");
+		}
+	}
+	sb.AppendLine($"/// <see cref=\"{field.DeclaringType.Name}.{field.Name}\" />");
+	sb.AppendLine("/// </summary>");
+
+//	foreach (var p in d.parameters)
+//	{
+//		sb.AppendLine($"/// <param name=\"{p.name}\">{HttpUtility.HtmlEncode(p.description)}</param>");
+//	}
+//
+//	if (d.results != null)
+//	{
+//		sb.AppendLine($"/// <results>{HttpUtility.HtmlEncode(d.results)}</results>");
+//	}
+
+	return sb.ToString();
+}
+
+public class DocumentEntry
+{
+	public string summary { get; set; }
+	public DocumentParameter[] parameters { get; set; }
+	public string results { get; set; }
+
+	public DocumentEntry(string summary, DocumentParameter[] parameters, string results)
+	{
+		this.summary = summary;
+		this.parameters = parameters;
+		this.results = results;
+	}
+}
+public class DocumentParameter
+{
+	public string name { get; set; }
+	public string description { get; set; }
+
+	public DocumentParameter(string name, string description)
+	{
+		this.name = name;
+		this.description = description;
+	}
 }

@@ -43,9 +43,7 @@ void WriteClassBodies()
 void WriteClass(string className, Action bodyWriter)
 {
 	writer.WriteLine($"public unsafe partial class {className}");
-	writer.WriteLine("{");
 	PushIndent(writer, bodyWriter);
-	writer.WriteLine("}");
 }
 
 void WriteLine(string text = null) => writer.WriteLine(text);
@@ -55,16 +53,8 @@ string Convert(FieldInfo field)
 	string fieldName = IdentifierConvert(field.Name);
 	string propName = PascalCase(field.Name);
 	(string destType, string method) = FromTypeString(field);
-	string docKey = $"F:{field.DeclaringType.FullName}.{fieldName}";
-	string document = "";
-	if (docs.TryGetValue(docKey, out document))
-	{
-		document = String.Join("\r\n", document
-			.Split("\r\n")
-			.Select(x => "/// " + x)) + "\r\n";
-	}
 
-	return document + method switch
+	return BuildPropertyXml(field) + method switch
 	{
 		null =>
 			$"public {destType} {propName}\r\n" +
