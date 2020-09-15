@@ -77,9 +77,10 @@ string GetFriendlyTypeName(Type type, bool includeNamespace = false)
 
 string PascalCase(string input)
 {
-	return string.Concat(input
+	var x = string.Concat(input
 		.Split('_')
-		.Select(x => char.ToUpper(x[0]) + x[1..]));
+		.Select(x => char.ToUpper(x[0]) + x[1..].ToLower()));
+	return char.IsDigit(x[0]) ? "_" + x : x;
 }
 
 void PushIndent(IndentedTextWriter writer, Action action)
@@ -120,13 +121,15 @@ Dictionary<string, DocumentEntry> docs = XDocument
 			v.XPathSelectElement("results")?.Value);
 	});
 
-bool TryGetFieldDocument(FieldInfo field, out DocumentEntry value) => docs.TryGetValue($"F:{field.DeclaringType.FullName}.{field.Name}", out value);
+string BuildFieldDocument(FieldInfo field) => _BuildDocument($"{field.DeclaringType.Name}.{field.Name}", $"F:{field.DeclaringType.FullName}.{field.Name}");
+string BuildTypeDocument(Type type) => _BuildDocument(type.Name, $"T:{type.FullName}");
+string BuildMethodDocument(MethodInfo method) => _BuildDocument($"{method.DeclaringType.Name}.{method.Name}", $"M:{method.DeclaringType.FullName}.{method.Name}");
 
-string BuildPropertyXml(FieldInfo field)
+string _BuildDocument(string cref, string docKey)
 {
-	TryGetFieldDocument(field, out DocumentEntry d);
+	docs.TryGetValue(docKey, out DocumentEntry d);
 	var sb = new StringBuilder();
-	
+
 	sb.AppendLine("/// <summary>");
 	if (d?.summary != null)
 	{
@@ -135,18 +138,21 @@ string BuildPropertyXml(FieldInfo field)
 			sb.AppendLine("/// <para>" + HttpUtility.HtmlEncode(line) + ".</para>");
 		}
 	}
-	sb.AppendLine($"/// <see cref=\"{field.DeclaringType.Name}.{field.Name}\" />");
+	sb.AppendLine($"/// <see cref=\"{cref}\" />");
 	sb.AppendLine("/// </summary>");
 
-//	foreach (var p in d.parameters)
-//	{
-//		sb.AppendLine($"/// <param name=\"{p.name}\">{HttpUtility.HtmlEncode(p.description)}</param>");
-//	}
-//
-//	if (d.results != null)
-//	{
-//		sb.AppendLine($"/// <results>{HttpUtility.HtmlEncode(d.results)}</results>");
-//	}
+	if (d != null)
+	{
+		foreach (var p in d.parameters)
+		{
+			sb.AppendLine($"/// <param name=\"{p.name}\">{HttpUtility.HtmlEncode(p.description)}</param>");
+		}
+
+		if (d.results != null)
+		{
+			sb.AppendLine($"/// <results>{HttpUtility.HtmlEncode(d.results)}</results>");
+		}
+	}
 
 	return sb.ToString();
 }

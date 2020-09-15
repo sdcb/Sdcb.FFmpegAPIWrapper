@@ -303,10 +303,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> May be overridden by the decoder if it knows better.</para>
         /// <see cref="AVCodecContext.pix_fmt" />
         /// </summary>
-        public AVPixelFormat PixFmt
+        public MediaPixelFormat PixFmt
         {
-            get => Pointer->pix_fmt;
-            set => Pointer->pix_fmt = value;
+            get => (MediaPixelFormat)Pointer->pix_fmt;
+            set => Pointer->pix_fmt = (AVPixelFormat)value;
         }
         
         /// <summary>
@@ -949,10 +949,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>sample format.</para>
         /// <see cref="AVCodecContext.sample_fmt" />
         /// </summary>
-        public AVSampleFormat SampleFmt
+        public MediaSampleFormat SampleFmt
         {
-            get => Pointer->sample_fmt;
-            set => Pointer->sample_fmt = value;
+            get => (MediaSampleFormat)Pointer->sample_fmt;
+            set => Pointer->sample_fmt = (AVSampleFormat)value;
         }
         
         /// <summary>
@@ -1036,10 +1036,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> Decoder will decode to this format if it can.</para>
         /// <see cref="AVCodecContext.request_sample_fmt" />
         /// </summary>
-        public AVSampleFormat RequestSampleFmt
+        public MediaSampleFormat RequestSampleFmt
         {
-            get => Pointer->request_sample_fmt;
-            set => Pointer->request_sample_fmt = value;
+            get => (MediaSampleFormat)Pointer->request_sample_fmt;
+            set => Pointer->request_sample_fmt = (AVSampleFormat)value;
         }
         
         /// <summary>
@@ -1825,10 +1825,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: Set by libavcodec before calling get_format().</para>
         /// <see cref="AVCodecContext.sw_pix_fmt" />
         /// </summary>
-        public AVPixelFormat SwPixFmt
+        public MediaPixelFormat SwPixFmt
         {
-            get => Pointer->sw_pix_fmt;
-            set => Pointer->sw_pix_fmt = value;
+            get => (MediaPixelFormat)Pointer->sw_pix_fmt;
+            set => Pointer->sw_pix_fmt = (AVPixelFormat)value;
         }
         
         /// <summary>

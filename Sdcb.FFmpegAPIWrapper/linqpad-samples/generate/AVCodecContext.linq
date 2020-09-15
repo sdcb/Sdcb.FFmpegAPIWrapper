@@ -54,7 +54,7 @@ string Convert(FieldInfo field)
 	string propName = PascalCase(field.Name);
 	(string destType, string method) = FromTypeString(field);
 
-	return BuildPropertyXml(field) + method switch
+	return BuildFieldDocument(field) + method switch
 	{
 		null =>
 			$"public {destType} {propName}\r\n" +
@@ -80,19 +80,25 @@ string Convert(FieldInfo field)
 	(string destType, string method) FromTypeString(FieldInfo field)
 	{
 		Type fieldType = field.FieldType;
-		return fieldType.Name switch
+		return (fieldTypeName: fieldType.Name, fieldName: field.Name) switch
 		{
-			"AVClass*" => ("FFmpegClass", ".FromNative"),
-			"AVCodec*" => ("MediaCodec", ".FromNative"),
-			"AVRational" => ("MediaRational", null),
-			"Void*" => ("IntPtr", "force"),
-			var x when field.Name == "flags" => ("CodecFlags", "force"),
-			var x when field.Name == "flags2" => ("CodecFlags2", "force"),
-			var x when field.Name == "ildct_cmp" => ("InterlacedDctComparison", "force"),
-			var x when field.Name == "slice_flags" => ("CodecSliceFlags", "force"),
-			var x when field.Name == "mb_decision" => ("MacroblockDecisions", "force"),
-			var x when GetFriendlyTypeName(fieldType) != x => (GetFriendlyTypeName(fieldType), null),
-			var x => new(x, null),
+			("AVClass*", _) => call("FFmpegClass", "FromNative"),
+			("AVCodec*", _) => call("MediaCodec", "FromNative"),
+			("AVRational", _) => direct("MediaRational"),
+			("Void*", _) => force("IntPtr"),
+			("AVPixelFormat", _) => force("MediaPixelFormat"), 
+			("AVSampleFormat", _) => force("MediaSampleFormat"), 
+			(_, "flags") => force("CodecFlags"),
+			(_, "flags2") => force("CodecFlags2"),
+			(_, "ildct_cmp") => force("InterlacedDctComparison"),
+			(_, "slice_flags") => force("CodecSliceFlags"),
+			(_, "mb_decision") => force("MacroblockDecisions"),
+			var x when GetFriendlyTypeName(fieldType) != x.fieldTypeName => direct(GetFriendlyTypeName(fieldType)),
+			var x => direct(x.fieldTypeName),
 		};
+		
+		(string, string) force(string s) => (s, "force");
+		(string, string) direct(string s) => (s, null);
+		(string, string) call(string s, string m) => (s, "." + m);
 	}
 }
