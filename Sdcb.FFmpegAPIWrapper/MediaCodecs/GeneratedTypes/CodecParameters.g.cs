@@ -1,3 +1,5 @@
+// This file was genereated from LINQPad scripts, DO NOT CHANGE DIRECTLY.
+
 using System;
 using Sdcb.FFmpegAPIWrapper.Common;
 using FFmpeg.AutoGen;
@@ -5,19 +7,18 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial struct CodecParameters
+    public unsafe partial class CodecParameters: FFmpegHandle
     {
-        private AVCodecParameters* _ptr;
+        protected AVCodecParameters* Pointer => this;
         
         public static implicit operator AVCodecParameters*(CodecParameters data) => (AVCodecParameters*)data._handle;
         
-        public CodecParameters(AVCodecParameters* ptr)
+        protected CodecParameters(AVCodecParameters* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
         {
             if (ptr == null)
             {
                 throw new ArgumentNullException(nameof(ptr));
             }
-            _ptr = ptr;
         }
         
         /// <summary>
@@ -26,8 +27,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public MediaType CodecType
         {
-            get => (MediaType)_ptr->codec_type;
-            set => _ptr->codec_type = (AVMediaType)value;
+            get => (MediaType)Pointer->codec_type;
+            set => Pointer->codec_type = (AVMediaType)value;
         }
         
         /// <summary>
@@ -36,8 +37,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public CodecID CodecId
         {
-            get => (CodecID)_ptr->codec_id;
-            set => _ptr->codec_id = (AVCodecID)value;
+            get => (CodecID)Pointer->codec_id;
+            set => Pointer->codec_id = (AVCodecID)value;
         }
         
         /// <summary>
@@ -46,8 +47,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public uint CodecTag
         {
-            get => _ptr->codec_tag;
-            set => _ptr->codec_tag = value;
+            get => Pointer->codec_tag;
+            set => Pointer->codec_tag = value;
         }
         
         /// <summary>
@@ -56,8 +57,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public byte* Extradata
         {
-            get => _ptr->extradata;
-            set => _ptr->extradata = value;
+            get => Pointer->extradata;
+            set => Pointer->extradata = value;
         }
         
         /// <summary>
@@ -66,8 +67,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int ExtradataSize
         {
-            get => _ptr->extradata_size;
-            set => _ptr->extradata_size = value;
+            get => Pointer->extradata_size;
+            set => Pointer->extradata_size = value;
         }
         
         /// <summary>
@@ -77,8 +78,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int Format
         {
-            get => _ptr->format;
-            set => _ptr->format = value;
+            get => Pointer->format;
+            set => Pointer->format = value;
         }
         
         /// <summary>
@@ -87,8 +88,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public long BitRate
         {
-            get => _ptr->bit_rate;
-            set => _ptr->bit_rate = value;
+            get => Pointer->bit_rate;
+            set => Pointer->bit_rate = value;
         }
         
         /// <summary>
@@ -97,8 +98,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int BitsPerCodedSample
         {
-            get => _ptr->bits_per_coded_sample;
-            set => _ptr->bits_per_coded_sample = value;
+            get => Pointer->bits_per_coded_sample;
+            set => Pointer->bits_per_coded_sample = value;
         }
         
         /// <summary>
@@ -112,8 +113,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int BitsPerRawSample
         {
-            get => _ptr->bits_per_raw_sample;
-            set => _ptr->bits_per_raw_sample = value;
+            get => Pointer->bits_per_raw_sample;
+            set => Pointer->bits_per_raw_sample = value;
         }
         
         /// <summary>
@@ -122,8 +123,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int Profile
         {
-            get => _ptr->profile;
-            set => _ptr->profile = value;
+            get => Pointer->profile;
+            set => Pointer->profile = value;
         }
         
         /// <summary>
@@ -131,8 +132,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int Level
         {
-            get => _ptr->level;
-            set => _ptr->level = value;
+            get => Pointer->level;
+            set => Pointer->level = value;
         }
         
         /// <summary>
@@ -142,8 +143,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int Width
         {
-            get => _ptr->width;
-            set => _ptr->width = value;
+            get => Pointer->width;
+            set => Pointer->width = value;
         }
         
         /// <summary>
@@ -151,8 +152,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int Height
         {
-            get => _ptr->height;
-            set => _ptr->height = value;
+            get => Pointer->height;
+            set => Pointer->height = value;
         }
         
         /// <summary>
@@ -162,8 +163,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public MediaRational SampleAspectRatio
         {
-            get => _ptr->sample_aspect_ratio;
-            set => _ptr->sample_aspect_ratio = value;
+            get => Pointer->sample_aspect_ratio;
+            set => Pointer->sample_aspect_ratio = value;
         }
         
         /// <summary>
@@ -171,10 +172,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> The order of the fields in interlaced video.</para>
         /// <see cref="AVCodecParameters.field_order" />
         /// </summary>
-        public AVFieldOrder FieldOrder
+        public FieldOrder FieldOrder
         {
-            get => _ptr->field_order;
-            set => _ptr->field_order = value;
+            get => (FieldOrder)Pointer->field_order;
+            set => Pointer->field_order = (AVFieldOrder)value;
         }
         
         /// <summary>
@@ -182,46 +183,46 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> Additional colorspace characteristics.</para>
         /// <see cref="AVCodecParameters.color_range" />
         /// </summary>
-        public AVColorRange ColorRange
+        public ColorRange ColorRange
         {
-            get => _ptr->color_range;
-            set => _ptr->color_range = value;
+            get => (ColorRange)Pointer->color_range;
+            set => Pointer->color_range = (AVColorRange)value;
         }
         
         /// <summary>
         /// <see cref="AVCodecParameters.color_primaries" />
         /// </summary>
-        public AVColorPrimaries ColorPrimaries
+        public ColorPrimaries ColorPrimaries
         {
-            get => _ptr->color_primaries;
-            set => _ptr->color_primaries = value;
+            get => (ColorPrimaries)Pointer->color_primaries;
+            set => Pointer->color_primaries = (AVColorPrimaries)value;
         }
         
         /// <summary>
         /// <see cref="AVCodecParameters.color_trc" />
         /// </summary>
-        public AVColorTransferCharacteristic ColorTrc
+        public ColorTransferCharacteristic ColorTrc
         {
-            get => _ptr->color_trc;
-            set => _ptr->color_trc = value;
+            get => (ColorTransferCharacteristic)Pointer->color_trc;
+            set => Pointer->color_trc = (AVColorTransferCharacteristic)value;
         }
         
         /// <summary>
         /// <see cref="AVCodecParameters.color_space" />
         /// </summary>
-        public AVColorSpace ColorSpace
+        public ColorSpace ColorSpace
         {
-            get => _ptr->color_space;
-            set => _ptr->color_space = value;
+            get => (ColorSpace)Pointer->color_space;
+            set => Pointer->color_space = (AVColorSpace)value;
         }
         
         /// <summary>
         /// <see cref="AVCodecParameters.chroma_location" />
         /// </summary>
-        public AVChromaLocation ChromaLocation
+        public ChromaLocation ChromaLocation
         {
-            get => _ptr->chroma_location;
-            set => _ptr->chroma_location = value;
+            get => (ChromaLocation)Pointer->chroma_location;
+            set => Pointer->chroma_location = (AVChromaLocation)value;
         }
         
         /// <summary>
@@ -231,8 +232,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int VideoDelay
         {
-            get => _ptr->video_delay;
-            set => _ptr->video_delay = value;
+            get => Pointer->video_delay;
+            set => Pointer->video_delay = value;
         }
         
         /// <summary>
@@ -243,8 +244,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public ulong ChannelLayout
         {
-            get => _ptr->channel_layout;
-            set => _ptr->channel_layout = value;
+            get => Pointer->channel_layout;
+            set => Pointer->channel_layout = value;
         }
         
         /// <summary>
@@ -254,8 +255,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int Channels
         {
-            get => _ptr->channels;
-            set => _ptr->channels = value;
+            get => Pointer->channels;
+            set => Pointer->channels = value;
         }
         
         /// <summary>
@@ -265,8 +266,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int SampleRate
         {
-            get => _ptr->sample_rate;
-            set => _ptr->sample_rate = value;
+            get => Pointer->sample_rate;
+            set => Pointer->sample_rate = value;
         }
         
         /// <summary>
@@ -276,8 +277,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int BlockAlign
         {
-            get => _ptr->block_align;
-            set => _ptr->block_align = value;
+            get => Pointer->block_align;
+            set => Pointer->block_align = value;
         }
         
         /// <summary>
@@ -288,8 +289,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int FrameSize
         {
-            get => _ptr->frame_size;
-            set => _ptr->frame_size = value;
+            get => Pointer->frame_size;
+            set => Pointer->frame_size = value;
         }
         
         /// <summary>
@@ -302,8 +303,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int InitialPadding
         {
-            get => _ptr->initial_padding;
-            set => _ptr->initial_padding = value;
+            get => Pointer->initial_padding;
+            set => Pointer->initial_padding = value;
         }
         
         /// <summary>
@@ -316,8 +317,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int TrailingPadding
         {
-            get => _ptr->trailing_padding;
-            set => _ptr->trailing_padding = value;
+            get => Pointer->trailing_padding;
+            set => Pointer->trailing_padding = value;
         }
         
         /// <summary>
@@ -327,8 +328,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public int SeekPreroll
         {
-            get => _ptr->seek_preroll;
-            set => _ptr->seek_preroll = value;
+            get => Pointer->seek_preroll;
+            set => Pointer->seek_preroll = value;
         }
     }
 }

@@ -1,3 +1,5 @@
+// This file was genereated from LINQPad scripts, DO NOT CHANGE DIRECTLY.
+
 using System;
 using Sdcb.FFmpegAPIWrapper.Common;
 using FFmpeg.AutoGen;
@@ -5,13 +7,13 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial class MediaCodecContext : FFmpegHandle
+    public unsafe partial class CodecContext: FFmpegHandle
     {
-        private AVCodecContext* Pointer => this;
+        protected AVCodecContext* Pointer => this;
         
-        public static implicit operator AVCodecContext*(MediaCodecContext data) => (AVCodecContext*)data._handle;
+        public static implicit operator AVCodecContext*(CodecContext data) => (AVCodecContext*)data._handle;
         
-        public MediaCodecContext(AVCodecContext* ptr) : base((IntPtr)ptr) 
+        protected CodecContext(AVCodecContext* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
         {
             if (ptr == null)
             {
@@ -50,9 +52,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.codec" />
         /// </summary>
-        public MediaCodec Codec
+        public Codec Codec
         {
-            get => MediaCodec.FromNative(Pointer->codec);
+            get => Codec.FromNative(Pointer->codec);
             set => Pointer->codec = value;
         }
         
@@ -862,10 +864,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - encoding: Set by user - decoding: Set by libavcodec.</para>
         /// <see cref="AVCodecContext.color_primaries" />
         /// </summary>
-        public AVColorPrimaries ColorPrimaries
+        public ColorPrimaries ColorPrimaries
         {
-            get => Pointer->color_primaries;
-            set => Pointer->color_primaries = value;
+            get => (ColorPrimaries)Pointer->color_primaries;
+            set => Pointer->color_primaries = (AVColorPrimaries)value;
         }
         
         /// <summary>
@@ -873,10 +875,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - encoding: Set by user - decoding: Set by libavcodec.</para>
         /// <see cref="AVCodecContext.color_trc" />
         /// </summary>
-        public AVColorTransferCharacteristic ColorTrc
+        public ColorTransferCharacteristic ColorTrc
         {
-            get => Pointer->color_trc;
-            set => Pointer->color_trc = value;
+            get => (ColorTransferCharacteristic)Pointer->color_trc;
+            set => Pointer->color_trc = (AVColorTransferCharacteristic)value;
         }
         
         /// <summary>
@@ -884,10 +886,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - encoding: Set by user - decoding: Set by libavcodec.</para>
         /// <see cref="AVCodecContext.colorspace" />
         /// </summary>
-        public AVColorSpace Colorspace
+        public ColorSpace Colorspace
         {
-            get => Pointer->colorspace;
-            set => Pointer->colorspace = value;
+            get => (ColorSpace)Pointer->colorspace;
+            set => Pointer->colorspace = (AVColorSpace)value;
         }
         
         /// <summary>
@@ -895,10 +897,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - encoding: Set by user - decoding: Set by libavcodec.</para>
         /// <see cref="AVCodecContext.color_range" />
         /// </summary>
-        public AVColorRange ColorRange
+        public ColorRange ColorRange
         {
-            get => Pointer->color_range;
-            set => Pointer->color_range = value;
+            get => (ColorRange)Pointer->color_range;
+            set => Pointer->color_range = (AVColorRange)value;
         }
         
         /// <summary>
@@ -906,10 +908,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - encoding: Set by user - decoding: Set by libavcodec.</para>
         /// <see cref="AVCodecContext.chroma_sample_location" />
         /// </summary>
-        public AVChromaLocation ChromaSampleLocation
+        public ChromaLocation ChromaSampleLocation
         {
-            get => Pointer->chroma_sample_location;
-            set => Pointer->chroma_sample_location = value;
+            get => (ChromaLocation)Pointer->chroma_sample_location;
+            set => Pointer->chroma_sample_location = (AVChromaLocation)value;
         }
         
         /// <summary>
@@ -929,10 +931,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>Field order - encoding: set by libavcodec - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.field_order" />
         /// </summary>
-        public AVFieldOrder FieldOrder
+        public FieldOrder FieldOrder
         {
-            get => Pointer->field_order;
-            set => Pointer->field_order = value;
+            get => (FieldOrder)Pointer->field_order;
+            set => Pointer->field_order = (AVFieldOrder)value;
         }
         
         /// <summary>

@@ -5,18 +5,18 @@ using System;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial class MediaCodecContext
+    public unsafe partial class CodecContext
     {
-        public static MediaCodecContext FromNative(AVCodecContext* ptr) => new MediaCodecContext(ptr);
+        public static CodecContext FromNative(AVCodecContext* ptr, bool isOwner) => new CodecContext(ptr, isOwner);
 
-        public static MediaCodecContext FromCodec(MediaCodec codec)
+        public static CodecContext FromCodec(Codec codec)
         {
             AVCodecContext* ptr = avcodec_alloc_context3(codec);
             if (ptr == null)
             {
                 throw new FFmpegException($"Failed to create {nameof(AVCodecContext)} from codec {codec.Id}");
             }
-            return FromNative(ptr);
+            return FromNative(ptr, isOwner: true);
         }
 
         /// <summary>

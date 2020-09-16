@@ -5,37 +5,41 @@ namespace Sdcb.FFmpegAPIWrapper.Common
     public abstract class FFmpegHandle : IDisposable
     {
         protected IntPtr _handle;
+        protected bool _isOwner;
 
-        protected FFmpegHandle(IntPtr handle)
+        protected FFmpegHandle(IntPtr handle, bool isOwner)
         {
             _handle = handle;
+            _isOwner = isOwner;
         }
 
-        protected abstract void Close();
+        public abstract void Close();
 
         private void Dispose(bool disposing)
         {
             if (_handle != IntPtr.Zero)
             {
-                if (disposing)
+                if (_isOwner)
                 {
-                    // dispose managed stuffs, current nothing for ffmpeg.
+                    if (!disposing)
+                    {
+                        LogMemoryLeakWarning?.Invoke($"Warning: potential memory leak: [0x{_handle:X}]");
+                    }
+                    Close();
                 }
-                Close();
 
                 _handle = IntPtr.Zero;
             }
         }
 
-        ~FFmpegHandle()
-        {
-            Dispose(disposing: false);
-        }
+        ~FFmpegHandle() => Dispose(disposing: false);
 
         public void Dispose()
         {
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+
+        public static Action<string> LogMemoryLeakWarning;
     }
 }

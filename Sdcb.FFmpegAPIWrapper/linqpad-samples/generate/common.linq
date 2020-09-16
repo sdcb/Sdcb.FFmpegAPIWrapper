@@ -94,6 +94,8 @@ void PushIndent(IndentedTextWriter writer, Action action)
 
 void WriteBasic(IndentedTextWriter writer, string ns, Action bodyWriter)
 {
+	writer.WriteLine("// This file was genereated from LINQPad scripts, DO NOT CHANGE DIRECTLY.");
+	writer.WriteLine();
 	writer.WriteLine("using System;");
 	writer.WriteLine("using Sdcb.FFmpegAPIWrapper.Common;");
 	writer.WriteLine("using FFmpeg.AutoGen;");

@@ -26,6 +26,12 @@ WriteEnum(typeof(AVMediaType), ns, "MediaType");
 WriteEnum(typeof(AVAudioServiceType), ns, "AudioServiceType");
 WriteEnum(typeof(AVCodecID), ns, "CodecID");
 WriteEnum(typeof(AVDiscard), ns, "MediaDiscard");
+WriteEnum(typeof(AVFieldOrder), ns, "FieldOrder");
+WriteEnum(typeof(AVColorRange), ns, "ColorRange");
+WriteEnum(typeof(AVColorPrimaries), ns, "ColorPrimaries");
+WriteEnum(typeof(AVColorTransferCharacteristic), ns, "ColorTransferCharacteristic");
+WriteEnum(typeof(AVColorSpace), ns, "ColorSpace");
+WriteEnum(typeof(AVChromaLocation), ns, "ChromaLocation");
 
 WriteConstEnum("AV_CODEC_FLAG_", ns, "CodecFlag");
 WriteConstEnum("AV_CODEC_FLAG2_", ns, "CodecFlag2");

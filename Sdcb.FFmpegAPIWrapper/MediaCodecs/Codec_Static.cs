@@ -7,40 +7,40 @@ using System.Linq;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial struct MediaCodec
+    public unsafe partial struct Codec
     {
-        public static implicit operator AVCodec*(MediaCodec data) => data._p;
+        public static implicit operator AVCodec*(Codec data) => data._p;
 
-        public unsafe static MediaCodec FromNative(IntPtr p) => FromNative((AVCodec*)p);
+        public unsafe static Codec FromNative(IntPtr p) => FromNative((AVCodec*)p);
 
-        public unsafe static MediaCodec FromNative(AVCodec* p) => new MediaCodec(p);
+        public unsafe static Codec FromNative(AVCodec* p) => new Codec(p);
 
         /// <summary>
         /// <see cref="av_codec_iterate(void**)"/>
         /// </summary>
-        public static IEnumerable<MediaCodec> MediaCodecs => NativeUtils
+        public static IEnumerable<Codec> MediaCodecs => NativeUtils
             .EnumeratePtrIterator(ptr => (IntPtr)(av_codec_iterate((void**)ptr)))
             .Select(FromNative);
 
         /// <summary>
         /// <see cref="avcodec_find_decoder(AVCodecID)"/>
         /// </summary>
-        public static MediaCodec FindDecoder(AVCodecID id) => FromNative(FindChecking(avcodec_find_decoder(id), id));
+        public static Codec FindDecoder(AVCodecID id) => FromNative(FindChecking(avcodec_find_decoder(id), id));
 
         /// <summary>
         /// <see cref="avcodec_find_decoder_by_name(string)"/>
         /// </summary>
-        public static MediaCodec FindDecoderByName(string name) => FromNative(FindChecking(avcodec_find_decoder_by_name(name), name));
+        public static Codec FindDecoderByName(string name) => FromNative(FindChecking(avcodec_find_decoder_by_name(name), name));
 
         /// <summary>
         /// <see cref="avcodec_find_encoder(AVCodecID)"/>
         /// </summary>
-        public static MediaCodec FindEncoder(AVCodecID id) => FromNative(FindChecking(avcodec_find_encoder(id), id));
+        public static Codec FindEncoder(AVCodecID id) => FromNative(FindChecking(avcodec_find_encoder(id), id));
 
         /// <summary>
         /// <see cref="avcodec_find_encoder_by_name(string)"/>
         /// </summary>
-        public static MediaCodec FindEncoderByName(string name) => FromNative(FindChecking(avcodec_find_encoder_by_name(name), name));
+        public static Codec FindEncoderByName(string name) => FromNative(FindChecking(avcodec_find_encoder_by_name(name), name));
 
         private static AVCodec* FindChecking(AVCodec* codec, AVCodecID id) => codec != null ? codec : throw new FFmpegException($"codec id {id} not found.");
         private static AVCodec* FindChecking(AVCodec* codec, string name) => codec != null ? codec : throw new FFmpegException($"codec name '{name}' not found.");

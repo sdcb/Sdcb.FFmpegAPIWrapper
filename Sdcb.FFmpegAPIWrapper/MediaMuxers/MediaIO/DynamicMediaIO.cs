@@ -7,7 +7,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
 {
     public class DynamicMediaIO : MediaIO
     {
-        internal protected unsafe DynamicMediaIO(AVIOContext* ptr) : base(ptr)
+        internal protected unsafe DynamicMediaIO(AVIOContext* ptr, bool isOwner) : base(ptr, isOwner)
         {
         }
 
@@ -36,7 +36,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
             };
         }
 
-        protected override void Close()
+        public override void Close()
         {
             using var _ = GetBufferAndClose();
         }

@@ -1,4 +1,4 @@
-<Query Kind="Statements">
+<Query Kind="Program">
   <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
   <Namespace>FFmpeg.AutoGen</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
@@ -9,39 +9,42 @@
 
 #load ".\common"
 
-string baseDir = Path.GetFullPath(Path.Combine(Util.CurrentQuery.Location, @"..\..\MediaCodecs\GeneratedClasses"));
-Directory.CreateDirectory(baseDir);
-Environment.CurrentDirectory = baseDir;
+void Main()
+{
+	string baseDir = Path.GetFullPath(Path.Combine(Util.CurrentQuery.Location, @"..\..\MediaCodecs\GeneratedTypes"));
+	Directory.CreateDirectory(baseDir);
+	Environment.CurrentDirectory = baseDir;
+	
+	WriteClass(typeof(AVCodecParameters), "Sdcb.FFmpegAPIWrapper.MediaCodecs", "CodecParameters");
+}
 
-WriteClass(typeof(AVCodecParameters), "Sdcb.FFmpegAPIWrapper.MediaCodecs", "CodecParameters");
-
-void WriteClass(Type targetType, string ns, string newName, HashSet<string> obsoleteFields = null)
+void WriteClass(Type targetType, string ns, string newName, HashSet<string> obsoleteFields = null, Func<string, string> propNameMapping = null)
 {
 	if (obsoleteFields == null) obsoleteFields = new HashSet<string>();
-	
+	if (propNameMapping == null) propNameMapping = str => null;
+
 	using var _file = new StreamWriter($"{newName}.g.cs");
 	using var writer = new IndentedTextWriter(_file, new string(' ', 4));
 
 	WriteBasic(writer, ns, () =>
 	{
-		writer.WriteLine($"public unsafe partial struct {newName}");
+		writer.WriteLine($"public unsafe partial class {newName}: FFmpegHandle");
 		PushIndent(writer, WriteClassBodies);
 	});
 
 	void WriteClassBodies()
 	{
-		WriteLine($"private {targetType.Name}* _ptr;");
+		WriteLine($"protected {targetType.Name}* Pointer => this;");
 		WriteLine();
 		WriteLine($"public static implicit operator {targetType.Name}*({newName} data) => ({targetType.Name}*)data._handle;");
 		WriteLine();
 
-		WriteLine($"public {newName}({targetType.Name}* ptr)");
+		WriteLine($"protected {newName}({targetType.Name}* ptr, bool isOwner): base((IntPtr)ptr, isOwner)");
 		WriteLine("{");
 		WriteLine("    if (ptr == null)");
 		WriteLine("    {");
 		WriteLine("        throw new ArgumentNullException(nameof(ptr));");
 		WriteLine("    }");
-		WriteLine("    _ptr = ptr;");
 		WriteLine("}");
 		WriteLine();
 
@@ -87,20 +90,20 @@ void WriteClass(Type targetType, string ns, string newName, HashSet<string> obso
 			null =>
 				$"public {destType} {propName}\r\n" +
 				$"{{\r\n" +
-				$"    get => _ptr->{fieldName};\r\n" +
-				$"    set => _ptr->{fieldName} = value;\r\n" +
+				$"    get => Pointer->{fieldName};\r\n" +
+				$"    set => Pointer->{fieldName} = value;\r\n" +
 				$"}}",
 			"force" =>
 				$"public {destType} {propName}\r\n" +
 				$"{{\r\n" +
-				$"    get => ({destType})_ptr->{fieldName};\r\n" +
-				$"    set => _ptr->{fieldName} = ({GetFriendlyTypeName(field.FieldType)})value;\r\n" +
+				$"    get => ({destType})Pointer->{fieldName};\r\n" +
+				$"    set => Pointer->{fieldName} = ({GetFriendlyTypeName(field.FieldType)})value;\r\n" +
 				$"}}",
 			var x when x.StartsWith(".") =>
 				$"public {destType} {propName}\r\n" +
 				$"{{\r\n" +
-				$"    get => {destType}{method}(_ptr->{fieldName});\r\n" +
-				$"    set => _ptr->{fieldName} = value;\r\n" +
+				$"    get => {destType}{method}(Pointer->{fieldName});\r\n" +
+				$"    set => Pointer->{fieldName} = value;\r\n" +
 				$"}}",
 			_ => throw new ArgumentOutOfRangeException(method),
 		};
@@ -121,6 +124,13 @@ void WriteClass(Type targetType, string ns, string newName, HashSet<string> obso
 				("AVCodecID", _) => force("CodecID"),
 				("AVMediaType", _) => force("MediaType"),
 				("AVDiscard", _) => force("MediaDiscard"),
+				("AVFieldOrder", _) => force("FieldOrder"),
+				("AVColorRange", _) => force("ColorRange"),
+				("AVColorPrimaries", _) => force("ColorPrimaries"),
+				("AVColorTransferCharacteristic", _) => force("ColorTransferCharacteristic"),
+				("AVColorSpace", _) => force("ColorSpace"),
+				("AVChromaLocation", _) => force("ChromaLocation"),
+				var x when propNameMapping(field.Name) != null => force(propNameMapping(field.Name)),
 				var x when GetFriendlyTypeName(fieldType) != x.fieldTypeName => direct(GetFriendlyTypeName(fieldType)),
 				var x => direct(x.fieldTypeName),
 			};

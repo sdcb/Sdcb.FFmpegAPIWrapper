@@ -13,15 +13,15 @@ namespace Sdcb.FFmpegAPIWrapper.Common
     /// </summary>
     public unsafe class MediaDictionary : FFmpegHandle, IDictionary<string, string>
     {
-        private MediaDictionary(AVDictionary* dict) : base((IntPtr)dict) { }
+        private MediaDictionary(AVDictionary* dict, bool isOwner) : base((IntPtr)dict, isOwner) { }
 
-        public static MediaDictionary CreateEmpty() => new MediaDictionary(null);
+        public static MediaDictionary CreateEmpty() => new MediaDictionary(null, true);
 
         public static MediaDictionary Copy(MediaDictionary source)
         {
             AVDictionary* destination = null;
             av_dict_copy(&destination, source, 0).ThrowIfError();
-            return new MediaDictionary(destination);
+            return new MediaDictionary(destination, isOwner: true);
         }
 
         internal void Reset(AVDictionary* dict) => _handle = (IntPtr)dict;
@@ -189,11 +189,11 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             _handle = (IntPtr)ptr;
         }
 
-        protected override void Close()
+        public override void Close()
         {
             AVDictionary* p = this;
             av_dict_free(&p);
-            _handle = IntPtr.Zero;
+            _handle = (IntPtr)p;
         }
     }
 }

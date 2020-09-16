@@ -10,7 +10,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
     /// </summary>
     public partial class MediaIO : FFmpegHandle
     {
-        protected unsafe MediaIO(AVIOContext* ptr): base((IntPtr)ptr) { }
+        protected unsafe MediaIO(AVIOContext* ptr, bool isOwner): base((IntPtr)ptr, isOwner) { }
 
         /// <summary>
         /// <para>Similar to feof() but also returns nonzero on read errors.</para>
@@ -235,7 +235,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         {
             AVIOContext* ctx;
             avio_accept(this, &ctx).ThrowIfError();
-            return FromNative(ctx);
+            return FromNative(ctx, isOwner: true);
         }
 
         /// <summary>
@@ -246,9 +246,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         /// <summary>
         /// <see cref="avio_close(AVIOContext*)"/>
         /// </summary>
-        protected unsafe override void Close()
+        public unsafe override void Close()
         {
             avio_close((AVIOContext*)_handle).ThrowIfError();
+            _handle = IntPtr.Zero;
         }
     }
 }

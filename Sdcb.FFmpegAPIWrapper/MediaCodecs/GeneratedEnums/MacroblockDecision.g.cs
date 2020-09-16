@@ -1,3 +1,5 @@
+// This file was genereated from LINQPad scripts, DO NOT CHANGE DIRECTLY.
+
 using System;
 using Sdcb.FFmpegAPIWrapper.Common;
 using FFmpeg.AutoGen;

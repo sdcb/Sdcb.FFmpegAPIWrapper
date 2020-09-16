@@ -11,11 +11,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// <summary>
     /// <see cref="AVCodec"/>
     /// </summary>
-    public unsafe partial struct MediaCodec
+    public unsafe partial struct Codec
     {
         AVCodec* _p;
 
-        public MediaCodec(AVCodec* ptr)
+        public Codec(AVCodec* ptr)
         {
             if (ptr == null) throw new ArgumentNullException(nameof(ptr));
 

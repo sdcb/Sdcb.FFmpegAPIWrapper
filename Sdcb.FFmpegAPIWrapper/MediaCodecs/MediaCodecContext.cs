@@ -5,7 +5,7 @@ using System;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial class MediaCodecContext : FFmpegHandle
+    public unsafe partial class CodecContext : FFmpegHandle
     {
         public const int CompressionDefault = FF_COMPRESSION_DEFAULT;
 
@@ -22,7 +22,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 
         }
 
-        protected override void Close()
+        public override void Close()
         {
             AVCodecContext* ptr = this;
             avcodec_free_context(&ptr);

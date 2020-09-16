@@ -27,7 +27,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
                 avio_open2(&ctx, url, (int)flags, null, null).ThrowIfError();
             }
             
-            return new MediaIO(ctx);
+            return new MediaIO(ctx, isOwner: true);
         }
 
         public static unsafe MediaIO OpenRead(string url, MediaDictionary options) => Open(url, MediaIOFlags.Read, options);
@@ -40,7 +40,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         {
             AVIOContext* ctx = null;
             avio_open_dyn_buf(&ctx).ThrowIfError();
-            return new DynamicMediaIO(ctx);
+            return new DynamicMediaIO(ctx, isOwner: true);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
                 throw FFmpegException.FromErrorCode(AVERROR(ENOMEM), "Failed to alloc AVIOContext");
             }
 
-            return new MediaIO(ctx);
+            return new MediaIO(ctx, isOwner: true);
 
             int Read(void* opaque, byte* buffer, int length)
             {
@@ -92,7 +92,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
             };
         }
 
-        public static unsafe MediaIO FromNative(AVIOContext* p) => new MediaIO(p);
+        public static unsafe MediaIO FromNative(AVIOContext* p, bool isOwner) => new MediaIO(p, isOwner);
 
         public static unsafe implicit operator AVIOContext*(MediaIO data) => (AVIOContext*)data._handle;
 
