@@ -23,6 +23,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 			string errorMessage = $"[{prefix}]: {Marshal.PtrToStringUTF8((IntPtr)buffer)}";
 			return new FFmpegException(errorCode, errorMessage);
 		}
+
+		public unsafe static FFmpegException NoMemory(string message) => FromErrorCode(AVERROR(ENOMEM), message);
 	}
 
 	internal static class FFmpegValidation

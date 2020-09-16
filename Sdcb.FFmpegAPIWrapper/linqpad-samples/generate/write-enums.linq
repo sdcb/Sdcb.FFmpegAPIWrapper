@@ -32,6 +32,7 @@ WriteEnum(typeof(AVColorPrimaries), ns, "ColorPrimaries");
 WriteEnum(typeof(AVColorTransferCharacteristic), ns, "ColorTransferCharacteristic");
 WriteEnum(typeof(AVColorSpace), ns, "ColorSpace");
 WriteEnum(typeof(AVChromaLocation), ns, "ChromaLocation");
+WriteEnum(typeof(AVPictureType), ns, "PictureType");
 
 WriteConstEnum("AV_CODEC_FLAG_", ns, "CodecFlag");
 WriteConstEnum("AV_CODEC_FLAG2_", ns, "CodecFlag2");

@@ -92,10 +92,14 @@ void PushIndent(IndentedTextWriter writer, Action action)
 	writer.WriteLine("}");
 }
 
-void WriteBasic(IndentedTextWriter writer, string ns, Action bodyWriter)
+void WriteBasic(IndentedTextWriter writer, string ns, Action bodyWriter, bool withHeader = true)
 {
-	writer.WriteLine("// This file was genereated from LINQPad scripts, DO NOT CHANGE DIRECTLY.");
-	writer.WriteLine();
+	if (withHeader)
+	{
+		writer.WriteLine("// This file was genereated from LINQPad scripts, DO NOT CHANGE DIRECTLY.");
+		writer.WriteLine();
+	}
+	
 	writer.WriteLine("using System;");
 	writer.WriteLine("using Sdcb.FFmpegAPIWrapper.Common;");
 	writer.WriteLine("using FFmpeg.AutoGen;");

@@ -10,16 +10,41 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         public const int CompressionDefault = FF_COMPRESSION_DEFAULT;
 
         /// <summary>
-        /// <see cref="avcodec_parameters_from_context(AVCodecParameters*, AVCodecContext*)"/>
+        /// <see cref="avcodec_alloc_context3(AVCodec*)"/>
         /// </summary>
-        public void ToParameter(AVCodecParameters* parameter)
+        public static CodecContext FromCodec(Codec codec)
         {
-            avcodec_parameters_from_context(parameter, this).ThrowIfError();
+            AVCodecContext* ptr = avcodec_alloc_context3(codec);
+            if (ptr == null)
+            {
+                throw new FFmpegException($"Failed to create {nameof(AVCodecContext)} from codec {codec.Id}");
+            }
+            return FromNative(ptr, isOwner: true);
         }
 
-        public void FromParameter(AVCodecParameters* parameter)
-        {
+        /// <summary>
+        /// <see cref="avcodec_get_class"/>
+        /// </summary>
+        public static FFmpegClass FFmpegClass => FFmpegClass.FromNative(avcodec_get_class());
 
+        /// <summary>
+        /// <see cref="avcodec_parameters_to_context(AVCodecContext*, AVCodecParameters*)"/>
+        /// </summary>
+        public void FillParameters(CodecParameters parameters)
+        {
+            avcodec_parameters_to_context(this, parameters).ThrowIfError();
+        }
+
+        /// <summary>
+        /// <see cref="avcodec_open2(AVCodecContext*, AVCodec*, AVDictionary**)"/>
+        /// </summary>
+        /// <param name="codec"></param>
+        /// <param name="options"></param>
+        public void Open(Codec codec, MediaDictionary options)
+        {
+            AVDictionary* ptrDict = options;
+            avcodec_open2(this, codec, &ptrDict).ThrowIfError();
+            options.Reset(ptrDict);
         }
 
         public override void Close()

@@ -17,13 +17,6 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public static MediaDictionary CreateEmpty() => new MediaDictionary(null, true);
 
-        public static MediaDictionary Copy(MediaDictionary source)
-        {
-            AVDictionary* destination = null;
-            av_dict_copy(&destination, source, 0).ThrowIfError();
-            return new MediaDictionary(destination, isOwner: true);
-        }
-
         internal void Reset(AVDictionary* dict) => _handle = (IntPtr)dict;
 
         public static MediaDictionary FromDictionary(IDictionary<string, string> dict)
@@ -187,6 +180,16 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             AVDictionary* ptr = this;
             av_dict_set(&ptr, key, value, (int)flags).ThrowIfError();
             _handle = (IntPtr)ptr;
+        }
+
+        /// <summary>
+        /// <see cref="av_dict_copy(AVDictionary**, AVDictionary*, int)"/>
+        /// </summary>
+        public MediaDictionary Clone()
+        {
+            AVDictionary* destination = null;
+            av_dict_copy(&destination, this, 0).ThrowIfError();
+            return new MediaDictionary(destination, isOwner: true);
         }
 
         public override void Close()

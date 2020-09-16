@@ -15,9 +15,17 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_parameters_copy(AVCodecParameters*, AVCodecParameters*)"/>
         /// </summary>
-        public void Copy(CodecParameters source)
+        public void CopyFrom(CodecParameters source)
         {
             avcodec_parameters_copy(this, source).ThrowIfError();
+        }
+
+        /// <summary>
+        /// <see cref="avcodec_parameters_from_context(AVCodecParameters*, AVCodecContext*)"/>
+        /// </summary>
+        public void CopyFrom(CodecContext ctx)
+        {
+            avcodec_parameters_from_context(this, ctx).ThrowIfError();
         }
 
         /// <summary>

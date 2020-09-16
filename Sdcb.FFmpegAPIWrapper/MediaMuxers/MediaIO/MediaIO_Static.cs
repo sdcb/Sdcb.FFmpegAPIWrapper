@@ -58,7 +58,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
             byte* buffer = (byte*)av_malloc((ulong)bufferSize);
             if (buffer == null)
             {
-                throw FFmpegException.FromErrorCode(AVERROR(ENOMEM), "Failed to alloc MediaIO buffer");
+                throw FFmpegException.NoMemory("Failed to alloc MediaIO buffer");
             }
             AVIOContext* ctx = avio_alloc_context(buffer, bufferSize, writeFlag,
                 opaque: null, 
@@ -67,7 +67,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
                 seek: new avio_alloc_context_seek(Seek));
             if (ctx == null)
             {
-                throw FFmpegException.FromErrorCode(AVERROR(ENOMEM), "Failed to alloc AVIOContext");
+                throw FFmpegException.NoMemory("Failed to alloc AVIOContext");
             }
 
             return new MediaIO(ctx, isOwner: true);

@@ -16,6 +16,8 @@ void Main()
 	Environment.CurrentDirectory = baseDir;
 	
 	WriteClass(typeof(AVCodecParameters), "Sdcb.FFmpegAPIWrapper.MediaCodecs", "CodecParameters");
+	WriteClass(typeof(AVFrame), "Sdcb.FFmpegAPIWrapper.MediaCodecs", "Frame");
+	WriteClass(typeof(AVPacket), "Sdcb.FFmpegAPIWrapper.MediaCodecs", "Packet");
 }
 
 void WriteClass(Type targetType, string ns, string newName, HashSet<string> obsoleteFields = null, Func<string, string> propNameMapping = null)
@@ -32,6 +34,17 @@ void WriteClass(Type targetType, string ns, string newName, HashSet<string> obso
 		writer.WriteLine($"public unsafe partial class {newName}: FFmpegHandle");
 		PushIndent(writer, WriteClassBodies);
 	});
+	
+	if (!File.Exists(newName + ".cs"))
+	{
+		using var placeholder = new StreamWriter($"{newName}.cs");
+		using var placeholderWriter = new IndentedTextWriter(placeholder, new string(' ', 4));
+		WriteBasic(placeholderWriter, ns, () =>
+		{
+			placeholderWriter.WriteLine($"public unsafe partial class {newName}: FFmpegHandle");
+			PushIndent(placeholderWriter, () => {});
+		}, withHeader: false);
+	}
 
 	void WriteClassBodies()
 	{
@@ -70,7 +83,8 @@ void WriteClass(Type targetType, string ns, string newName, HashSet<string> obso
 			["pix_"] = "Pixel_",
 			["fmt"] = "Format",
 			["ctx"] = "Context",
-			["priv_"] = "Private_"
+			["priv_"] = "Private_", 
+			["pict_"] = "Picture_", 
 		};
 
 		string fieldName = field.Name;
@@ -122,6 +136,7 @@ void WriteClass(Type targetType, string ns, string newName, HashSet<string> obso
 				("AVCodec*", _) => call("Codec", "FromNative"),
 				("AVRational", _) => direct("MediaRational"),
 				("Void*", _) => force("IntPtr"),
+				("Byte*", _) => force("IntPtr"), 
 				("AVPixelFormat", _) => force("PixelFormat"),
 				("AVSampleFormat", _) => force("SampleFormat"),
 				("AVCodecID", _) => force("CodecID"),
@@ -133,6 +148,7 @@ void WriteClass(Type targetType, string ns, string newName, HashSet<string> obso
 				("AVColorTransferCharacteristic", _) => force("ColorTransferCharacteristic"),
 				("AVColorSpace", _) => force("ColorSpace"),
 				("AVChromaLocation", _) => force("ChromaLocation"),
+				("AVPictureType", _) => force("PictureType"),
 				var x when propNameMapping(field.Name) != null => force(propNameMapping(field.Name)),
 				var x when GetFriendlyTypeName(fieldType) != x.fieldTypeName => direct(GetFriendlyTypeName(fieldType)),
 				var x => direct(x.fieldTypeName),
