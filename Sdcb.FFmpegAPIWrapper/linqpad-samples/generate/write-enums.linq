@@ -20,10 +20,11 @@ foreach (var item in Directory.EnumerateFiles(".", "*.g.cs"))
 }
 
 string ns = "Sdcb.FFmpegAPIWrapper.MediaCodecs";
-WriteEnum(typeof(AVSampleFormat), ns, "MediaSampleFormat");
-WriteEnum(typeof(AVPixelFormat), ns, "MediaPixelFormat");
+WriteEnum(typeof(AVSampleFormat), ns, "SampleFormat");
+WriteEnum(typeof(AVPixelFormat), ns, "PixelFormat");
 WriteEnum(typeof(AVMediaType), ns, "MediaType");
 WriteEnum(typeof(AVAudioServiceType), ns, "AudioServiceType");
+WriteEnum(typeof(AVCodecID), ns, "CodecID");
 
 WriteConstEnum("AV_CODEC_FLAG_", ns, "CodecFlag");
 WriteConstEnum("AV_CODEC_FLAG2_", ns, "CodecFlag2");

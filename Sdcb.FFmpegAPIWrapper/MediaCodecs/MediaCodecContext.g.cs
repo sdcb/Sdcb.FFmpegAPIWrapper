@@ -41,10 +41,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.codec_type" />
         /// </summary>
-        public AVMediaType CodecType
+        public MediaType CodecType
         {
-            get => Pointer->codec_type;
-            set => Pointer->codec_type = value;
+            get => (MediaType)Pointer->codec_type;
+            set => Pointer->codec_type = (AVMediaType)value;
         }
         
         /// <summary>
@@ -59,10 +59,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.codec_id" />
         /// </summary>
-        public AVCodecID CodecId
+        public CodecID CodecId
         {
-            get => Pointer->codec_id;
-            set => Pointer->codec_id = value;
+            get => (CodecID)Pointer->codec_id;
+            set => Pointer->codec_id = (AVCodecID)value;
         }
         
         /// <summary>
@@ -85,7 +85,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.priv_data" />
         /// </summary>
-        public IntPtr PrivData
+        public IntPtr PrivateData
         {
             get => (IntPtr)Pointer->priv_data;
             set => Pointer->priv_data = (void*)value;
@@ -303,9 +303,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> May be overridden by the decoder if it knows better.</para>
         /// <see cref="AVCodecContext.pix_fmt" />
         /// </summary>
-        public MediaPixelFormat PixFmt
+        public PixelFormat PixelFormat
         {
-            get => (MediaPixelFormat)Pointer->pix_fmt;
+            get => (PixelFormat)Pointer->pix_fmt;
             set => Pointer->pix_fmt = (AVPixelFormat)value;
         }
         
@@ -366,6 +366,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.b_frame_strategy" />
         /// </summary>
+        [Obsolete]
         public int BFrameStrategy
         {
             get => Pointer->b_frame_strategy;
@@ -399,6 +400,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.mpeg_quant" />
         /// </summary>
+        [Obsolete]
         public int MpegQuant
         {
             get => Pointer->mpeg_quant;
@@ -498,6 +500,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.prediction_method" />
         /// </summary>
+        [Obsolete]
         public int PredictionMethod
         {
             get => Pointer->prediction_method;
@@ -597,6 +600,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.pre_me" />
         /// </summary>
+        [Obsolete]
         public int PreMe
         {
             get => Pointer->pre_me;
@@ -696,6 +700,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.scenechange_threshold" />
         /// </summary>
+        [Obsolete]
         public int ScenechangeThreshold
         {
             get => Pointer->scenechange_threshold;
@@ -705,6 +710,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.noise_reduction" />
         /// </summary>
+        [Obsolete]
         public int NoiseReduction
         {
             get => Pointer->noise_reduction;
@@ -769,6 +775,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.me_penalty_compensation" />
         /// </summary>
+        [Obsolete]
         public int MePenaltyCompensation
         {
             get => Pointer->me_penalty_compensation;
@@ -789,6 +796,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.brd_scale" />
         /// </summary>
+        [Obsolete]
         public int BrdScale
         {
             get => Pointer->brd_scale;
@@ -820,6 +828,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.chromaoffset" />
         /// </summary>
+        [Obsolete]
         public int Chromaoffset
         {
             get => Pointer->chromaoffset;
@@ -841,6 +850,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.b_sensitivity" />
         /// </summary>
+        [Obsolete]
         public int BSensitivity
         {
             get => Pointer->b_sensitivity;
@@ -949,9 +959,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>sample format.</para>
         /// <see cref="AVCodecContext.sample_fmt" />
         /// </summary>
-        public MediaSampleFormat SampleFmt
+        public SampleFormat SampleFormat
         {
-            get => (MediaSampleFormat)Pointer->sample_fmt;
+            get => (SampleFormat)Pointer->sample_fmt;
             set => Pointer->sample_fmt = (AVSampleFormat)value;
         }
         
@@ -1036,9 +1046,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> Decoder will decode to this format if it can.</para>
         /// <see cref="AVCodecContext.request_sample_fmt" />
         /// </summary>
-        public MediaSampleFormat RequestSampleFmt
+        public SampleFormat RequestSampleFormat
         {
-            get => (MediaSampleFormat)Pointer->request_sample_fmt;
+            get => (SampleFormat)Pointer->request_sample_fmt;
             set => Pointer->request_sample_fmt = (AVSampleFormat)value;
         }
         
@@ -1061,6 +1071,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> Otherwise, the decoded frames must not be freed by the caller and are only valid until the next decode call.</para>
         /// <see cref="AVCodecContext.refcounted_frames" />
         /// </summary>
+        [Obsolete]
         public int RefcountedFrames
         {
             get => Pointer->refcounted_frames;
@@ -1216,6 +1227,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.coder_type" />
         /// </summary>
+        [Obsolete]
         public int CoderType
         {
             get => Pointer->coder_type;
@@ -1225,6 +1237,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.context_model" />
         /// </summary>
+        [Obsolete]
         public int ContextModel
         {
             get => Pointer->context_model;
@@ -1234,6 +1247,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.frame_skip_threshold" />
         /// </summary>
+        [Obsolete]
         public int FrameSkipThreshold
         {
             get => Pointer->frame_skip_threshold;
@@ -1243,6 +1257,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.frame_skip_factor" />
         /// </summary>
+        [Obsolete]
         public int FrameSkipFactor
         {
             get => Pointer->frame_skip_factor;
@@ -1252,6 +1267,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.frame_skip_exp" />
         /// </summary>
+        [Obsolete]
         public int FrameSkipExp
         {
             get => Pointer->frame_skip_exp;
@@ -1261,6 +1277,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.frame_skip_cmp" />
         /// </summary>
+        [Obsolete]
         public int FrameSkipCmp
         {
             get => Pointer->frame_skip_cmp;
@@ -1281,6 +1298,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.min_prediction_order" />
         /// </summary>
+        [Obsolete]
         public int MinPredictionOrder
         {
             get => Pointer->min_prediction_order;
@@ -1290,6 +1308,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.max_prediction_order" />
         /// </summary>
+        [Obsolete]
         public int MaxPredictionOrder
         {
             get => Pointer->max_prediction_order;
@@ -1299,6 +1318,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.timecode_frame_start" />
         /// </summary>
+        [Obsolete]
         public long TimecodeFrameStart
         {
             get => Pointer->timecode_frame_start;
@@ -1308,6 +1328,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.rtp_callback" />
         /// </summary>
+        [Obsolete]
         public AVCodecContext_rtp_callback_func RtpCallback
         {
             get => Pointer->rtp_callback;
@@ -1317,6 +1338,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.rtp_payload_size" />
         /// </summary>
+        [Obsolete]
         public int RtpPayloadSize
         {
             get => Pointer->rtp_payload_size;
@@ -1326,6 +1348,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.mv_bits" />
         /// </summary>
+        [Obsolete]
         public int MvBits
         {
             get => Pointer->mv_bits;
@@ -1335,6 +1358,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.header_bits" />
         /// </summary>
+        [Obsolete]
         public int HeaderBits
         {
             get => Pointer->header_bits;
@@ -1344,6 +1368,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.i_tex_bits" />
         /// </summary>
+        [Obsolete]
         public int ITexBits
         {
             get => Pointer->i_tex_bits;
@@ -1353,6 +1378,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.p_tex_bits" />
         /// </summary>
+        [Obsolete]
         public int PTexBits
         {
             get => Pointer->p_tex_bits;
@@ -1362,6 +1388,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.i_count" />
         /// </summary>
+        [Obsolete]
         public int ICount
         {
             get => Pointer->i_count;
@@ -1371,6 +1398,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.p_count" />
         /// </summary>
+        [Obsolete]
         public int PCount
         {
             get => Pointer->p_count;
@@ -1380,6 +1408,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.skip_count" />
         /// </summary>
+        [Obsolete]
         public int SkipCount
         {
             get => Pointer->skip_count;
@@ -1389,6 +1418,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.misc_bits" />
         /// </summary>
+        [Obsolete]
         public int MiscBits
         {
             get => Pointer->misc_bits;
@@ -1398,6 +1428,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecContext.frame_bits" />
         /// </summary>
+        [Obsolete]
         public int FrameBits
         {
             get => Pointer->frame_bits;
@@ -1599,6 +1630,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.coded_frame" />
         /// </summary>
+        [Obsolete]
         public AVFrame* CodedFrame
         {
             get => Pointer->coded_frame;
@@ -1776,6 +1808,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.vbv_delay" />
         /// </summary>
+        [Obsolete]
         public ulong VbvDelay
         {
             get => Pointer->vbv_delay;
@@ -1787,6 +1820,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> Allow encoders to output packets that do not contain any encoded data, only side data.</para>
         /// <see cref="AVCodecContext.side_data_only_packets" />
         /// </summary>
+        [Obsolete]
         public int SideDataOnlyPackets
         {
             get => Pointer->side_data_only_packets;
@@ -1825,9 +1859,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: Set by libavcodec before calling get_format().</para>
         /// <see cref="AVCodecContext.sw_pix_fmt" />
         /// </summary>
-        public MediaPixelFormat SwPixFmt
+        public PixelFormat SwPixelFormat
         {
-            get => (MediaPixelFormat)Pointer->sw_pix_fmt;
+            get => (PixelFormat)Pointer->sw_pix_fmt;
             set => Pointer->sw_pix_fmt = (AVPixelFormat)value;
         }
         
@@ -1838,7 +1872,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding set by user.</para>
         /// <see cref="AVCodecContext.pkt_timebase" />
         /// </summary>
-        public MediaRational PktTimebase
+        public MediaRational PacketTimebase
         {
             get => Pointer->pkt_timebase;
             set => Pointer->pkt_timebase = value;
@@ -2022,7 +2056,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> The reference is set by the caller and afterwards owned (and freed) by libavcodec - it should never be read by the caller after being set.</para>
         /// <see cref="AVCodecContext.hw_frames_ctx" />
         /// </summary>
-        public AVBufferRef* HwFramesCtx
+        public AVBufferRef* HwFramesContext
         {
             get => Pointer->hw_frames_ctx;
             set => Pointer->hw_frames_ctx = value;
@@ -2068,7 +2102,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> The reference is set by the caller and afterwards owned (and freed) by libavcodec.</para>
         /// <see cref="AVCodecContext.hw_device_ctx" />
         /// </summary>
-        public AVBufferRef* HwDeviceCtx
+        public AVBufferRef* HwDeviceContext
         {
             get => Pointer->hw_device_ctx;
             set => Pointer->hw_device_ctx = value;

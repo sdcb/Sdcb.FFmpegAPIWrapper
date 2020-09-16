@@ -9,7 +9,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// <para>Pixel format.</para>
     /// <see cref="AVPixelFormat" />
     /// </summary>
-    public enum MediaPixelFormat
+    public enum PixelFormat
     {
         /// <summary>
         /// <para>planar YUV 4:2:0, 12bpp, (1 Cr &amp; Cb sample per 2x2 Y samples).</para>

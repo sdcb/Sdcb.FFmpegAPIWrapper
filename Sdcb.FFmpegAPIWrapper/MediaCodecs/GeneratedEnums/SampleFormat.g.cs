@@ -9,7 +9,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// <para>Audio sample formats.</para>
     /// <see cref="AVSampleFormat" />
     /// </summary>
-    public enum MediaSampleFormat
+    public enum SampleFormat
     {
         /// <summary>
         /// <para>unsigned 8 bits.</para>
