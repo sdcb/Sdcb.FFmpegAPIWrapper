@@ -28,6 +28,7 @@ void WriteClass(Type targetType, string ns, string newName, HashSet<string> obso
 
 	WriteBasic(writer, ns, () =>
 	{
+		WriteMultiLines(writer, BuildTypeDocument(targetType));
 		writer.WriteLine($"public unsafe partial class {newName}: FFmpegHandle");
 		PushIndent(writer, WriteClassBodies);
 	});
@@ -46,6 +47,8 @@ void WriteClass(Type targetType, string ns, string newName, HashSet<string> obso
 		WriteLine("        throw new ArgumentNullException(nameof(ptr));");
 		WriteLine("    }");
 		WriteLine("}");
+		WriteLine();
+		WriteLine($"public static {newName} FromNative({targetType.Name}* ptr, bool isOwner) => new {newName}(ptr, isOwner);");
 		WriteLine();
 
 		foreach (string line in string.Join("\r\n\r\n", targetType
@@ -116,7 +119,7 @@ void WriteClass(Type targetType, string ns, string newName, HashSet<string> obso
 			return (fieldTypeName: fieldType.Name, fieldName: field.Name) switch
 			{
 				("AVClass*", _) => call("FFmpegClass", "FromNative"),
-				("AVCodec*", _) => call("MediaCodec", "FromNative"),
+				("AVCodec*", _) => call("Codec", "FromNative"),
 				("AVRational", _) => direct("MediaRational"),
 				("Void*", _) => force("IntPtr"),
 				("AVPixelFormat", _) => force("PixelFormat"),

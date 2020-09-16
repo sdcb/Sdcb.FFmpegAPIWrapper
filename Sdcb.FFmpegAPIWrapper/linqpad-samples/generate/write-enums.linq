@@ -150,11 +150,3 @@ string CSharpLiteral(object val, Type underlyingType) => Type.GetTypeCode(underl
 	TypeCode.UInt64 => $"0x{val:X}UL",
 	_ => throw new ArgumentOutOfRangeException(),
 };
-
-void WriteMultiLines(IndentedTextWriter writer, string multiLines)
-{
-	foreach (string line in multiLines.Split("\r\n", StringSplitOptions.RemoveEmptyEntries))
-	{
-		writer.WriteLine(line);
-	}
-}

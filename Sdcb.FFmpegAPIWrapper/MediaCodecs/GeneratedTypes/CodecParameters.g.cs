@@ -7,6 +7,10 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
+    /// <summary>
+    /// <para>This struct describes the properties of an encoded stream.</para>
+    /// <see cref="AVCodecParameters" />
+    /// </summary>
     public unsafe partial class CodecParameters: FFmpegHandle
     {
         protected AVCodecParameters* Pointer => this;
@@ -20,6 +24,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
                 throw new ArgumentNullException(nameof(ptr));
             }
         }
+        
+        public static CodecParameters FromNative(AVCodecParameters* ptr, bool isOwner) => new CodecParameters(ptr, isOwner);
         
         /// <summary>
         /// <para>General type of the encoded data.</para>

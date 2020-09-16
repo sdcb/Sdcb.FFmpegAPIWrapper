@@ -7,8 +7,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
     public unsafe partial class CodecContext
     {
-        public static CodecContext FromNative(AVCodecContext* ptr, bool isOwner) => new CodecContext(ptr, isOwner);
-
         public static CodecContext FromCodec(Codec codec)
         {
             AVCodecContext* ptr = avcodec_alloc_context3(codec);

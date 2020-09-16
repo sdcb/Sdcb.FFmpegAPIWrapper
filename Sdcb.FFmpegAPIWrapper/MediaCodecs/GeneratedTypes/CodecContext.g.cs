@@ -7,6 +7,16 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
+    /// <summary>
+    /// <para>main external API structure.</para>
+    /// <para> New fields can be added to the end with minor version bumps.</para>
+    /// <para> Removal, reordering and changes to existing fields require a major version bump.</para>
+    /// <para> You can use AVOptions (av_opt* / av_set/get*()) to access these fields from user applications.</para>
+    /// <para> The name string for AVOptions options matches the associated command line parameter name and can be found in libavcodec/options_table.</para>
+    /// <para>h The AVOption/command line parameter names differ in some cases from the C structure field names for historic reasons or brevity.</para>
+    /// <para> sizeof(AVCodecContext) must not be used outside libav*.</para>
+    /// <see cref="AVCodecContext" />
+    /// </summary>
     public unsafe partial class CodecContext: FFmpegHandle
     {
         protected AVCodecContext* Pointer => this;
@@ -20,6 +30,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
                 throw new ArgumentNullException(nameof(ptr));
             }
         }
+        
+        public static CodecContext FromNative(AVCodecContext* ptr, bool isOwner) => new CodecContext(ptr, isOwner);
         
         /// <summary>
         /// <para>information on struct for av_log - set by avcodec_alloc_context3.</para>
