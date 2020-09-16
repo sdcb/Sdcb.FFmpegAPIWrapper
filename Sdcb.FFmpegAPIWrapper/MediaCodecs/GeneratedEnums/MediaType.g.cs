@@ -14,39 +14,39 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVMediaType.AVMEDIA_TYPE_VIDEO" />
         /// </summary>
-        Video = 0x00000000,
+        Video = 0,
         
         /// <summary>
         /// <see cref="AVMediaType.AVMEDIA_TYPE_AUDIO" />
         /// </summary>
-        Audio = 0x00000001,
+        Audio = 1,
         
         /// <summary>
         /// <para>Opaque data information usually continuous.</para>
         /// <see cref="AVMediaType.AVMEDIA_TYPE_DATA" />
         /// </summary>
-        Data = 0x00000002,
+        Data = 2,
         
         /// <summary>
         /// <see cref="AVMediaType.AVMEDIA_TYPE_SUBTITLE" />
         /// </summary>
-        Subtitle = 0x00000003,
+        Subtitle = 3,
         
         /// <summary>
         /// <para>Opaque data information usually sparse.</para>
         /// <see cref="AVMediaType.AVMEDIA_TYPE_ATTACHMENT" />
         /// </summary>
-        Attachment = 0x00000004,
+        Attachment = 4,
         
         /// <summary>
         /// <see cref="AVMediaType.AVMEDIA_TYPE_NB" />
         /// </summary>
-        Nb = 0x00000005,
+        Nb = 5,
         
         /// <summary>
         /// <para>Usually treated as AVMEDIA_TYPE_DATA.</para>
         /// <see cref="AVMediaType.AVMEDIA_TYPE_UNKNOWN" />
         /// </summary>
-        Unknown = 0xFFFFFFFF,
+        Unknown = -1,
     }
 }

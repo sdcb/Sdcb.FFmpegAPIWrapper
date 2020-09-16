@@ -13,6 +13,12 @@ string baseDir = Path.GetFullPath(Path.Combine(Util.CurrentQuery.Location, @"..\
 Directory.CreateDirectory(baseDir);
 Environment.CurrentDirectory = baseDir;
 
+foreach (var item in Directory.EnumerateFiles(".", "*.g.cs"))
+{
+	File.Delete(item);
+	Util.FixedFont($"Deleted {item}").Dump();
+}
+
 string ns = "Sdcb.FFmpegAPIWrapper.MediaCodecs";
 WriteEnum(typeof(AVSampleFormat), ns, "MediaSampleFormat");
 WriteEnum(typeof(AVPixelFormat), ns, "MediaPixelFormat");
@@ -24,7 +30,7 @@ WriteConstEnum("AV_CODEC_FLAG2_", ns, "CodecFlag2");
 WriteConstEnum("SLICE_FLAG_", ns, "CodecSliceFlag");
 WriteConstEnum("AV_CH_LAYOUT_", ns, "ChannelLayout");
 WriteConstEnum("AV_CODEC_CAP_", ns, "CodecCompability");
-WriteConstEnum("FF_MB_DECISION_", ns, "MBDecisions");
+WriteConstEnum("FF_MB_DECISION_", ns, "MacroblockDecision");
 WriteConstEnum("FF_CMP_", ns, "DctComparison");
 
 
@@ -38,14 +44,7 @@ void WriteConstEnum(string prefix, string ns, string newName)
 		.ToArray();
 	Debug.Assert(fields.Length > 0);
 
-	decimal maxValue = fields.Max(x => Convert.ToDecimal(x.GetValue(null)));
-	Type underlyingType = maxValue switch
-	{
-		> long.MaxValue => typeof(ulong),
-		> uint.MaxValue => typeof(long),
-		> int.MaxValue => typeof(uint),
-		_ => typeof(int)
-	};
+	Type underlyingType = FindBestTypeForValues(fields.Select(x => Convert.ToDecimal(x.GetValue(null))));
 
 	WriteBasic(writer, ns, WriteBody);
 
@@ -57,24 +56,33 @@ void WriteConstEnum(string prefix, string ns, string newName)
 			_ => " : " + GetFriendlyTypeName(underlyingType),
 		};
 
+		if (underlyingType == typeof(uint) || underlyingType == typeof(ulong))
+		{
+			writer.WriteLine("[Flags]");
+		}
 		writer.WriteLine($"public enum {newName}{suffix}");
 		PushIndent(writer, WriteElements);
 	}
 
 	void WriteElements()
 	{
-		foreach (FieldInfo field in fields)
+		foreach (FieldInfo field in fields.OrderBy(x => Convert.ToDecimal(x.GetValue(null))))
 		{
 			string name = PascalCase(field.Name.Replace(prefix, ""));
 
 			WriteMultiLines(writer, BuildFieldDocument(field));
 			writer.WriteLine($"{name} = {CSharpLiteral(field.GetValue(null), underlyingType)},");
-			if (field != fields.Last())
-			{
-				writer.WriteLine();
-			}
+			writer.WriteLine();
 		}
 	}
+
+	Type FindBestTypeForValues(IEnumerable<decimal> values) => values.Max() switch
+	{
+		> long.MaxValue => typeof(ulong),
+		> uint.MaxValue => typeof(long),
+		> int.MaxValue => typeof(uint),
+		_ => typeof(int)
+	};
 }
 
 void WriteEnum(Type enumType, string ns, string newName)
@@ -90,6 +98,10 @@ void WriteEnum(Type enumType, string ns, string newName)
 		string suffix = underlyingType != typeof(int) ? " : " + GetFriendlyTypeName(underlyingType) : "";
 
 		WriteMultiLines(writer, BuildTypeDocument(enumType));
+		if (underlyingType == typeof(uint) || underlyingType == typeof(ulong))
+		{
+			writer.WriteLine("[Flags]");
+		}
 		writer.WriteLine($"public enum {newName}{suffix}");
 		PushIndent(writer, WriteElements);
 	}
@@ -123,7 +135,7 @@ void WriteEnum(Type enumType, string ns, string newName)
 
 string CSharpLiteral(object val, Type underlyingType) => Type.GetTypeCode(underlyingType) switch
 {
-	TypeCode.Int32 => $"0x{val:X}",
+	TypeCode.Int32 => $"{(int)val}",
 	TypeCode.UInt32 => $"0x{val:X}U",
 	TypeCode.Int64 => $"0x{val:X}L",
 	TypeCode.UInt64 => $"0x{val:X}UL",

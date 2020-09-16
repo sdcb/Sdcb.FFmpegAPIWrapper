@@ -86,11 +86,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		/// <summary>
 		/// <see cref="AVCodec.channel_layouts"/>
 		/// </summary>
-		public IEnumerable<ChannelLayouts> ChannelLayouts => NativeUtils.ReadSequence(
+		public IEnumerable<ChannelLayout> ChannelLayouts => NativeUtils.ReadSequence(
 			p: (IntPtr)_p->channel_layouts,
-			unitSize: sizeof(ChannelLayouts),
-			exitCondition: p => *((ChannelLayouts*)p) == 0,
-			valGetter: p => *((ChannelLayouts*)p));
+			unitSize: sizeof(ChannelLayout),
+			exitCondition: p => *((ChannelLayout*)p) == 0,
+			valGetter: p => *((ChannelLayout*)p));
 
 		/// <summary>
 		/// <see cref="AVCodec.max_lowres"/>

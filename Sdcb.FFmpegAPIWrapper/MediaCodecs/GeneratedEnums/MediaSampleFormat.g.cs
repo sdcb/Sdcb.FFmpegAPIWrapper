@@ -15,84 +15,84 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>unsigned 8 bits.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_U8" />
         /// </summary>
-        U8 = 0x00000000,
+        U8 = 0,
         
         /// <summary>
         /// <para>signed 16 bits.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_S16" />
         /// </summary>
-        S16 = 0x00000001,
+        S16 = 1,
         
         /// <summary>
         /// <para>signed 32 bits.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_S32" />
         /// </summary>
-        S32 = 0x00000002,
+        S32 = 2,
         
         /// <summary>
         /// <para>float.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_FLT" />
         /// </summary>
-        Flt = 0x00000003,
+        Flt = 3,
         
         /// <summary>
         /// <para>double.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_DBL" />
         /// </summary>
-        Dbl = 0x00000004,
+        Dbl = 4,
         
         /// <summary>
         /// <para>unsigned 8 bits, planar.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_U8P" />
         /// </summary>
-        U8p = 0x00000005,
+        U8p = 5,
         
         /// <summary>
         /// <para>signed 16 bits, planar.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_S16P" />
         /// </summary>
-        S16p = 0x00000006,
+        S16p = 6,
         
         /// <summary>
         /// <para>signed 32 bits, planar.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_S32P" />
         /// </summary>
-        S32p = 0x00000007,
+        S32p = 7,
         
         /// <summary>
         /// <para>float, planar.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_FLTP" />
         /// </summary>
-        Fltp = 0x00000008,
+        Fltp = 8,
         
         /// <summary>
         /// <para>double, planar.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_DBLP" />
         /// </summary>
-        Dblp = 0x00000009,
+        Dblp = 9,
         
         /// <summary>
         /// <para>signed 64 bits.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_S64" />
         /// </summary>
-        S64 = 0x0000000A,
+        S64 = 10,
         
         /// <summary>
         /// <para>signed 64 bits, planar.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_S64P" />
         /// </summary>
-        S64p = 0x0000000B,
+        S64p = 11,
         
         /// <summary>
         /// <para>Number of sample formats.</para>
         /// <para> DO NOT USE if linking dynamically.</para>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_NB" />
         /// </summary>
-        Nb = 0x0000000C,
+        Nb = 12,
         
         /// <summary>
         /// <see cref="AVSampleFormat.AV_SAMPLE_FMT_NONE" />
         /// </summary>
-        None = 0xFFFFFFFF,
+        None = -1,
     }
 }

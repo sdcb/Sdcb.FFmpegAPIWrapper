@@ -5,24 +5,25 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public enum MBDecisions
+    public enum MacroblockDecision
     {
+        /// <summary>
+        /// <para>FF_MB_DECISION_SIMPLE = 0.</para>
+        /// <see cref="ffmpeg.FF_MB_DECISION_SIMPLE" />
+        /// </summary>
+        Simple = 0,
+        
         /// <summary>
         /// <para>FF_MB_DECISION_BITS = 1.</para>
         /// <see cref="ffmpeg.FF_MB_DECISION_BITS" />
         /// </summary>
-        Bits = 0x1,
+        Bits = 1,
         
         /// <summary>
         /// <para>FF_MB_DECISION_RD = 2.</para>
         /// <see cref="ffmpeg.FF_MB_DECISION_RD" />
         /// </summary>
-        Rd = 0x2,
+        Rd = 2,
         
-        /// <summary>
-        /// <para>FF_MB_DECISION_SIMPLE = 0.</para>
-        /// <see cref="ffmpeg.FF_MB_DECISION_SIMPLE" />
-        /// </summary>
-        Simple = 0x0,
     }
 }

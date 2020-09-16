@@ -13,52 +13,52 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_MAIN" />
         /// </summary>
-        Main = 0x00000000,
+        Main = 0,
         
         /// <summary>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_EFFECTS" />
         /// </summary>
-        Effects = 0x00000001,
+        Effects = 1,
         
         /// <summary>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_VISUALLY_IMPAIRED" />
         /// </summary>
-        VisuallyImpaired = 0x00000002,
+        VisuallyImpaired = 2,
         
         /// <summary>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_HEARING_IMPAIRED" />
         /// </summary>
-        HearingImpaired = 0x00000003,
+        HearingImpaired = 3,
         
         /// <summary>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_DIALOGUE" />
         /// </summary>
-        Dialogue = 0x00000004,
+        Dialogue = 4,
         
         /// <summary>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_COMMENTARY" />
         /// </summary>
-        Commentary = 0x00000005,
+        Commentary = 5,
         
         /// <summary>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_EMERGENCY" />
         /// </summary>
-        Emergency = 0x00000006,
+        Emergency = 6,
         
         /// <summary>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_VOICE_OVER" />
         /// </summary>
-        VoiceOver = 0x00000007,
+        VoiceOver = 7,
         
         /// <summary>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_KARAOKE" />
         /// </summary>
-        Karaoke = 0x00000008,
+        Karaoke = 8,
         
         /// <summary>
         /// <para>Not part of ABI.</para>
         /// <see cref="AVAudioServiceType.AV_AUDIO_SERVICE_TYPE_NB" />
         /// </summary>
-        Nb = 0x00000009,
+        Nb = 9,
     }
 }

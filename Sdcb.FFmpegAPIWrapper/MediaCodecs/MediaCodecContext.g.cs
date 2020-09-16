@@ -166,9 +166,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.flags" />
         /// </summary>
-        public CodecFlags Flags
+        public CodecFlag Flags
         {
-            get => (CodecFlags)Pointer->flags;
+            get => (CodecFlag)Pointer->flags;
             set => Pointer->flags = (int)value;
         }
         
@@ -177,9 +177,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.flags2" />
         /// </summary>
-        public CodecFlags2 Flags2
+        public CodecFlag2 Flags2
         {
-            get => (CodecFlags2)Pointer->flags2;
+            get => (CodecFlag2)Pointer->flags2;
             set => Pointer->flags2 = (int)value;
         }
         
@@ -566,9 +566,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.ildct_cmp" />
         /// </summary>
-        public InterlacedDctComparison IldctCmp
+        public DctComparison IldctCmp
         {
-            get => (InterlacedDctComparison)Pointer->ildct_cmp;
+            get => (DctComparison)Pointer->ildct_cmp;
             set => Pointer->ildct_cmp = (int)value;
         }
         
@@ -650,9 +650,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>slice flags - encoding: unused - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.slice_flags" />
         /// </summary>
-        public CodecSliceFlags SliceFlags
+        public CodecSliceFlag SliceFlags
         {
-            get => (CodecSliceFlags)Pointer->slice_flags;
+            get => (CodecSliceFlag)Pointer->slice_flags;
             set => Pointer->slice_flags = (int)value;
         }
         
@@ -661,9 +661,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.mb_decision" />
         /// </summary>
-        public MacroblockDecisions MbDecision
+        public MacroblockDecision MbDecision
         {
-            get => (MacroblockDecisions)Pointer->mb_decision;
+            get => (MacroblockDecision)Pointer->mb_decision;
             set => Pointer->mb_decision = (int)value;
         }
         
