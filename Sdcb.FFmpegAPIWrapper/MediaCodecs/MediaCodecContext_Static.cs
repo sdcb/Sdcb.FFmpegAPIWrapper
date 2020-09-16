@@ -18,5 +18,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             }
             return FromNative(ptr);
         }
+
+        /// <summary>
+        /// <see cref="avcodec_get_class"/>
+        /// </summary>
+        public static FFmpegClass FFmpegClass => FFmpegClass.FromNative(avcodec_get_class());
     }
 }

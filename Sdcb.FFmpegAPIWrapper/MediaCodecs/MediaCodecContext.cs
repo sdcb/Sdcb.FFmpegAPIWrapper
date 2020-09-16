@@ -9,6 +9,19 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     {
         public const int CompressionDefault = FF_COMPRESSION_DEFAULT;
 
+        /// <summary>
+        /// <see cref="avcodec_parameters_from_context(AVCodecParameters*, AVCodecContext*)"/>
+        /// </summary>
+        public void ToParameter(AVCodecParameters* parameter)
+        {
+            avcodec_parameters_from_context(parameter, this).ThrowIfError();
+        }
+
+        public void FromParameter(AVCodecParameters* parameter)
+        {
+
+        }
+
         protected override void Close()
         {
             AVCodecContext* ptr = this;

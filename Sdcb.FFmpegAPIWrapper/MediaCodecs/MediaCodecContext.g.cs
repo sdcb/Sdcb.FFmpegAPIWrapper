@@ -1751,10 +1751,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - encoding: unused - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.skip_loop_filter" />
         /// </summary>
-        public AVDiscard SkipLoopFilter
+        public MediaDiscard SkipLoopFilter
         {
-            get => Pointer->skip_loop_filter;
-            set => Pointer->skip_loop_filter = value;
+            get => (MediaDiscard)Pointer->skip_loop_filter;
+            set => Pointer->skip_loop_filter = (AVDiscard)value;
         }
         
         /// <summary>
@@ -1762,10 +1762,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - encoding: unused - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.skip_idct" />
         /// </summary>
-        public AVDiscard SkipIdct
+        public MediaDiscard SkipIdct
         {
-            get => Pointer->skip_idct;
-            set => Pointer->skip_idct = value;
+            get => (MediaDiscard)Pointer->skip_idct;
+            set => Pointer->skip_idct = (AVDiscard)value;
         }
         
         /// <summary>
@@ -1773,10 +1773,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - encoding: unused - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.skip_frame" />
         /// </summary>
-        public AVDiscard SkipFrame
+        public MediaDiscard SkipFrame
         {
-            get => Pointer->skip_frame;
-            set => Pointer->skip_frame = value;
+            get => (MediaDiscard)Pointer->skip_frame;
+            set => Pointer->skip_frame = (AVDiscard)value;
         }
         
         /// <summary>
@@ -2165,10 +2165,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>Bit set of AV_CODEC_EXPORT_DATA_* flags, which affects the kind of metadata exported in frame, packet, or coded stream side data by decoders and encoders.</para>
         /// <see cref="AVCodecContext.export_side_data" />
         /// </summary>
-        public int ExportSideData
+        public CodecExportData ExportSideData
         {
-            get => Pointer->export_side_data;
-            set => Pointer->export_side_data = value;
+            get => (CodecExportData)Pointer->export_side_data;
+            set => Pointer->export_side_data = (int)value;
         }
     }
 }

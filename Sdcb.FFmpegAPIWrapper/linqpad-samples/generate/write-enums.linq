@@ -25,6 +25,7 @@ WriteEnum(typeof(AVPixelFormat), ns, "PixelFormat");
 WriteEnum(typeof(AVMediaType), ns, "MediaType");
 WriteEnum(typeof(AVAudioServiceType), ns, "AudioServiceType");
 WriteEnum(typeof(AVCodecID), ns, "CodecID");
+WriteEnum(typeof(AVDiscard), ns, "MediaDiscard");
 
 WriteConstEnum("AV_CODEC_FLAG_", ns, "CodecFlag");
 WriteConstEnum("AV_CODEC_FLAG2_", ns, "CodecFlag2");
@@ -33,6 +34,7 @@ WriteConstEnum("AV_CH_LAYOUT_", ns, "ChannelLayout");
 WriteConstEnum("AV_CODEC_CAP_", ns, "CodecCompability");
 WriteConstEnum("FF_MB_DECISION_", ns, "MacroblockDecision");
 WriteConstEnum("FF_CMP_", ns, "DctComparison");
+WriteConstEnum("AV_CODEC_EXPORT_DATA_", ns, "CodecExportData");
 
 
 void WriteConstEnum(string prefix, string ns, string newName)

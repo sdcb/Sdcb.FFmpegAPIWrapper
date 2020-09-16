@@ -112,11 +112,13 @@ string Convert(FieldInfo field)
 			("AVSampleFormat", _) => force("SampleFormat"), 
 			("AVCodecID", _) => force("CodecID"), 
 			("AVMediaType", _) => force("MediaType"), 
+			("AVDiscard", _) => force("MediaDiscard"), 
 			(_, "flags") => force("CodecFlag"),
 			(_, "flags2") => force("CodecFlag2"),
 			(_, "ildct_cmp") => force("DctComparison"),
 			(_, "slice_flags") => force("CodecSliceFlag"),
 			(_, "mb_decision") => force("MacroblockDecision"),
+			(_, "export_side_data") => force("CodecExportData"), 
 			var x when GetFriendlyTypeName(fieldType) != x.fieldTypeName => direct(GetFriendlyTypeName(fieldType)),
 			var x => direct(x.fieldTypeName),
 		};
