@@ -53,10 +53,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_configuration"/>
         /// </summary>
-        public static Dictionary<string, bool> Configuration => avcodec_configuration()
+        public static HashSet<string> Configuration => avcodec_configuration()
             .Split(' ')
-            .Select(x => x.TrimStart('-').Split('-', 2))
-            .ToDictionary(k => k[1], v => v[0] == "enable");
+            .ToHashSet();
 
         /// <summary>
         /// <see cref="avcodec_license"/>
