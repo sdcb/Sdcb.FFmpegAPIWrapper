@@ -67,10 +67,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVPacket.data" />
         /// </summary>
-        public byte* Data
+        public IntPtr Data
         {
-            get => Pointer->data;
-            set => Pointer->data = value;
+            get => (IntPtr)Pointer->data;
+            set => Pointer->data = (byte*)value;
         }
         
         /// <summary>

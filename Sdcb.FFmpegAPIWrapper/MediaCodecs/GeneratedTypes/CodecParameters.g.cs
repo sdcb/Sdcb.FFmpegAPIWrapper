@@ -61,10 +61,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>Extra binary data needed for initializing the decoder, codec-dependent.</para>
         /// <see cref="AVCodecParameters.extradata" />
         /// </summary>
-        public byte* Extradata
+        public IntPtr Extradata
         {
-            get => Pointer->extradata;
-            set => Pointer->extradata = value;
+            get => (IntPtr)Pointer->extradata;
+            set => Pointer->extradata = (byte*)value;
         }
         
         /// <summary>
