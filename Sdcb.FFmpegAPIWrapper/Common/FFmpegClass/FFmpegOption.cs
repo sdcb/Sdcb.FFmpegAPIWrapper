@@ -1,4 +1,5 @@
 ﻿using FFmpeg.AutoGen;
+using static FFmpeg.AutoGen.ffmpeg;
 using System;
 using System.Runtime.InteropServices;
 
@@ -12,6 +13,12 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         {
             if (p == null) throw new ArgumentNullException(nameof(p));
             _p = p;
+        }
+
+        public FFmpegOption(IntPtr p)
+        {
+            if (p == IntPtr.Zero) throw new ArgumentNullException(nameof(p));
+            _p = (AVOption*)p;
         }
 
         public static implicit operator AVOption*(FFmpegOption data) => data._p;

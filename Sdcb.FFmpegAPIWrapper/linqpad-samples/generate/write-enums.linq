@@ -44,6 +44,7 @@
 	WriteEnum(typeof(AVClassCategory), ns, "FFmpegCategory");
 	WriteEnum(typeof(AVOptionType), ns, "FFmpegOptionType");
 	WriteConstEnum("AV_OPT_FLAG_", ns, "FFmpegOptionFlags");
+	WriteConstEnum("AV_OPT_SEARCH_", ns, "OptionSearchFlags");
 }
 
 void WriteConstEnum(string prefix, string ns, string newName)

@@ -136,7 +136,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 				p: (IntPtr)_p->defaults, 
 				unitSize: sizeof(AvCodecDefaultDef), 
 				exitCondition: p => ((AvCodecDefaultDef*)p)->key == IntPtr.Zero, 
-				valGetter: p => *((AvCodecDefaultDef*)p)
+				valGetter: p => *(AvCodecDefaultDef*)p
 			)
 			.ToDictionary(k => Marshal.PtrToStringAnsi(k.key), v => Marshal.PtrToStringAnsi(v.value));
 

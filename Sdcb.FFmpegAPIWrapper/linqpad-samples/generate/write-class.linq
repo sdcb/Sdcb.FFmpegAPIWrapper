@@ -257,6 +257,7 @@ string PropertyConvert(FieldInfo field)
 		["ctx"] = "Context",
 		["priv_"] = "Private_",
 		["pict_"] = "Picture_",
+		["av_class"] = "FFmpegClass",
 	};
 
 	string fieldName = field.Name;

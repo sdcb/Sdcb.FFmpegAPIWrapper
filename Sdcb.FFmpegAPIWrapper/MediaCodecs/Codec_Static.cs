@@ -25,7 +25,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_find_decoder(AVCodecID)"/>
         /// </summary>
-        public static Codec FindDecoder(AVCodecID id) => FromNative(FindChecking(avcodec_find_decoder(id), id));
+        public static Codec FindDecoder(CodecID id) => FromNative(FindChecking(avcodec_find_decoder((AVCodecID)id), (AVCodecID)id));
 
         /// <summary>
         /// <see cref="avcodec_find_decoder_by_name(string)"/>
@@ -35,7 +35,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_find_encoder(AVCodecID)"/>
         /// </summary>
-        public static Codec FindEncoder(AVCodecID id) => FromNative(FindChecking(avcodec_find_encoder(id), id));
+        public static Codec FindEncoder(CodecID id) => FromNative(FindChecking(avcodec_find_encoder((AVCodecID)id), (AVCodecID)id));
 
         /// <summary>
         /// <see cref="avcodec_find_encoder_by_name(string)"/>

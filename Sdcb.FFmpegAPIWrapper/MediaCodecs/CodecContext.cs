@@ -9,6 +9,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     {
         public const int CompressionDefault = FF_COMPRESSION_DEFAULT;
 
+        public FFmpegOptions Options => new FFmpegOptions(Pointer->priv_data);
+
         /// <summary>
         /// <see cref="avcodec_alloc_context3(AVCodec*)"/>
         /// </summary>
@@ -38,10 +40,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_open2(AVCodecContext*, AVCodec*, AVDictionary**)"/>
         /// </summary>
-        /// <param name="codec"></param>
-        /// <param name="options"></param>
-        public void Open(Codec codec, MediaDictionary options)
+        public void Open(Codec codec, MediaDictionary options = null)
         {
+            options = options ?? MediaDictionary.CreateEmpty();
             AVDictionary* ptrDict = options;
             avcodec_open2(this, codec, &ptrDict).ThrowIfError();
             options.Reset(ptrDict);

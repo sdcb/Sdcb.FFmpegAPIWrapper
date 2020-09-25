@@ -37,7 +37,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>information on struct for av_log - set by avcodec_alloc_context3.</para>
         /// <see cref="AVCodecContext.av_class" />
         /// </summary>
-        public FFmpegClass AvClass
+        public FFmpegClass Ffmpegclass
         {
             get => FFmpegClass.FromNative(Pointer->av_class);
             set => Pointer->av_class = value;
@@ -206,10 +206,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: Set/allocated/freed by user.</para>
         /// <see cref="AVCodecContext.extradata" />
         /// </summary>
-        public byte* Extradata
+        public IntPtr Extradata
         {
-            get => Pointer->extradata;
-            set => Pointer->extradata = value;
+            get => (IntPtr)Pointer->extradata;
+            set => Pointer->extradata = (byte*)value;
         }
         
         /// <summary>
@@ -1454,10 +1454,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.stats_out" />
         /// </summary>
-        public byte* StatsOut
+        public IntPtr StatsOut
         {
-            get => Pointer->stats_out;
-            set => Pointer->stats_out = value;
+            get => (IntPtr)Pointer->stats_out;
+            set => Pointer->stats_out = (byte*)value;
         }
         
         /// <summary>
@@ -1466,10 +1466,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.stats_in" />
         /// </summary>
-        public byte* StatsIn
+        public IntPtr StatsIn
         {
-            get => Pointer->stats_in;
-            set => Pointer->stats_in = value;
+            get => (IntPtr)Pointer->stats_in;
+            set => Pointer->stats_in = (byte*)value;
         }
         
         /// <summary>
@@ -1800,10 +1800,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - encoding: Set/allocated/freed by user (before avcodec_open2()) - decoding: Set/allocated/freed by libavcodec (by avcodec_open2()).</para>
         /// <see cref="AVCodecContext.subtitle_header" />
         /// </summary>
-        public byte* SubtitleHeader
+        public IntPtr SubtitleHeader
         {
-            get => Pointer->subtitle_header;
-            set => Pointer->subtitle_header = value;
+            get => (IntPtr)Pointer->subtitle_header;
+            set => Pointer->subtitle_header = (byte*)value;
         }
         
         /// <summary>
@@ -1949,10 +1949,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: set by user - encoding: unused.</para>
         /// <see cref="AVCodecContext.sub_charenc" />
         /// </summary>
-        public byte* SubCharenc
+        public IntPtr SubCharenc
         {
-            get => Pointer->sub_charenc;
-            set => Pointer->sub_charenc = value;
+            get => (IntPtr)Pointer->sub_charenc;
+            set => Pointer->sub_charenc = (byte*)value;
         }
         
         /// <summary>
@@ -2019,10 +2019,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.dump_separator" />
         /// </summary>
-        public byte* DumpSeparator
+        public IntPtr DumpSeparator
         {
-            get => Pointer->dump_separator;
-            set => Pointer->dump_separator = value;
+            get => (IntPtr)Pointer->dump_separator;
+            set => Pointer->dump_separator = (byte*)value;
         }
         
         /// <summary>
@@ -2030,10 +2030,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> If NULL then all are allowed - encoding: unused - decoding: set by user.</para>
         /// <see cref="AVCodecContext.codec_whitelist" />
         /// </summary>
-        public byte* CodecWhitelist
+        public IntPtr CodecWhitelist
         {
-            get => Pointer->codec_whitelist;
-            set => Pointer->codec_whitelist = value;
+            get => (IntPtr)Pointer->codec_whitelist;
+            set => Pointer->codec_whitelist = (byte*)value;
         }
         
         /// <summary>
