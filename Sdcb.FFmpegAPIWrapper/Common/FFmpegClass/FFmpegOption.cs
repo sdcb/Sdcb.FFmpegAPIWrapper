@@ -6,15 +6,15 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 {
     public unsafe struct FFmpegOption
     {
-        private readonly AVOptionBugFixed* _p;
+        private readonly AVOption* _p;
 
-        public FFmpegOption(AVOptionBugFixed* p)
+        public FFmpegOption(AVOption* p)
         {
             if (p == null) throw new ArgumentNullException(nameof(p));
             _p = p;
         }
 
-        public static implicit operator AVOptionBugFixed*(FFmpegOption data) => data._p;
+        public static implicit operator AVOption*(FFmpegOption data) => data._p;
 
         public string Name => Marshal.PtrToStringAnsi((IntPtr)_p->name);
 
@@ -26,9 +26,9 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public object DefaultValue => Type switch
         {
-            FFmpegOptionType.String => Marshal.PtrToStringUTF8(_p->default_val.ptr), 
-            FFmpegOptionType.Rational => _p->default_val.q, 
-            _ => _p->default_val.ptr
+            FFmpegOptionType.String => Marshal.PtrToStringUTF8((IntPtr)_p->default_val.str), 
+            FFmpegOptionType.Rational => (MediaRational) _p->default_val.q, 
+            _ => (IntPtr)_p->default_val.str
         };
 
         public double Min => _p->min;
@@ -38,35 +38,5 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         public FFmpegOptionFlags Flags => (FFmpegOptionFlags)_p->flags;
 
         public string Unit => Marshal.PtrToStringAnsi((IntPtr)_p->unit);
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct AVOptionBugFixed
-    {
-        public byte* name;
-        public byte* help;
-        public int offset;
-        public AVOptionType type;
-        public AVOptionDefaultBugFixed default_val;
-        public double min;
-        public double max;
-        public int flags;
-        public byte* unit;
-    }
-
-    [StructLayout(LayoutKind.Explicit)]
-    public unsafe struct AVOptionDefaultBugFixed
-    {
-        [FieldOffset(0)]
-        public long i64;
-
-        [FieldOffset(0)]
-        public double dbl;
-
-        [FieldOffset(0)]
-        public IntPtr ptr;
-
-        [FieldOffset(0)]
-        public AVRational q;
     }
 }

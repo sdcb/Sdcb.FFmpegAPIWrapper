@@ -12,7 +12,7 @@
 
 new
 {
-	MediaCodec.MediaCodecs, 
-	MediaCodec.Configuration,
-	MediaCodec.License,
+	Codec.MediaCodecs, 
+	Codec.Configuration,
+	Codec.License,
 }.Dump(1);

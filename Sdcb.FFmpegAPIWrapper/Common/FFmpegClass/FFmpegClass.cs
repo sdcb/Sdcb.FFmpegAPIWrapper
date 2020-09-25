@@ -35,9 +35,9 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public IEnumerable<FFmpegOption> Options => ReadSequence(
             p            : (IntPtr)_p->option, 
-            unitSize     : sizeof(AVOptionBugFixed), 
-            exitCondition: _p => ((AVOptionBugFixed*)_p)->name == null, 
-            valGetter    : _p => new FFmpegOption((AVOptionBugFixed*)_p));
+            unitSize     : sizeof(AVOption), 
+            exitCondition: _p => ((AVOption*)_p)->name == null, 
+            valGetter    : _p => new FFmpegOption((AVOption*)_p));
 
         private static IEnumerable<T> ReadSequence<T>(IntPtr p, int unitSize, Func<IntPtr, bool> exitCondition, Func<IntPtr, T> valGetter)
         {

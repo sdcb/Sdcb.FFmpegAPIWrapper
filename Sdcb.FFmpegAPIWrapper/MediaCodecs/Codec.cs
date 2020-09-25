@@ -40,7 +40,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		/// <summary>
 		/// <see cref="AVCodec.id"/>
 		/// </summary>
-		public AVCodecID Id => _p->id;
+		public CodecID Id => (CodecID)_p->id;
 
 		/// <summary>
 		/// <see cref="AVCodec.capabilities"/>
@@ -50,20 +50,20 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		/// <summary>
 		/// <see cref="AVCodec.supported_framerates"/>
 		/// </summary>
-		public IEnumerable<AVRational> SupportedFrameRates => NativeUtils.ReadSequence(
+		public IEnumerable<MediaRational> SupportedFrameRates => NativeUtils.ReadSequence(
 			p: (IntPtr)_p->supported_framerates,
 			unitSize: sizeof(AVRational),
 			exitCondition: p => ((AVRational*)p)->num == 0,
-            valGetter: p => *((AVRational*)p));
+            valGetter: p => *(MediaRational*)p);
 
 		/// <summary>
 		/// <see cref="AVCodec.pix_fmts"/>
 		/// </summary>
-		public IEnumerable<AVPixelFormat> PixelFormats => NativeUtils.ReadSequence(
+		public IEnumerable<PixelFormat> PixelFormats => NativeUtils.ReadSequence(
 			p: (IntPtr)_p->pix_fmts, 
 			unitSize: sizeof(AVPixelFormat), 
-			exitCondition: p => *((AVPixelFormat*)p) == AVPixelFormat.AV_PIX_FMT_NONE, 
-			valGetter: p => *((AVPixelFormat*)p));
+			exitCondition: p => *(AVPixelFormat*)p == AVPixelFormat.AV_PIX_FMT_NONE, 
+			valGetter: p => *(PixelFormat*)p);
 
 		/// <summary>
 		/// <see cref="AVCodec.supported_samplerates"/>
@@ -71,17 +71,17 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		public IEnumerable<int> SupportedSampleRates => NativeUtils.ReadSequence(
 			p: (IntPtr)_p->supported_samplerates, 
 			unitSize: sizeof(int), 
-			exitCondition: p => *((int*)p) == 0, 
-			valGetter: p => *((int*)p));
+			exitCondition: p => *(int*)p == 0, 
+			valGetter: p => *(int*)p);
 
 		/// <summary>
 		/// <see cref="AVCodec.sample_fmts"/>
 		/// </summary>
-		public IEnumerable<AVSampleFormat> SampleFormats => NativeUtils.ReadSequence(
+		public IEnumerable<SampleFormat> SampleFormats => NativeUtils.ReadSequence(
 			p: (IntPtr)_p->sample_fmts,
 			unitSize: sizeof(AVSampleFormat),
-			exitCondition: p => *((AVSampleFormat*)p) == AVSampleFormat.AV_SAMPLE_FMT_NONE,
-			valGetter: p => *((AVSampleFormat*)p));
+			exitCondition: p => *(AVSampleFormat*)p == AVSampleFormat.AV_SAMPLE_FMT_NONE,
+			valGetter: p => *(SampleFormat*)p);
 
 		/// <summary>
 		/// <see cref="AVCodec.channel_layouts"/>
@@ -89,8 +89,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		public IEnumerable<ChannelLayout> ChannelLayouts => NativeUtils.ReadSequence(
 			p: (IntPtr)_p->channel_layouts,
 			unitSize: sizeof(ChannelLayout),
-			exitCondition: p => *((ChannelLayout*)p) == 0,
-			valGetter: p => *((ChannelLayout*)p));
+			exitCondition: p => *(ChannelLayout*)p == 0,
+			valGetter: p => *(ChannelLayout*)p);
 
 		/// <summary>
 		/// <see cref="AVCodec.max_lowres"/>
