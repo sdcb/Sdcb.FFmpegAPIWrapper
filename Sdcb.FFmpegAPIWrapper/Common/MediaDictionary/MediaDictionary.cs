@@ -29,6 +29,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             return md;
         }
 
+        public static MediaDictionary FromNative(AVDictionary* dict, bool isOwner) => new MediaDictionary(dict, isOwner);
+
         public static implicit operator AVDictionary*(MediaDictionary dict) => (AVDictionary*)dict._handle;
 
         #region IDictionary<string, string> entries
