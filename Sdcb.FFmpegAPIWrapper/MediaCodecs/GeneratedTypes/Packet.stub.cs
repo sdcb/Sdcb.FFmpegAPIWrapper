@@ -5,7 +5,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial class Packet: FFmpegHandle
+    public unsafe partial class Packet: FFmpegSafeObject
     {
         /// <summary>
         /// <see cref="av_packet_alloc"/>
@@ -124,13 +124,14 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="av_packet_free(AVPacket**)"/>
         /// </summary>
-        public override void Close()
+        public void Free()
         {
             AVPacket* ptr = this;
             av_packet_free(&ptr);
-            
-            _handle = (IntPtr)ptr;
+            _nativePointer = (IntPtr)ptr;
         }
+
+        protected override void DisposeNative() => Free();
 
         /// <summary>
         /// <see cref="av_packet_side_data_name(AVPacketSideDataType)"/>

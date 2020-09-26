@@ -11,11 +11,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// <para>This structure describes decoded (raw) audio or video data.</para>
     /// <see cref="AVFrame" />
     /// </summary>
-    public unsafe partial class Frame: FFmpegHandle
+    public unsafe partial class Frame : FFmpegSafeObject
     {
         protected AVFrame* Pointer => this;
         
-        public static implicit operator AVFrame*(Frame data) => (AVFrame*)data._handle;
+        public static implicit operator AVFrame*(Frame data) => (AVFrame*)data._nativePointer;
         
         protected Frame(AVFrame* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
         {

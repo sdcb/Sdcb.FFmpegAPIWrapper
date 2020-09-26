@@ -8,7 +8,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
     /// <summary>
     /// <see cref="AVIOContext"/>
     /// </summary>
-    public partial class MediaIO : FFmpegHandle
+    public partial class MediaIO : FFmpegSafeObject
     {
         protected unsafe MediaIO(AVIOContext* ptr, bool isOwner): base((IntPtr)ptr, isOwner) { }
 
@@ -246,10 +246,12 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         /// <summary>
         /// <see cref="avio_close(AVIOContext*)"/>
         /// </summary>
-        public unsafe override void Close()
+        public unsafe void Close()
         {
-            avio_close((AVIOContext*)_handle).ThrowIfError();
-            _handle = IntPtr.Zero;
+            avio_close((AVIOContext*)_nativePointer).ThrowIfError();
+            _nativePointer = IntPtr.Zero;
         }
+
+        protected override void DisposeNative() => Close();
     }
 }

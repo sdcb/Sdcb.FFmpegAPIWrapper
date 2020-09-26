@@ -34,7 +34,7 @@ void WriteClass(Type targetType, string ns, string newName,
 	WriteBasic(writer, ns, () =>
 	{
 		WriteMultiLines(writer, BuildTypeDocument(targetType));
-		writer.WriteLine($"public unsafe partial class {newName}: FFmpegHandle");
+		writer.WriteLine($"public unsafe partial class {newName} : FFmpegSafeObject");
 		PushIndent(writer, WriteClassBodies);
 	});
 	
@@ -44,7 +44,7 @@ void WriteClass(Type targetType, string ns, string newName,
 		using var placeholderWriter = new IndentedTextWriter(placeholder, new string(' ', 4));
 		WriteBasic(placeholderWriter, ns, () =>
 		{
-			placeholderWriter.WriteLine($"public unsafe partial class {newName}: FFmpegHandle");
+			placeholderWriter.WriteLine($"public unsafe partial class {newName} : FFmpegHandle");
 			PushIndent(placeholderWriter, () =>
 			{
 				placeholderWriter.WriteLine("public override void Close()");
@@ -60,7 +60,7 @@ void WriteClass(Type targetType, string ns, string newName,
 	{
 		writer.WriteLine($"protected {targetType.Name}* Pointer => this;");
 		writer.WriteLine();
-		writer.WriteLine($"public static implicit operator {targetType.Name}*({newName} data) => ({targetType.Name}*)data._handle;");
+		writer.WriteLine($"public static implicit operator {targetType.Name}*({newName} data) => ({targetType.Name}*)data._nativePointer;");
 		writer.WriteLine();
 
 		writer.WriteLine($"protected {newName}({targetType.Name}* ptr, bool isOwner): base((IntPtr)ptr, isOwner)");
@@ -132,11 +132,9 @@ string BuildPrefix(FieldInfo field, ObsoleteAttribute obsolete)
 }
 
 void WriteStruct(Type targetType, string ns, string newName,
-	HashSet<string> obsoleteFields = null,
 	Func<string, string> propNameMapping = null,
 	bool writeStub = false)
 {
-	if (obsoleteFields == null) obsoleteFields = new HashSet<string>();
 	if (propNameMapping == null) propNameMapping = str => null;
 
 	using var _file = new StreamWriter($"{newName}.g.cs");
@@ -199,8 +197,9 @@ void WriteStruct(Type targetType, string ns, string newName,
 		string fieldName = IdentifierConvert(field.Name);
 		string propName = PropertyConvert(field);
 		(string destType, string method) = FromTypeString(field, propNameMapping);
+		ObsoleteAttribute obsolete = field.GetCustomAttribute<ObsoleteAttribute>();
 
-		return BuildFieldDocument(field) + BuildPrefix() + method switch
+		return BuildFieldDocument(field) + BuildPrefix(field, obsolete) + method switch
 		{
 			null =>
 				$"public {destType} {propName}\r\n" +
@@ -222,8 +221,6 @@ void WriteStruct(Type targetType, string ns, string newName,
 				$"}}",
 			_ => throw new ArgumentOutOfRangeException(method),
 		};
-
-		string BuildPrefix() => obsoleteFields.Contains(field.Name) ? "[Obsolete]\r\n" : "";
 	}
 }
 

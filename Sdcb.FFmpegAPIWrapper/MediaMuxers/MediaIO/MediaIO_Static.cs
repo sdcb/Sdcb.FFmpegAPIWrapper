@@ -94,7 +94,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
 
         public static unsafe MediaIO FromNative(AVIOContext* p, bool isOwner) => new MediaIO(p, isOwner);
 
-        public static unsafe implicit operator AVIOContext*(MediaIO data) => (AVIOContext*)data._handle;
+        public static unsafe implicit operator AVIOContext*(MediaIO data) => (AVIOContext*)data._nativePointer;
 
         /// <summary>
         /// <see cref="avio_find_protocol_name(string)"/>

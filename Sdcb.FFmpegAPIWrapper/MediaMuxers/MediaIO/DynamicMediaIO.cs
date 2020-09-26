@@ -28,7 +28,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         {
             byte* buffer = null;
             int length = avio_close_dyn_buf(this, &buffer);
-            _handle = IntPtr.Zero;
+            _nativePointer = IntPtr.Zero;
             return new DynamicMediaIOMemory
             {
                 Buffer = buffer, 
@@ -36,7 +36,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
             };
         }
 
-        public override void Close()
+        protected override void DisposeNative()
         {
             using var _ = GetBufferAndClose();
         }

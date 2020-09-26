@@ -5,7 +5,7 @@ using System;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial class CodecContext : FFmpegHandle
+    public unsafe partial class CodecContext : FFmpegSafeObject
     {
         public const int CompressionDefault = FF_COMPRESSION_DEFAULT;
 
@@ -48,11 +48,16 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             options.Reset(ptrDict);
         }
 
-        public override void Close()
+        /// <summary>
+        /// <see cref="avcodec_free_context(AVCodecContext**)"/>
+        /// </summary>
+        public void Free()
         {
             AVCodecContext* ptr = this;
             avcodec_free_context(&ptr);
-            _handle = (IntPtr)ptr;
+            _nativePointer = (IntPtr)ptr;
         }
+
+        protected override void DisposeNative() => Free();
     }
 }

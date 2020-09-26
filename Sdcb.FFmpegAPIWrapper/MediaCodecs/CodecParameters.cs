@@ -5,7 +5,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial class CodecParameters : FFmpegHandle
+    public unsafe partial class CodecParameters : FFmpegSafeObject
     {
         /// <summary>
         /// <see cref="avcodec_parameters_alloc"/>
@@ -31,11 +31,13 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_parameters_free(AVCodecParameters**)"/>
         /// </summary>
-        public override void Close()
+        public void Free()
         {
             AVCodecParameters* ptr = this;
             avcodec_parameters_free(&ptr);
-            _handle = (IntPtr)ptr;
+            _nativePointer = (IntPtr)ptr;
         }
+
+        protected override void DisposeNative() => Free();
     }
 }

@@ -5,7 +5,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
-    public unsafe partial class BufferReference : FFmpegHandle
+    public unsafe partial class BufferReference : FFmpegSafeObject
     {
         /// <summary>
         /// <see cref="av_buffer_alloc(int)"/>
@@ -42,6 +42,13 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         /// </summary>
         public BufferReference Reference() => FromNative(av_buffer_ref(this), isOwner: true);
 
+        public void Unreference()
+        {
+            AVBufferRef* ptr;
+            av_buffer_unref(&ptr);
+            _nativePointer = (IntPtr)ptr;
+        }
+
         /// <summary>
         /// <see cref="av_buffer_make_writable(AVBufferRef**)"/>
         /// </summary>
@@ -49,7 +56,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         {
             AVBufferRef* ptr = this;
             av_buffer_make_writable(&ptr).ThrowIfError();
-            _handle = (IntPtr)ptr;
+            _nativePointer = (IntPtr)ptr;
         }
 
         /// <summary>
@@ -60,17 +67,9 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         {
             AVBufferRef* ptr = this;
             av_buffer_realloc(&ptr, size);
-            _handle = (IntPtr)ptr;
+            _nativePointer = (IntPtr)ptr;
         }
 
-        /// <summary>
-        /// <see cref="av_buffer_unref(AVBufferRef**)"/>
-        /// </summary>
-        public override void Close()
-        {
-            AVBufferRef* ptr;
-            av_buffer_unref(&ptr);
-            _handle = (IntPtr)ptr;
-        }
+        protected override void DisposeNative() => Unreference();
     }
 }

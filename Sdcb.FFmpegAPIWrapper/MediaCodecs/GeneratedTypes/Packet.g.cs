@@ -12,11 +12,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// <para> It is typically exported by demuxers and then passed as input to decoders, or received as output from encoders and then passed to muxers.</para>
     /// <see cref="AVPacket" />
     /// </summary>
-    public unsafe partial class Packet: FFmpegHandle
+    public unsafe partial class Packet : FFmpegSafeObject
     {
         protected AVPacket* Pointer => this;
         
-        public static implicit operator AVPacket*(Packet data) => (AVPacket*)data._handle;
+        public static implicit operator AVPacket*(Packet data) => (AVPacket*)data._nativePointer;
         
         protected Packet(AVPacket* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
         {

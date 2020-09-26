@@ -7,7 +7,7 @@ using FFmpeg.AutoGen;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial class Frame : FFmpegHandle
+    public unsafe partial class Frame : FFmpegSafeObject
     {
         /// <summary>
         /// <see cref="av_frame_alloc"/>
@@ -62,12 +62,15 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="av_frame_free(AVFrame**)"/>
         /// </summary>
-        public override void Close()
+        public void Free()
         {
             AVFrame* ptr = this;
             av_frame_free(&ptr);
-            _handle = (IntPtr)ptr;
+            _nativePointer = (IntPtr)ptr;
         }
+
+
+        protected override void DisposeNative() => Free();
 
         public static string GetColorspaceName(ColorSpace val) => av_get_colorspace_name((AVColorSpace)val);
     }

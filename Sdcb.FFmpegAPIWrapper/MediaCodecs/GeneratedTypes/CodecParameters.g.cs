@@ -11,11 +11,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// <para>This struct describes the properties of an encoded stream.</para>
     /// <see cref="AVCodecParameters" />
     /// </summary>
-    public unsafe partial class CodecParameters: FFmpegHandle
+    public unsafe partial class CodecParameters : FFmpegSafeObject
     {
         protected AVCodecParameters* Pointer => this;
         
-        public static implicit operator AVCodecParameters*(CodecParameters data) => (AVCodecParameters*)data._handle;
+        public static implicit operator AVCodecParameters*(CodecParameters data) => (AVCodecParameters*)data._nativePointer;
         
         protected CodecParameters(AVCodecParameters* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
         {

@@ -11,13 +11,13 @@ namespace Sdcb.FFmpegAPIWrapper.Common
     /// <summary>
     /// <see cref="AVDictionary"/>
     /// </summary>
-    public unsafe class MediaDictionary : FFmpegHandle, IDictionary<string, string>
+    public unsafe class MediaDictionary : FFmpegSafeObject, IDictionary<string, string>
     {
         private MediaDictionary(AVDictionary* dict, bool isOwner) : base((IntPtr)dict, isOwner) { }
 
         public static MediaDictionary CreateEmpty() => new MediaDictionary(null, true);
 
-        internal void Reset(AVDictionary* dict) => _handle = (IntPtr)dict;
+        internal void Reset(AVDictionary* dict) => _nativePointer = (IntPtr)dict;
 
         public static MediaDictionary FromDictionary(IDictionary<string, string> dict)
         {
@@ -31,7 +31,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public static MediaDictionary FromNative(AVDictionary* dict, bool isOwner) => new MediaDictionary(dict, isOwner);
 
-        public static implicit operator AVDictionary*(MediaDictionary dict) => (AVDictionary*)dict._handle;
+        public static implicit operator AVDictionary*(MediaDictionary dict) => (AVDictionary*)dict._nativePointer;
 
         #region IDictionary<string, string> entries
         public ICollection<string> Keys => this.Select(x => x.Key).ToArray();
@@ -58,7 +58,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             {
                 AVDictionary* ptr = this;
                 av_dict_set(&ptr, key, value, (int)MediaDictionarySetFlags.None).ThrowIfError();
-                _handle = (IntPtr)ptr;
+                _nativePointer = (IntPtr)ptr;
             }
         }
 
@@ -74,7 +74,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
             AVDictionary* ptr = this;
             av_dict_set(&ptr, key, value, (int)MediaDictionarySetFlags.NoOverwrite).ThrowIfError();
-            _handle = (IntPtr)ptr;
+            _nativePointer = (IntPtr)ptr;
         }
 
         public bool ContainsKey(string key)
@@ -93,7 +93,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             bool containsKey = ContainsKey(key);
 
             av_dict_set(&ptr, key, null, 0).ThrowIfError();
-            _handle = (IntPtr)ptr;
+            _nativePointer = (IntPtr)ptr;
             return containsKey;
         }
 
@@ -132,7 +132,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             return false;
         }
 
-        public void Clear() => Close();
+        public void Clear() => DisposeNative();
 
         void ICollection<KeyValuePair<string, string>>.CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
         {
@@ -181,7 +181,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
             AVDictionary* ptr = this;
             av_dict_set(&ptr, key, value, (int)flags).ThrowIfError();
-            _handle = (IntPtr)ptr;
+            _nativePointer = (IntPtr)ptr;
         }
 
         /// <summary>
@@ -194,11 +194,16 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             return new MediaDictionary(destination, isOwner: true);
         }
 
-        public override void Close()
+        /// <summary>
+        /// <see cref="av_dict_free(AVDictionary**)"/>
+        /// </summary>
+        public void Free()
         {
             AVDictionary* p = this;
             av_dict_free(&p);
-            _handle = (IntPtr)p;
+            _nativePointer = (IntPtr)p;
         }
+
+        protected override void DisposeNative() => Free();
     }
 }

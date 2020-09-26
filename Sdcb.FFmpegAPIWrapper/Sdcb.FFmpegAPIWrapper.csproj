@@ -28,6 +28,10 @@
     <PackageVersionSuffix>$([System.DateTime]::Now.ToString("yyyyMMdd'-'HHmmss"))</PackageVersionSuffix>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPackage|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
   <Target Name="DebugPackage" AfterTargets="Build" Condition="'$(Configuration)'=='DebugPackage'">
     <PropertyGroup>
       <PackageVersion>$(Version)-preview-$(PackageVersionSuffix)</PackageVersion>
