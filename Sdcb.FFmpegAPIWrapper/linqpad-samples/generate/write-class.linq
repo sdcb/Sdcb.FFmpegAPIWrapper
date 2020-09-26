@@ -23,11 +23,9 @@ void Main()
 }
 
 void WriteClass(Type targetType, string ns, string newName, 
-	HashSet<string> obsoleteFields = null, 
 	Func<string, string> propNameMapping = null,
 	bool writeStub = false)
 {
-	if (obsoleteFields == null) obsoleteFields = new HashSet<string>();
 	if (propNameMapping == null) propNameMapping = str => null;
 
 	using var _file = new StreamWriter($"{newName}.g.cs");
@@ -90,8 +88,9 @@ void WriteClass(Type targetType, string ns, string newName,
 		string fieldName = IdentifierConvert(field.Name);
 		string propName = PropertyConvert(field);
 		(string destType, string method) = FromTypeString(field, propNameMapping);
+		ObsoleteAttribute obsolete = field.GetCustomAttribute<ObsoleteAttribute>();
 
-		return BuildFieldDocument(field) + BuildPrefix() + method switch
+		return BuildFieldDocument(field) + BuildPrefix(field, obsolete) + method switch
 		{
 			null =>
 				$"public {destType} {propName}\r\n" +
@@ -113,9 +112,23 @@ void WriteClass(Type targetType, string ns, string newName,
 				$"}}",
 			_ => throw new ArgumentOutOfRangeException(method),
 		};
-
-		string BuildPrefix() => obsoleteFields.Contains(field.Name) ? "[Obsolete]\r\n" : "";
 	}
+}
+
+string BuildPrefix(FieldInfo field, ObsoleteAttribute obsolete)
+{
+	if (obsolete != null)
+	{
+		if (obsolete.Message != null)
+		{
+			return $"[Obsolete(\"{obsolete.Message}\")]\r\n";
+		}
+		else
+		{
+			return $"[Obsolete]\r\n";
+		}
+	}
+	return "";
 }
 
 void WriteStruct(Type targetType, string ns, string newName,

@@ -149,6 +149,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>PTS copied from the AVPacket that was decoded to produce this frame.</para>
         /// <see cref="AVFrame.pkt_pts" />
         /// </summary>
+        [Obsolete("use the pts field instead")]
         public long PacketPts
         {
             get => Pointer->pkt_pts;
@@ -210,6 +211,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVFrame.error" />
         /// </summary>
+        [Obsolete("unused")]
         public ulong_array8 Error
         {
             get => Pointer->error;

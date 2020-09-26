@@ -145,6 +145,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVPacket.convergence_duration" />
         /// </summary>
+        [Obsolete("Same as the duration field, but as int64_t. This was required for Matroska subtitles, whose duration values could overflow when the duration field was still an int.")]
         public long ConvergenceDuration
         {
             get => Pointer->convergence_duration;
