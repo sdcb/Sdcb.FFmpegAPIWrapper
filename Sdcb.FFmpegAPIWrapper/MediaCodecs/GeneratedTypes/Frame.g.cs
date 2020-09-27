@@ -15,14 +15,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     {
         protected AVFrame* Pointer => this;
         
-        public static implicit operator AVFrame*(Frame data) => (AVFrame*)data._nativePointer;
+        public static implicit operator AVFrame*(Frame data) => data != null ? (AVFrame*)data._nativePointer : null;
         
-        protected Frame(AVFrame* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
+        protected Frame(AVFrame* ptr, bool isOwner): base(NativeUtils.NotNull((IntPtr)ptr), isOwner)
         {
-            if (ptr == null)
-            {
-                throw new ArgumentNullException(nameof(ptr));
-            }
         }
         
         public static Frame FromNative(AVFrame* ptr, bool isOwner) => new Frame(ptr, isOwner);

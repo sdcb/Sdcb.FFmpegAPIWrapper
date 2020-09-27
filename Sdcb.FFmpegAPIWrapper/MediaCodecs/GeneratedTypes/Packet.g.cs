@@ -16,14 +16,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     {
         protected AVPacket* Pointer => this;
         
-        public static implicit operator AVPacket*(Packet data) => (AVPacket*)data._nativePointer;
+        public static implicit operator AVPacket*(Packet data) => data != null ? (AVPacket*)data._nativePointer : null;
         
-        protected Packet(AVPacket* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
+        protected Packet(AVPacket* ptr, bool isOwner): base(NativeUtils.NotNull((IntPtr)ptr), isOwner)
         {
-            if (ptr == null)
-            {
-                throw new ArgumentNullException(nameof(ptr));
-            }
         }
         
         public static Packet FromNative(AVPacket* ptr, bool isOwner) => new Packet(ptr, isOwner);

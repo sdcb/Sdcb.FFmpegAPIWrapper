@@ -11,18 +11,14 @@ namespace Sdcb.FFmpegAPIWrapper.Common
     /// <para>A reference to a data buffer.</para>
     /// <see cref="AVBufferRef" />
     /// </summary>
-    public unsafe partial class BufferReference: FFmpegSafeObject
+    public unsafe partial class BufferReference : FFmpegSafeObject
     {
         protected AVBufferRef* Pointer => this;
         
-        public static implicit operator AVBufferRef*(BufferReference data) => (AVBufferRef*)data._nativePointer;
+        public static implicit operator AVBufferRef*(BufferReference data) => data != null ? (AVBufferRef*)data._nativePointer : null;
         
-        protected BufferReference(AVBufferRef* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
+        protected BufferReference(AVBufferRef* ptr, bool isOwner): base(NativeUtils.NotNull((IntPtr)ptr), isOwner)
         {
-            if (ptr == null)
-            {
-                throw new ArgumentNullException(nameof(ptr));
-            }
         }
         
         public static BufferReference FromNative(AVBufferRef* ptr, bool isOwner) => new BufferReference(ptr, isOwner);

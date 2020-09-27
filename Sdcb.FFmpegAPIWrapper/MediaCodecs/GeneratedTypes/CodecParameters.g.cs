@@ -15,14 +15,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     {
         protected AVCodecParameters* Pointer => this;
         
-        public static implicit operator AVCodecParameters*(CodecParameters data) => (AVCodecParameters*)data._nativePointer;
+        public static implicit operator AVCodecParameters*(CodecParameters data) => data != null ? (AVCodecParameters*)data._nativePointer : null;
         
-        protected CodecParameters(AVCodecParameters* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
+        protected CodecParameters(AVCodecParameters* ptr, bool isOwner): base(NativeUtils.NotNull((IntPtr)ptr), isOwner)
         {
-            if (ptr == null)
-            {
-                throw new ArgumentNullException(nameof(ptr));
-            }
         }
         
         public static CodecParameters FromNative(AVCodecParameters* ptr, bool isOwner) => new CodecParameters(ptr, isOwner);

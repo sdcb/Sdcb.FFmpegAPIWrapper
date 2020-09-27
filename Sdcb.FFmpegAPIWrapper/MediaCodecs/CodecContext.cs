@@ -54,7 +54,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_send_packet(AVCodecContext*, AVPacket*)"/>
         /// </summary>
-        public CodecResult SendPacket(Packet packet) => ToCodecResult(avcodec_send_packet(this, packet));
+        public CodecResult SendPacket(Packet? packet) => ToCodecResult(avcodec_send_packet(this, packet));
 
         /// <summary>
         /// <see cref="avcodec_receive_packet(AVCodecContext*, AVPacket*)"/>
@@ -64,7 +64,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_send_frame(AVCodecContext*, AVFrame*)"/>
         /// </summary>
-        public CodecResult SendFrame(Frame frame) => ToCodecResult(avcodec_send_frame(this, frame));
+        public CodecResult SendFrame(Frame? frame) => ToCodecResult(avcodec_send_frame(this, frame));
 
         /// <summary>
         /// <see cref="avcodec_receive_frame(AVCodecContext*, AVFrame*)"/>

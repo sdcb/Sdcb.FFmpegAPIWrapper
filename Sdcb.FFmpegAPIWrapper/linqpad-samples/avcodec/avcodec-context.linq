@@ -46,13 +46,24 @@ void Main()
 		Encode(c, frame, packet, stream);
 	}
 	Encode(c, null, packet, stream);
+	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
+	File.WriteAllBytes(destPath, stream.ToArray());
 }
 
 void Encode(CodecContext c, Frame? frame, Packet packet, Stream stream)
 {
 	if (frame != null)
 	{
-		Console.WriteLine($"Send frame {frame.Pts:3}");
+		Console.WriteLine($"Send frame {frame.Pts}");
 	}
 	
+	c.SendFrame(frame);
+	while (true)
+	{
+		CodecResult s = c.ReceivePacket(packet);
+		if (s == CodecResult.Again || s == CodecResult.EOF) return;
+		stream.Write(packet.AsSpan());
+		Console.WriteLine($"Write packet {packet.Pts} (size={packet.Size})");
+		packet.Unreference();
+	}
 }

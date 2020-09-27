@@ -17,18 +17,14 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// <para> sizeof(AVCodecContext) must not be used outside libav*.</para>
     /// <see cref="AVCodecContext" />
     /// </summary>
-    public unsafe partial class CodecContext: FFmpegSafeObject
+    public unsafe partial class CodecContext : FFmpegSafeObject
     {
         protected AVCodecContext* Pointer => this;
         
-        public static implicit operator AVCodecContext*(CodecContext data) => (AVCodecContext*)data._nativePointer;
+        public static implicit operator AVCodecContext*(CodecContext data) => data != null ? (AVCodecContext*)data._nativePointer : null;
         
-        protected CodecContext(AVCodecContext* ptr, bool isOwner): base((IntPtr)ptr, isOwner)
+        protected CodecContext(AVCodecContext* ptr, bool isOwner): base(NativeUtils.NotNull((IntPtr)ptr), isOwner)
         {
-            if (ptr == null)
-            {
-                throw new ArgumentNullException(nameof(ptr));
-            }
         }
         
         public static CodecContext FromNative(AVCodecContext* ptr, bool isOwner) => new CodecContext(ptr, isOwner);

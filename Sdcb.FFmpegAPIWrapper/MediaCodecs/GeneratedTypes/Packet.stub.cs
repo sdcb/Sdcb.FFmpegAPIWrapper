@@ -133,6 +133,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             _nativePointer = (IntPtr)ptr;
         }
 
+        public Span<byte> AsSpan() => new Span<byte>((void*)Data, Size);
+
         protected override void DisposeNative() => Free();
 
         /// <summary>

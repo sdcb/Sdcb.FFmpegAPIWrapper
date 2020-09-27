@@ -60,15 +60,11 @@ void WriteClass(Type targetType, string ns, string newName,
 	{
 		writer.WriteLine($"protected {targetType.Name}* Pointer => this;");
 		writer.WriteLine();
-		writer.WriteLine($"public static implicit operator {targetType.Name}*({newName} data) => ({targetType.Name}*)data._nativePointer;");
+		writer.WriteLine($"public static implicit operator {targetType.Name}*({newName} data) => data != null ? ({targetType.Name}*)data._nativePointer : null;");
 		writer.WriteLine();
 
-		writer.WriteLine($"protected {newName}({targetType.Name}* ptr, bool isOwner): base((IntPtr)ptr, isOwner)");
+		writer.WriteLine($"protected {newName}({targetType.Name}* ptr, bool isOwner): base(NativeUtils.NotNull((IntPtr)ptr), isOwner)");
 		writer.WriteLine("{");
-		writer.WriteLine("    if (ptr == null)");
-		writer.WriteLine("    {");
-		writer.WriteLine("        throw new ArgumentNullException(nameof(ptr));");
-		writer.WriteLine("    }");
 		writer.WriteLine("}");
 		writer.WriteLine();
 		writer.WriteLine($"public static {newName} FromNative({targetType.Name}* ptr, bool isOwner) => new {newName}(ptr, isOwner);");
