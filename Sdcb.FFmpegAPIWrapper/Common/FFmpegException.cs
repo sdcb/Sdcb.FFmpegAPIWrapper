@@ -15,7 +15,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 			HResult = errorCode;
 		}
 
-		public unsafe static FFmpegException FromErrorCode(int errorCode, string info)
+		public unsafe static FFmpegException FromErrorCode(int errorCode, string? info)
 		{
 			byte* buffer = stackalloc byte[AV_ERROR_MAX_STRING_SIZE];
 			av_strerror(errorCode, buffer, AV_ERROR_MAX_STRING_SIZE);
@@ -29,7 +29,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
 	internal static class FFmpegValidation
     {
-		public static int ThrowIfError(this int errorCode, string message = null)
+		public static int ThrowIfError(this int errorCode, string? message = null)
         {
 			if (errorCode < 0)
             {
@@ -38,7 +38,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 			return errorCode;
         }
 
-		public static long ThrowIfError(this long errorCode, string message = null)
+		public static long ThrowIfError(this long errorCode, string? message = null)
 		{
 			if (errorCode < 0)
 			{

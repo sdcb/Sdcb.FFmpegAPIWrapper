@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using FFmpeg.AutoGen;
@@ -97,12 +98,12 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             return containsKey;
         }
 
-        public bool TryGetValue(string key, out string value)
+        public bool TryGetValue(string key, [NotNullWhen(returnValue: true)] out string value)
         {
             AVDictionaryEntry* entry = av_dict_get(this, key, null, (int)MediaDictionaryReadFlags.CaseSensitive);
             if (entry == null)
             {
-                value = null;
+                value = null!;
                 return false;
             }
             else
@@ -119,12 +120,12 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         bool ICollection<KeyValuePair<string, string>>.Contains(KeyValuePair<string, string> item)
         {
-            return TryGetValue(item.Key, out string value) && value == item.Value;
+            return TryGetValue(item.Key, out string? value) && value == item.Value;
         }
 
         bool ICollection<KeyValuePair<string, string>>.Remove(KeyValuePair<string, string> item)
         {
-            if (TryGetValue(item.Key, out string value) && value == item.Value)
+            if (TryGetValue(item.Key, out string? value) && value == item.Value)
             {
                 Remove(item.Key);
                 return true;

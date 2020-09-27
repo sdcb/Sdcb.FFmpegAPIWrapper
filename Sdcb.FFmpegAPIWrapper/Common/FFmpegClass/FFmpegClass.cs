@@ -21,7 +21,6 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public static FFmpegClass FromNative(AVClass* p)
         {
-            if (p == null) return null;
             return new FFmpegClass(p);
         }
 

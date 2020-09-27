@@ -47,6 +47,6 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             GC.SuppressFinalize(this);
         }
 
-        public static Action<string> LogMemoryLeakWarning;
+        public static Action<string>? LogMemoryLeakWarning;
     }
 }

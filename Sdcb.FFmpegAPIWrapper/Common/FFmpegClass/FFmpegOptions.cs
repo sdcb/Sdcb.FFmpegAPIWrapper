@@ -25,7 +25,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         /// <see cref="av_opt_find(void*, string, string, int, int)"/>
         /// </summary>
         /// <returns></returns>
-        public FFmpegOption Find(string name, string unit, FFmpegOptionFlags optionFlags = FFmpegOptionFlags.None, OptionSearchFlags searchFlags = OptionSearchFlags.None)
+        public FFmpegOption? Find(string name, string unit, FFmpegOptionFlags optionFlags = FFmpegOptionFlags.None, OptionSearchFlags searchFlags = OptionSearchFlags.None)
         {
             AVOption* val = av_opt_find(_obj, name, unit, (int)optionFlags, (int)searchFlags);
             if (val == null) return null;
@@ -35,7 +35,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         /// <summary>
         /// <see cref="av_opt_find2(void*, string, string, int, int, void**)"/>
         /// </summary>
-        public (FFmpegOption option, IntPtr @object) Find2(string name, string unit, FFmpegOptionFlags optionFlags = FFmpegOptionFlags.None, OptionSearchFlags searchFlags = OptionSearchFlags.None)
+        public (FFmpegOption? option, IntPtr @object) Find2(string name, string unit, FFmpegOptionFlags optionFlags = FFmpegOptionFlags.None, OptionSearchFlags searchFlags = OptionSearchFlags.None)
         {
             void* obj;
             AVOption* val = av_opt_find2(_obj, name, unit, (int)optionFlags, (int)searchFlags, &obj);

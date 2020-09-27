@@ -100,7 +100,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		/// <summary>
 		/// <see cref="AVCodec.priv_class"/>
 		/// </summary>
-		public FFmpegClass PrivateClass => FFmpegClass.FromNative(_p->priv_class);
+		public FFmpegClass? PrivateClass => _p->priv_class != null ? FFmpegClass.FromNative(_p->priv_class) : null;
 
 		/// <summary>
 		/// <see cref="AVCodec.profiles"/>
