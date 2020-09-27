@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
-    public unsafe struct FFmpegOption
+    public unsafe class FFmpegOption
     {
         private readonly AVOption* _p;
 
@@ -35,6 +35,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         {
             FFmpegOptionType.String => Marshal.PtrToStringUTF8((IntPtr)_p->default_val.str), 
             FFmpegOptionType.Rational => (MediaRational) _p->default_val.q, 
+            FFmpegOptionType.Float => _p->default_val.dbl, 
             _ => (IntPtr)_p->default_val.str
         };
 

@@ -14,7 +14,10 @@ FFmpegLogger.LogWriter = x => Console.Write(x);
 
 var codec = Codec.FindEncoder(CodecID.Hevc);
 using var cc = CodecContext.FromCodec(codec);
-cc.Options.Dump();
+FFmpegOptions options = cc.Options;
+options.KnownOptions.Dump();
+options.SetDefaults();
+options.ToDictionary().Dump();
 //av_opt_set(cc, "preset", "fast", 0).Dump();
 //cc.Dump();
 //

@@ -7,8 +7,11 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
+    [Flags]
     public enum CodecFlag2
     {
+        None = 0,
+        
         /// <summary>
         /// <para>AV_CODEC_FLAG2_FAST = (1 &lt;&lt;  0).</para>
         /// <see cref="ffmpeg.AV_CODEC_FLAG2_FAST" />

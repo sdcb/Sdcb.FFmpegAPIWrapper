@@ -7,8 +7,11 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
+    [Flags]
     public enum CodecSliceFlag
     {
+        None = 0,
+        
         /// <summary>
         /// <para>SLICE_FLAG_CODED_ORDER = 0x0001.</para>
         /// <see cref="ffmpeg.SLICE_FLAG_CODED_ORDER" />

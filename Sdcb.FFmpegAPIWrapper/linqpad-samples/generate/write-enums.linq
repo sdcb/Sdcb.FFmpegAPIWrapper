@@ -69,7 +69,7 @@ void WriteConstEnum(string prefix, string ns, string newName)
 			_ => " : " + GetFriendlyTypeName(underlyingType),
 		};
 
-		if (underlyingType == typeof(uint) || underlyingType == typeof(ulong))
+		if (underlyingType == typeof(uint) || underlyingType == typeof(ulong) || newName.Contains("Flag"))
 		{
 			writer.WriteLine("[Flags]");
 		}
@@ -79,6 +79,15 @@ void WriteConstEnum(string prefix, string ns, string newName)
 
 	void WriteElements()
 	{
+		HashSet<decimal> values = fields
+			.Select(x => Convert.ToDecimal(x.GetValue(null)))
+			.ToHashSet();
+		if (!values.Contains(0))
+		{
+			writer.WriteLine($"None = {CSharpLiteral(0, underlyingType)},");
+			writer.WriteLine();
+		}
+		
 		foreach (FieldInfo field in fields.OrderBy(x => Convert.ToDecimal(x.GetValue(null))))
 		{
 			string name = PascalCase(field.Name.Replace(prefix, ""));

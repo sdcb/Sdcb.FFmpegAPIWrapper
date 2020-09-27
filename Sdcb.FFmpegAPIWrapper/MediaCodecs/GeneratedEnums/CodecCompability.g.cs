@@ -10,6 +10,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     [Flags]
     public enum CodecCompability : uint
     {
+        None = 0x0U,
+        
         /// <summary>
         /// <para>AV_CODEC_CAP_DRAW_HORIZ_BAND = (1 &lt;&lt;  0).</para>
         /// <see cref="ffmpeg.AV_CODEC_CAP_DRAW_HORIZ_BAND" />

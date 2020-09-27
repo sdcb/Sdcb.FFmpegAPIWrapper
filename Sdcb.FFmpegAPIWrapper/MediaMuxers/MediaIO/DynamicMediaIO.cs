@@ -24,36 +24,17 @@ namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
         /// <summary>
         /// <see cref="avio_close_dyn_buf(AVIOContext*, byte**)"/>
         /// </summary>
-        public unsafe DynamicMediaIOMemory GetBufferAndClose()
+        public unsafe DisposableDataPointer GetBufferAndClose()
         {
             byte* buffer = null;
             int length = avio_close_dyn_buf(this, &buffer);
             _nativePointer = IntPtr.Zero;
-            return new DynamicMediaIOMemory
-            {
-                Buffer = buffer, 
-                Length = length, 
-            };
+            return new DisposableDataPointer(_nativePointer, length);
         }
 
         protected override void DisposeNative()
         {
             using var _ = GetBufferAndClose();
-        }
-    }
-
-    public ref struct DynamicMediaIOMemory
-    {
-        public unsafe byte* Buffer;
-        public int Length;
-
-        public unsafe Span<byte> AsSpan() => new Span<byte>(Buffer, Length);
-
-        public unsafe void Dispose()
-        {
-            av_free(Buffer);
-            Buffer = null;
-            Length = 0;
         }
     }
 }

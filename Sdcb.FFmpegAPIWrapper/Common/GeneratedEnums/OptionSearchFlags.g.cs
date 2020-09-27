@@ -7,8 +7,11 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
+    [Flags]
     public enum OptionSearchFlags
     {
+        None = 0,
+        
         /// <summary>
         /// <para>AV_OPT_SEARCH_CHILDREN = (1 &lt;&lt; 0).</para>
         /// <see cref="ffmpeg.AV_OPT_SEARCH_CHILDREN" />

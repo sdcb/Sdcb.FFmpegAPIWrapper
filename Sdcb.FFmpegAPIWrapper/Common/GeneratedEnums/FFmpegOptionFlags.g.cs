@@ -7,8 +7,11 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
+    [Flags]
     public enum FFmpegOptionFlags
     {
+        None = 0,
+        
         /// <summary>
         /// <para>AV_OPT_FLAG_ENCODING_PARAM = 1.</para>
         /// <see cref="ffmpeg.AV_OPT_FLAG_ENCODING_PARAM" />

@@ -10,6 +10,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     [Flags]
     public enum ChannelLayout : ulong
     {
+        None = 0x0UL,
+        
         /// <summary>
         /// <para>AV_CH_LAYOUT_STEREO = (AV_CH_FRONT_LEFT|AV_CH_FRONT_RIGHT).</para>
         /// <see cref="ffmpeg.AV_CH_LAYOUT_STEREO" />

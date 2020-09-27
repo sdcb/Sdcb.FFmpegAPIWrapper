@@ -9,6 +9,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
     public enum CodecExportData
     {
+        None = 0,
+        
         /// <summary>
         /// <para>AV_CODEC_EXPORT_DATA_MVS = (1 &lt;&lt; 0).</para>
         /// <see cref="ffmpeg.AV_CODEC_EXPORT_DATA_MVS" />
