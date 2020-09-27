@@ -14,14 +14,16 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_alloc_context3(AVCodec*)"/>
         /// </summary>
-        public static CodecContext FromCodec(Codec codec)
+        public CodecContext(Codec codec)
         {
             AVCodecContext* ptr = avcodec_alloc_context3(codec);
             if (ptr == null)
             {
                 throw new FFmpegException($"Failed to create {nameof(AVCodecContext)} from codec {codec.Id}");
             }
-            return FromNative(ptr, isOwner: true);
+
+            _nativePointer = (IntPtr)ptr;
+            _isOwner = true;
         }
 
         /// <summary>

@@ -13,6 +13,10 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             _isOwner = isOwner;
         }
 
+        protected FFmpegSafeObject()
+        {
+        }
+
         protected abstract void DisposeNative();
 
         private void Dispose(bool disposing)

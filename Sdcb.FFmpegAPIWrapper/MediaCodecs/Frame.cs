@@ -12,7 +12,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="av_frame_alloc"/>
         /// </summary>
-        public static Frame Create() => FromNative(av_frame_alloc(), true);
+        public Frame(): base(NativeUtils.NotNull((IntPtr)av_frame_alloc()), isOwner: true)
+        {
+        }
 
         /// <summary>
         /// <see cref="av_frame_is_writable(AVFrame*)"/>

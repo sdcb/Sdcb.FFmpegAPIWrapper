@@ -1,4 +1,4 @@
-<Query Kind="Statements">
+<Query Kind="Program">
   <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
   <Namespace>FFmpeg.AutoGen</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.MediaMuxers</Namespace>
@@ -10,26 +10,49 @@
   <Namespace>Sdcb.FFmpegAPIWrapper.MediaCodecs</Namespace>
 </Query>
 
-FFmpegLogger.LogWriter = x => Console.Write(x);
+void Main()
+{
+	FFmpegLogger.LogWriter = x => Console.Write(x);
+	
+	Codec codec = Codec.FindEncoder(CodecID.Hevc);
+	using CodecContext c = new CodecContext(codec)
+	{
+		BitRate = 400_000, 
+		Width = 352, 
+		Height = 288, 
+		TimeBase = new MediaRational(1, 25), 
+		Framerate = new MediaRational(25, 1), 
+		GopSize = 10, 
+		MaxBFrames = 1, 
+		PixelFormat = PixelFormat.Yuv420p, 	
+	};
+	c.Options.Set("preset", "slow");
+	c.Open(codec);
+	
+	using var frame = new Frame()
+	{
+		Format = (int)c.PixelFormat, 
+		Width = c.Width, 
+		Height = c.Height, 
+	};
+	frame.EnsureBuffer();
+	
+	using var stream = new MemoryStream();
+	using var packet = new Packet();
+	for (var i = 0; i < 25; ++i)
+	{
+		frame.MakeWritable();
+		frame.Pts = i;
+		Encode(c, frame, packet, stream);
+	}
+	Encode(c, null, packet, stream);
+}
 
-var codec = Codec.FindEncoder(CodecID.Hevc);
-using var cc = CodecContext.FromCodec(codec);
-FFmpegOptions options = cc.Options;
-options.KnownOptions.Dump();
-options.SetDefaults();
-options.ToDictionary().Dump();
-//av_opt_set(cc, "preset", "fast", 0).Dump();
-//cc.Dump();
-//
-//cc.BitRate = 400_000;
-//cc.Width = 352;
-//cc.Height = 288;
-//cc.TimeBase = new MediaRational(1, 25);
-//cc.Framerate = new MediaRational(25, 1);
-//cc.GopSize = 10;
-//cc.MaxBFrames = 1;
-//cc.PixelFormat = PixelFormat.Yuv420p;
-//
-////codecContext.GopSize = 
-//cc.Open(codec);
-//cc.Dump();
+void Encode(CodecContext c, Frame? frame, Packet packet, Stream stream)
+{
+	if (frame != null)
+	{
+		Console.WriteLine($"Send frame {frame.Pts:3}");
+	}
+	
+}

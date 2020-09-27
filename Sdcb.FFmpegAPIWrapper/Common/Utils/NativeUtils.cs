@@ -39,5 +39,14 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 				return address;
 			}
 		}
+
+		public static IntPtr NotNull(IntPtr ptr)
+        {
+			if (ptr == IntPtr.Zero)
+            {
+				throw FFmpegException.NoMemory("NotNull check failed, ptr == 0.");
+            }
+			return ptr;
+        }
 	}
 }

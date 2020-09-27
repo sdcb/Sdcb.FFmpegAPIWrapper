@@ -10,7 +10,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="av_packet_alloc"/>
         /// </summary>
-        public static Packet Create() => FromNative(av_packet_alloc(), isOwner: true);
+        public Packet() : base(NativeUtils.NotNull((IntPtr)av_packet_alloc()), isOwner: true)
+        {
+        }
 
         /// <summary>
         /// <see cref="av_packet_clone(AVPacket*)"/>
