@@ -7,6 +7,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
+    /// <summary>See FF_MB_DECISION_* </summary>
     public enum MacroblockDecision
     {
         /// <summary>

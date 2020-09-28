@@ -7,6 +7,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
+    /// <summary>See FF_CMP_* </summary>
     public enum DctComparison
     {
         /// <summary>

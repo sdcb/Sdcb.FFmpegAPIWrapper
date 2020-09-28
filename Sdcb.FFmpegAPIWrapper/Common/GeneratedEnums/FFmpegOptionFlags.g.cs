@@ -7,6 +7,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
+    /// <summary>See AV_OPT_FLAG_* </summary>
     [Flags]
     public enum FFmpegOptionFlags
     {

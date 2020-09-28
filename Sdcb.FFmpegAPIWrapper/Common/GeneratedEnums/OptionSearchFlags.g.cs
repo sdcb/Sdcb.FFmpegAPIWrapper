@@ -7,6 +7,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
+    /// <summary>See AV_OPT_SEARCH_* </summary>
     [Flags]
     public enum OptionSearchFlags
     {

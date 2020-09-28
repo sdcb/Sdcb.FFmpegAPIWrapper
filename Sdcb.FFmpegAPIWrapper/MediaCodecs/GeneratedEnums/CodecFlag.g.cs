@@ -7,6 +7,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
+    /// <summary>See AV_CODEC_FLAG_* </summary>
     [Flags]
     public enum CodecFlag : uint
     {

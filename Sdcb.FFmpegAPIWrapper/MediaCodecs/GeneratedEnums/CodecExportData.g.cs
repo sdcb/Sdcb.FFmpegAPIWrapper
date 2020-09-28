@@ -7,6 +7,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
+    /// <summary>See AV_CODEC_EXPORT_DATA_* </summary>
     public enum CodecExportData
     {
         None = 0,

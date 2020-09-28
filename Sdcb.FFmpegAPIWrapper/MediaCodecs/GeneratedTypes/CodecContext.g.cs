@@ -2057,9 +2057,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> The reference is set by the caller and afterwards owned (and freed) by libavcodec - it should never be read by the caller after being set.</para>
         /// <see cref="AVCodecContext.hw_frames_ctx" />
         /// </summary>
-        public AVBufferRef* HwFramesContext
+        public BufferReference HwFramesContext
         {
-            get => Pointer->hw_frames_ctx;
+            get => BufferReference.FromNative(Pointer->hw_frames_ctx, isOwner: false);
             set => Pointer->hw_frames_ctx = value;
         }
         
@@ -2103,9 +2103,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> The reference is set by the caller and afterwards owned (and freed) by libavcodec.</para>
         /// <see cref="AVCodecContext.hw_device_ctx" />
         /// </summary>
-        public AVBufferRef* HwDeviceContext
+        public BufferReference HwDeviceContext
         {
-            get => Pointer->hw_device_ctx;
+            get => BufferReference.FromNative(Pointer->hw_device_ctx, isOwner: false);
             set => Pointer->hw_device_ctx = value;
         }
         

@@ -30,12 +30,14 @@
 
 	WriteConstEnum("AV_CODEC_FLAG_", ns, "CodecFlag");
 	WriteConstEnum("AV_CODEC_FLAG2_", ns, "CodecFlag2");
+	WriteConstEnum("AV_PKT_FLAG_", ns, "PacketFlag");
 	WriteConstEnum("SLICE_FLAG_", ns, "CodecSliceFlag");
 	WriteConstEnum("AV_CH_LAYOUT_", ns, "ChannelLayout");
 	WriteConstEnum("AV_CODEC_CAP_", ns, "CodecCompability");
 	WriteConstEnum("FF_MB_DECISION_", ns, "MacroblockDecision");
 	WriteConstEnum("FF_CMP_", ns, "DctComparison");
 	WriteConstEnum("AV_CODEC_EXPORT_DATA_", ns, "CodecExportData");
+	WriteConstEnum("PARSER_FLAG_", ns, "ParserFlag");
 }
 
 {
@@ -69,6 +71,7 @@ void WriteConstEnum(string prefix, string ns, string newName)
 			_ => " : " + GetFriendlyTypeName(underlyingType),
 		};
 
+		writer.WriteLine($"/// <summary>See {prefix}* </summary>");
 		if (underlyingType == typeof(uint) || underlyingType == typeof(ulong) || newName.Contains("Flag"))
 		{
 			writer.WriteLine("[Flags]");

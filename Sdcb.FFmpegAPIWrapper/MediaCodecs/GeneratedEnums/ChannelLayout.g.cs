@@ -7,6 +7,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
+    /// <summary>See AV_CH_LAYOUT_* </summary>
     [Flags]
     public enum ChannelLayout : ulong
     {

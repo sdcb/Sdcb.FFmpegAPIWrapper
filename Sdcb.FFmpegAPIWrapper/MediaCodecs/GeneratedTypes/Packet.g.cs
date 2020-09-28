@@ -91,10 +91,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>A combination of AV_PKT_FLAG values.</para>
         /// <see cref="AVPacket.flags" />
         /// </summary>
-        public int Flags
+        public PacketFlag Flags
         {
-            get => Pointer->flags;
-            set => Pointer->flags = value;
+            get => (PacketFlag)Pointer->flags;
+            set => Pointer->flags = (int)value;
         }
         
         /// <summary>

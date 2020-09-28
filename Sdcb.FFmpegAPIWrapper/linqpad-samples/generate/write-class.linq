@@ -11,15 +11,7 @@
 
 void Main()
 {
-	string baseDir = Path.GetFullPath(Path.Combine(Util.CurrentQuery.Location, @"..\..\MediaCodecs\GeneratedTypes"));
-	Directory.CreateDirectory(baseDir);
-	Environment.CurrentDirectory = baseDir;
 	
-	string ns = "Sdcb.FFmpegAPIWrapper.MediaCodecs";
-	WriteClass(typeof(AVCodecParameters), ns, "CodecParameters");
-	WriteClass(typeof(AVFrame), ns, "Frame");
-	WriteClass(typeof(AVPacket), ns, "Packet", writeStub: true);
-	WriteStruct(typeof(AVPacketSideData), ns, "PacketSideData");
 }
 
 void WriteClass(Type targetType, string ns, string newName, 
