@@ -3,6 +3,9 @@ using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 using System;
 using System.Runtime.CompilerServices;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
@@ -54,7 +57,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_send_packet(AVCodecContext*, AVPacket*)"/>
         /// </summary>
-        public CodecResult SendPacket(Packet? packet) => ToCodecResult(avcodec_send_packet(this, packet));
+        public void SendPacket(Packet? packet) => avcodec_send_packet(this, packet).ThrowIfError("Error sending a packet for decoding");
 
         /// <summary>
         /// <see cref="avcodec_receive_packet(AVCodecContext*, AVPacket*)"/>
@@ -64,7 +67,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_send_frame(AVCodecContext*, AVFrame*)"/>
         /// </summary>
-        public CodecResult SendFrame(Frame? frame) => ToCodecResult(avcodec_send_frame(this, frame));
+        public void SendFrame(Frame? frame) => avcodec_send_frame(this, frame).ThrowIfError("Error sending a frame for encoding");
 
         /// <summary>
         /// <see cref="avcodec_receive_frame(AVCodecContext*, AVFrame*)"/>
@@ -79,6 +82,71 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             var x when x < 0 => throw FFmpegException.FromErrorCode(x, $"{callerMember} failed."),
             _ => throw new FFmpegException($"Unknown {nameof(callerMember)} status: {result}"),
         };
+
+        /// <summary>
+        /// 1 frame -> 0..N packet
+        /// </summary>
+        public IEnumerable<Packet> EncodeFrame(Frame? frame, Packet packet)
+        {
+            SendFrame(frame);
+            while (true)
+            {
+                CodecResult s = ReceivePacket(packet);
+                if (s == CodecResult.Again || s == CodecResult.EOF) yield break;
+                try
+                {
+                    yield return packet;
+                }
+                finally
+                {
+                    packet.Unreference();
+                }
+            }
+        }
+
+        /// <summary>
+        /// frames -> packets
+        /// </summary>
+        public IEnumerable<Packet> EncodeFrames(IEnumerable<Frame> frames)
+        {
+            using var packet = new Packet();
+            
+            foreach (Frame frame in frames)
+                foreach (var _ in EncodeFrame(frame, packet)) 
+                    yield return packet;
+
+            foreach (var _ in EncodeFrame(null, packet)) 
+                yield return packet;
+        }
+
+        /// <summary>
+        /// packets -> frames
+        /// </summary>
+        public IEnumerable<Frame> DecodePackets(IEnumerable<Packet> packets)
+        {
+            using var frame = new Frame();
+
+            foreach (Packet packet in packets)
+                foreach (var _ in DecodePacket(packet, frame)) 
+                    yield return frame;
+
+            foreach (var _ in DecodePacket(null, frame)) 
+                yield return frame;
+        }
+
+        /// <summary>
+        /// 1 packet -> 0..N frame
+        /// </summary>
+        public IEnumerable<Frame> DecodePacket(Packet? packet, Frame frame)
+        {
+            SendPacket(packet);
+            while (true)
+            {
+                CodecResult s = ReceiveFrame(frame);
+                if (s == CodecResult.Again || s == CodecResult.EOF) yield break;
+                yield return frame;
+            }
+        }
 
         /// <summary>
         /// <see cref="avcodec_free_context(AVCodecContext**)"/>

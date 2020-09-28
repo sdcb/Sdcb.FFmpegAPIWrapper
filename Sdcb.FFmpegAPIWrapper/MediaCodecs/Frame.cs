@@ -16,6 +16,19 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
         }
 
+        public static Frame CreateWritableVideo(int width, int height, PixelFormat pixelFormat)
+        {
+            var frame = new Frame
+            {
+                Format = (int)pixelFormat,
+                Width = width,
+                Height = height,
+            };
+            frame.EnsureBuffer();
+            frame.MakeWritable();
+            return frame;
+        }
+
         /// <summary>
         /// <see cref="av_frame_is_writable(AVFrame*)"/>
         /// </summary>

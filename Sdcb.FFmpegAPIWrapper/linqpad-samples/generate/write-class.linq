@@ -23,7 +23,7 @@ void Main()
 }
 
 void WriteClass(Type targetType, string ns, string newName, 
-	Func<string, string> propNameMapping = null,
+	Func<string, string?>? propNameMapping = null,
 	bool writeStub = false)
 {
 	if (propNameMapping == null) propNameMapping = str => null;
@@ -84,7 +84,7 @@ void WriteClass(Type targetType, string ns, string newName,
 		string fieldName = IdentifierConvert(field.Name);
 		string propName = PropertyConvert(field);
 		(string destType, string method) = FromTypeString(field, propNameMapping);
-		ObsoleteAttribute obsolete = field.GetCustomAttribute<ObsoleteAttribute>();
+		ObsoleteAttribute? obsolete = field.GetCustomAttribute<ObsoleteAttribute>();
 
 		return BuildFieldDocument(field) + BuildPrefix(field, obsolete) + method switch
 		{
@@ -100,6 +100,12 @@ void WriteClass(Type targetType, string ns, string newName,
 				$"    get => ({destType})Pointer->{fieldName};\r\n" +
 				$"    set => Pointer->{fieldName} = ({GetFriendlyTypeName(field.FieldType)})value;\r\n" +
 				$"}}",
+			".FromNativeNotOwner" =>
+				$"public {destType} {propName}\r\n" +
+				$"{{\r\n" +
+				$"    get => {destType}.FromNative(Pointer->{fieldName}, isOwner: false);\r\n" +
+				$"    set => Pointer->{fieldName} = value;\r\n" +
+				$"}}",
 			var x when x.StartsWith(".") =>
 				$"public {destType} {propName}\r\n" +
 				$"{{\r\n" +
@@ -111,7 +117,7 @@ void WriteClass(Type targetType, string ns, string newName,
 	}
 }
 
-string BuildPrefix(FieldInfo field, ObsoleteAttribute obsolete)
+string BuildPrefix(FieldInfo field, ObsoleteAttribute? obsolete)
 {
 	if (obsolete != null)
 	{
@@ -128,7 +134,7 @@ string BuildPrefix(FieldInfo field, ObsoleteAttribute obsolete)
 }
 
 void WriteStruct(Type targetType, string ns, string newName,
-	Func<string, string> propNameMapping = null,
+	Func<string, string?>? propNameMapping = null,
 	bool writeStub = false)
 {
 	if (propNameMapping == null) propNameMapping = str => null;
@@ -193,7 +199,7 @@ void WriteStruct(Type targetType, string ns, string newName,
 		string fieldName = IdentifierConvert(field.Name);
 		string propName = PropertyConvert(field);
 		(string destType, string method) = FromTypeString(field, propNameMapping);
-		ObsoleteAttribute obsolete = field.GetCustomAttribute<ObsoleteAttribute>();
+		ObsoleteAttribute? obsolete = field.GetCustomAttribute<ObsoleteAttribute>();
 
 		return BuildFieldDocument(field) + BuildPrefix(field, obsolete) + method switch
 		{
@@ -209,7 +215,13 @@ void WriteStruct(Type targetType, string ns, string newName,
 				$"    get => ({destType})_ptr->{fieldName};\r\n" +
 				$"    set => _ptr->{fieldName} = ({GetFriendlyTypeName(field.FieldType)})value;\r\n" +
 				$"}}",
-			var x when x.StartsWith(".") =>
+			".FromNativeNotOwner" =>
+				$"public {destType} {propName}\r\n" +
+				$"{{\r\n" +
+				$"    get => {destType}.FromNative(_ptr->{fieldName}, isOwner: false);\r\n" +
+				$"    set => _ptr->{fieldName} = value;\r\n" +
+				$"}}",
+			var x when x.StartsWith('.') =>
 				$"public {destType} {propName}\r\n" +
 				$"{{\r\n" +
 				$"    get => {destType}{method}(_ptr->{fieldName});\r\n" +
@@ -230,6 +242,7 @@ void WriteStruct(Type targetType, string ns, string newName,
 		("AVRational", _) => direct("MediaRational"),
 		("Void*", _) => force("IntPtr"),
 		("Byte*", _) => force("IntPtr"),
+		("AVBufferRef*", _) => call("BufferReference", "FromNativeNotOwner"), 
 		("AVPixelFormat", _) => force("PixelFormat"),
 		("AVSampleFormat", _) => force("SampleFormat"),
 		("AVCodecID", _) => force("CodecID"),

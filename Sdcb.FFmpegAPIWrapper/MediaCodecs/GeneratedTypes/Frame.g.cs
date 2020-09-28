@@ -508,9 +508,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVFrame.qp_table_buf" />
         /// </summary>
-        public AVBufferRef* QpTableBuf
+        public BufferReference QpTableBuf
         {
-            get => Pointer->qp_table_buf;
+            get => BufferReference.FromNative(Pointer->qp_table_buf, isOwner: false);
             set => Pointer->qp_table_buf = value;
         }
         
@@ -518,9 +518,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>For hwaccel-format frames, this should be a reference to the AVHWFramesContext describing the frame.</para>
         /// <see cref="AVFrame.hw_frames_ctx" />
         /// </summary>
-        public AVBufferRef* HwFramesContext
+        public BufferReference HwFramesContext
         {
-            get => Pointer->hw_frames_ctx;
+            get => BufferReference.FromNative(Pointer->hw_frames_ctx, isOwner: false);
             set => Pointer->hw_frames_ctx = value;
         }
         
@@ -531,9 +531,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> av_frame_copy_props() calls create a new reference with av_buffer_ref() for the target frame&#39;s opaque_ref field.</para>
         /// <see cref="AVFrame.opaque_ref" />
         /// </summary>
-        public AVBufferRef* OpaqueRef
+        public BufferReference OpaqueRef
         {
-            get => Pointer->opaque_ref;
+            get => BufferReference.FromNative(Pointer->opaque_ref, isOwner: false);
             set => Pointer->opaque_ref = value;
         }
         
@@ -582,9 +582,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> Has to be NULL when ownership of the frame leaves the respective library.</para>
         /// <see cref="AVFrame.private_ref" />
         /// </summary>
-        public AVBufferRef* PrivateRef
+        public BufferReference PrivateRef
         {
-            get => Pointer->private_ref;
+            get => BufferReference.FromNative(Pointer->private_ref, isOwner: false);
             set => Pointer->private_ref = value;
         }
     }

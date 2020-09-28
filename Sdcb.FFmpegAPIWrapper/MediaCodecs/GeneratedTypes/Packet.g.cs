@@ -29,9 +29,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> May be NULL, then the packet data is not reference-counted.</para>
         /// <see cref="AVPacket.buf" />
         /// </summary>
-        public AVBufferRef* Buf
+        public BufferReference Buf
         {
-            get => Pointer->buf;
+            get => BufferReference.FromNative(Pointer->buf, isOwner: false);
             set => Pointer->buf = value;
         }
         

@@ -8,62 +8,56 @@
   <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
   <Namespace>System.Runtime.InteropServices</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.MediaCodecs</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.Samples</Namespace>
 </Query>
 
-void Main()
+void Main1()
+{
+	FFmpegLogger.LogWriter = x => Console.Write(x);	
+	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
+
+	using Stream file = File.OpenWrite(destPath);
+	WriteSampleH265(file);
+}
+
+void Main2()
 {
 	FFmpegLogger.LogWriter = x => Console.Write(x);
+	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
 	
+	using Stream file = File.OpenRead(destPath);
+	
+}
+
+void WriteSampleH265(Stream stream)
+{
 	Codec codec = Codec.FindEncoder(CodecID.Hevc);
 	using CodecContext c = new CodecContext(codec)
 	{
-		BitRate = 400_000, 
-		Width = 352, 
-		Height = 288, 
-		TimeBase = new MediaRational(1, 25), 
-		Framerate = new MediaRational(25, 1), 
-		GopSize = 10, 
-		MaxBFrames = 1, 
-		PixelFormat = PixelFormat.Yuv420p, 	
+		BitRate = 1 * 1024 * 1024, // 1M
+		Width = 1920,
+		Height = 1080,
+		TimeBase = new MediaRational(1, 15),
+		Framerate = new MediaRational(15, 1),
+		GopSize = 10,
+		MaxBFrames = 1,
+		PixelFormat = PixelFormat.Yuv420p,
 	};
-	c.Options.Set("preset", "slow");
+	c.Options.Set("x265-params", "log=none");
+	c.Options.Set("preset", "fast");
 	c.Open(codec);
-	
-	using var frame = new Frame()
+
+	var writer = new BinaryWriter(stream);
+	writer.Write(codec.
+		foreach (Packet packet in c.EncodeFrames(VideoFrameSample.Yuv420pSequence(c.Width, c.Height).Take(30)))
 	{
-		Format = (int)c.PixelFormat, 
-		Width = c.Width, 
-		Height = c.Height, 
-	};
-	frame.EnsureBuffer();
-	
-	using var stream = new MemoryStream();
-	using var packet = new Packet();
-	for (var i = 0; i < 25; ++i)
-	{
-		frame.MakeWritable();
-		frame.Pts = i;
-		Encode(c, frame, packet, stream);
+		Console.WriteLine($"packet {packet.Pts}, size={packet.Size}");
+		stream.Write(packet.AsSpan());
 	}
-	Encode(c, null, packet, stream);
-	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
-	File.WriteAllBytes(destPath, stream.ToArray());
+	Console.WriteLine($"All done, total size={stream.Position}");
 }
 
-void Encode(CodecContext c, Frame? frame, Packet packet, Stream stream)
+void DecodeSampleH265(Stream stream)
 {
-	if (frame != null)
-	{
-		Console.WriteLine($"Send frame {frame.Pts}");
-	}
-	
-	c.SendFrame(frame);
-	while (true)
-	{
-		CodecResult s = c.ReceivePacket(packet);
-		if (s == CodecResult.Again || s == CodecResult.EOF) return;
-		stream.Write(packet.AsSpan());
-		Console.WriteLine($"Write packet {packet.Pts} (size={packet.Size})");
-		packet.Unreference();
-	}
+
 }
