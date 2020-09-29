@@ -13,20 +13,20 @@
 
 void Main1()
 {
-	FFmpegLogger.LogWriter = x => Console.Write(x);	
+	FFmpegLogger.LogWriter = x => Console.Write(x);
 	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
 
 	using Stream file = File.OpenWrite(destPath);
 	WriteSampleH265(file);
 }
 
-void Main2()
+void Main()
 {
 	FFmpegLogger.LogWriter = x => Console.Write(x);
 	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
-	
+
 	using Stream file = File.OpenRead(destPath);
-	
+	DecodeSampleH265(file).Select(x => x.Linesize.ToArray()).Dump();
 }
 
 void WriteSampleH265(Stream stream)
@@ -43,21 +43,41 @@ void WriteSampleH265(Stream stream)
 		MaxBFrames = 1,
 		PixelFormat = PixelFormat.Yuv420p,
 	};
-	c.Options.Set("x265-params", "log=none");
 	c.Options.Set("preset", "fast");
 	c.Open(codec);
 
 	var writer = new BinaryWriter(stream);
-	writer.Write(codec.
-		foreach (Packet packet in c.EncodeFrames(VideoFrameSample.Yuv420pSequence(c.Width, c.Height).Take(30)))
+	writer.Write((int)codec.Id);
+	foreach (Packet packet in c.EncodeFrames(VideoFrameSample.Yuv420pSequence(c.Width, c.Height).Take(30)))
 	{
 		Console.WriteLine($"packet {packet.Pts}, size={packet.Size}");
-		stream.Write(packet.AsSpan());
+		writer.Write(packet.AsSpan());
 	}
 	Console.WriteLine($"All done, total size={stream.Position}");
 }
 
-void DecodeSampleH265(Stream stream)
+IEnumerable<Frame> DecodeSampleH265(Stream stream)
 {
+	using var reader = new BinaryReader(stream);
+	CodecID codecId = (CodecID)reader.ReadInt32();
+	Codec codec = Codec.FindDecoder(codecId);
+	using var c = new CodecContext(codec); 
+	c.Open(codec);
+	using var parser = new CodecParserContext(codec.Id);
+	using var packet = new Packet();
+	using var frame = new Frame();
+	foreach (DataPointer dp in parser.Parse(c, stream))
+	{
+		packet.Data = dp.Pointer;
+		packet.Size = dp.Length;
+		foreach (var _ in c.DecodePacket(packet, frame))
+		{
+			yield return frame;
+		}
+	}
 
+	foreach (var _ in c.DecodePacket(null, frame))
+	{
+		yield return frame;
+	}
 }

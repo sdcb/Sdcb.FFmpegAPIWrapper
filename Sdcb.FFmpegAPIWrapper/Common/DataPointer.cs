@@ -8,8 +8,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 {
     public struct DataPointer
     {
-        public readonly IntPtr Pointer;
-        public readonly int Length;
+        public IntPtr Pointer { get; }
+        public int Length { get; }
 
         public DataPointer(IntPtr pointer, int length)
         {
@@ -19,6 +19,13 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public unsafe DataPointer(byte* pointer, int length) : this((IntPtr)pointer, length)
         {
+        }
+
+        public DataPointer Slice(int start, int end)
+        {
+            if (start > Length) throw new ArgumentOutOfRangeException(nameof(start));
+            if (end < 0) throw new ArgumentOutOfRangeException(nameof(end));
+            return new DataPointer(Pointer + start, end);
         }
 
         public unsafe DataPointer(Span<byte> data)
@@ -35,8 +42,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
     public ref struct DisposableDataPointer
     {
-        public IntPtr Pointer;
-        public int Length;
+        public IntPtr Pointer { get; private set; }
+        public int Length { get; private set; }
 
         public DisposableDataPointer(IntPtr pointer, int length)
         {
@@ -48,6 +55,10 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         {
         }
 
+        public unsafe DisposableDataPointer(int allocSize) : this(NativeUtils.NotNull((IntPtr)av_malloc((ulong)allocSize)), allocSize)
+        {
+        }
+
         public unsafe DisposableDataPointer(Span<byte> data)
         {
             fixed (byte* ptr = data)
@@ -55,6 +66,13 @@ namespace Sdcb.FFmpegAPIWrapper.Common
                 Pointer = (IntPtr)ptr;
                 Length = data.Length;
             }
+        }
+
+        public DataPointer Slice(int start, int end)
+        {
+            if (start > Length) throw new ArgumentOutOfRangeException(nameof(start));
+            if (end < 0) throw new ArgumentOutOfRangeException(nameof(end));
+            return new DataPointer(Pointer + start, end);
         }
 
         public unsafe Span<byte> AsSpan() => new Span<byte>((byte*)Pointer, Length);
@@ -73,6 +91,10 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public DisposableNativeString(IntPtr pointer)
         {
+            if (pointer == IntPtr.Zero)
+            {
+                throw FFmpegException.NoMemory($"pointer = 0 in {nameof(DisposableNativeString)}.");
+            }
             Pointer = pointer;
         }
 
