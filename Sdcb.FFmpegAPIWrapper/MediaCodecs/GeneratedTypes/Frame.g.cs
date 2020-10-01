@@ -28,10 +28,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> This might be different from the first allocated byte.</para>
         /// <see cref="AVFrame.data" />
         /// </summary>
-        public byte_ptrArray8 Data
+        public Ptr8 Data
         {
-            get => Pointer->data;
-            set => Pointer->data = value;
+            get => (Ptr8)Pointer->data;
+            set => Pointer->data = (byte_ptrArray8)value;
         }
         
         /// <summary>
@@ -39,10 +39,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> For audio, size in bytes of each plane.</para>
         /// <see cref="AVFrame.linesize" />
         /// </summary>
-        public int_array8 Linesize
+        public Int32x8 Linesize
         {
-            get => Pointer->linesize;
-            set => Pointer->linesize = value;
+            get => (Int32x8)Pointer->linesize;
+            set => Pointer->linesize = (int_array8)value;
         }
         
         /// <summary>

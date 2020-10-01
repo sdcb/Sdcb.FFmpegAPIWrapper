@@ -7,7 +7,7 @@ using FFmpeg.AutoGen;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial class Frame : FFmpegSafeObject
+    public unsafe partial class Frame
     {
         /// <summary>
         /// <see cref="av_frame_alloc"/>
