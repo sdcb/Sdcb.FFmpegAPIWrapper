@@ -3,7 +3,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 using System;
 using Sdcb.FFmpegAPIWrapper.Common;
 
-namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
+namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
     public class DynamicMediaIO : MediaIO
     {

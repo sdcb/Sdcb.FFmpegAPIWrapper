@@ -1,7 +1,7 @@
 ﻿using FFmpeg.AutoGen;
 using System;
 
-namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
+namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
     /// <summary>
     /// AVIO_FLAG_

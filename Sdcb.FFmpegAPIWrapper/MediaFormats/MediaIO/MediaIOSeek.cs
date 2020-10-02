@@ -1,7 +1,7 @@
 ﻿using System;
 using static FFmpeg.AutoGen.ffmpeg;
 
-namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
+namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
     [Flags]
     public enum MediaIOSeek

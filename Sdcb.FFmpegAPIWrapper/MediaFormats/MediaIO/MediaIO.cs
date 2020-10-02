@@ -3,7 +3,7 @@ using Sdcb.FFmpegAPIWrapper.Common;
 using FFmpeg.AutoGen;
 using System;
 
-namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
+namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
     /// <summary>
     /// <see cref="AVIOContext"/>

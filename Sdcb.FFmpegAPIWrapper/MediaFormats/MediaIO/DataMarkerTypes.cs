@@ -1,6 +1,6 @@
 ﻿using FFmpeg.AutoGen;
 
-namespace Sdcb.FFmpegAPIWrapper.MediaMuxers
+namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
     /// <summary>
     /// <para>
