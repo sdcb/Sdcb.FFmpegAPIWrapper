@@ -9,6 +9,7 @@
   <Namespace>System.Runtime.InteropServices</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.MediaCodecs</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.Samples</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.MediaUtils</Namespace>
 </Query>
 
 void Main1()
@@ -20,13 +21,18 @@ void Main1()
 	WriteSampleH265(file);
 }
 
-void Main()
+void Main2()
 {
 	FFmpegLogger.LogWriter = x => Console.Write(x);
 	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
 
 	using Stream file = File.OpenRead(destPath);
-	DecodeSampleH265(file).Select(x => x.Linesize.ToArray()).Dump();
+	string yuvFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo-yuv";
+	Directory.CreateDirectory(yuvFolder);
+	foreach (var x in DecodeSampleH265(file).Select((x, i) => (bytes: x, i)))
+	{
+		File.WriteAllBytes(yuvFolder + @$"\{x.i}.yuv", x.bytes);
+	}
 }
 
 void WriteSampleH265(Stream stream)
@@ -56,7 +62,7 @@ void WriteSampleH265(Stream stream)
 	Console.WriteLine($"All done, total size={stream.Position}");
 }
 
-IEnumerable<Frame> DecodeSampleH265(Stream stream)
+IEnumerable<byte[]> DecodeSampleH265(Stream stream)
 {
 	using var reader = new BinaryReader(stream);
 	CodecID codecId = (CodecID)reader.ReadInt32();
@@ -72,12 +78,12 @@ IEnumerable<Frame> DecodeSampleH265(Stream stream)
 		packet.Size = dp.Length;
 		foreach (var _ in c.DecodePacket(packet, frame))
 		{
-			yield return frame;
+			yield return frame.ToImageBuffer();
 		}
 	}
 
 	foreach (var _ in c.DecodePacket(null, frame))
 	{
-		yield return frame;
+		yield return frame.ToImageBuffer();
 	}
 }

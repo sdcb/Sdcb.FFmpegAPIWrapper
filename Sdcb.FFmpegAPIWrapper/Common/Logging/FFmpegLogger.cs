@@ -32,7 +32,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 		/// </summary>
 		public static unsafe Action<string> LogWriter
         {
-			set => av_log_set_callback(value switch
+			set => av_log_set_callback(LogCallback = value switch
 			{
 				null => av_log_default_callback, 
 				_ => (av_log_set_callback_callback)((p0, level, format, vl) =>
@@ -47,6 +47,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 				})
 			});
         }
+
+		private static av_log_set_callback_callback? LogCallback;
 
 		/// <summary>
 		/// <see cref="av_log(void*, int, string)"/>

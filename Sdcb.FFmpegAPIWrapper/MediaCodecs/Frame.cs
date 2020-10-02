@@ -1,9 +1,8 @@
 ﻿using Sdcb.FFmpegAPIWrapper.Common;
 using static FFmpeg.AutoGen.ffmpeg;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using FFmpeg.AutoGen;
+using Sdcb.FFmpegAPIWrapper.MediaUtils;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
@@ -84,6 +83,29 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             _nativePointer = (IntPtr)ptr;
         }
 
+        public byte[] ToImageBuffer(int align = 1)
+        {
+            if (Width == 0 || Height == 0) throw new FFmpegException("Frame is not image.");
+
+            var buffer = new byte[ImageUtils.GetBufferSize((PixelFormat)Format, Width, Height, align)];
+            fixed (byte* ptr = buffer)
+            {
+                ImageUtils.CopyToBuffer((PixelFormat)Format, Width, Height, new DataPointer(ptr, buffer.Length), (Ptr4)Data, (Int32x4)Linesize, align);
+            }
+            return buffer;
+        }
+
+        public void FillImageBuffer(byte[] buffer, int align = 1) => FillImageBuffer(buffer.AsSpan(), align);
+
+        public void FillImageBuffer(Span<byte> buffer, int align = 1)
+        {
+            if (Width == 0 || Height == 0) throw new FFmpegException("Frame is not image.");
+
+            fixed (byte* ptr = buffer)
+            {
+                ImageUtils.CopyToBuffer((PixelFormat)Format, Width, Height, new DataPointer(ptr, buffer.Length), (Ptr4)Data, (Int32x4)Linesize, align);
+            }
+        }
 
         protected override void DisposeNative() => Free();
 
