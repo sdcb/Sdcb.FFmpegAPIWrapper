@@ -20,6 +20,7 @@ WriteClass(new GenerateOption(typeof(AVFormatContext), ns, "FormatContext")
 	FieldNameMapping = new()
 	{
 		["iformat"] = "InputFormat",
+		["oformat"] = "OutputFormat", 
 		["pb"] = "IO",
 	},
 	FieldTypeMapping = new()
@@ -42,7 +43,8 @@ WriteStruct(new GenerateOption(typeof(AVInputFormat), ns, "InputFormat")
 		["extensions"] = str(),
 		["mime_type"] = str(),
 	}, 
-	WriteStub = false
+	WriteStub = false,
+	PrivateMemberFrom = nameof(AVInputFormat.next)
 });
 
 WriteStruct(new GenerateOption(typeof(AVOutputFormat), ns, "OutputFormat")
@@ -54,5 +56,6 @@ WriteStruct(new GenerateOption(typeof(AVOutputFormat), ns, "OutputFormat")
 		["extensions"] = str(),
 		["mime_type"] = str(),
 	},
-	AdditionalNamespaces = new string[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" }
+	AdditionalNamespaces = new string[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" },
+	PrivateMemberFrom = nameof(AVInputFormat.next)
 });

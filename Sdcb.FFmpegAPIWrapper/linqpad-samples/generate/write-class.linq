@@ -11,11 +11,11 @@
 
 void Main()
 {
-	
+
 }
 
 void WriteClass(GenerateOption option)
-{	
+{
 	using var _file = new StreamWriter($"{option.NewName}.g.cs");
 	using var writer = new IndentedTextWriter(_file, new string(' ', 4));
 
@@ -25,7 +25,7 @@ void WriteClass(GenerateOption option)
 		writer.WriteLine($"public unsafe partial class {option.NewName} : FFmpegSafeObject");
 		PushIndent(writer, WriteClassBodies);
 	}, additionalNamespaces: option.AdditionalNamespaces);
-	
+
 	if (option.WriteStub && !File.Exists(option.NewName + ".stub.cs"))
 	{
 		using var placeholder = new StreamWriter($"{option.NewName}.stub.cs");
@@ -58,8 +58,7 @@ void WriteClass(GenerateOption option)
 		writer.WriteLine($"public static {option.NewName} FromNative({option.TargetType.Name}* ptr, bool isOwner) => new {option.NewName}(ptr, isOwner);");
 		writer.WriteLine();
 
-		foreach (string line in string.Join("\r\n\r\n", option.TargetType
-			.GetFields()
+		foreach (string line in string.Join("\r\n\r\n", option.GetFields()
 			.Select(x => Convert(x, "Pointer", option.FieldNameMapping, option.FieldTypeMapping)))
 			.Split("\r\n"))
 		{
@@ -116,9 +115,8 @@ void WriteStruct(GenerateOption option)
 		writer.WriteLine($"public static {option.NewName} FromNative({option.TargetType.Name}* ptr) => new {option.NewName}(ptr);");
 		writer.WriteLine();
 
-		foreach (string line in string.Join("\r\n\r\n", option.TargetType
-			.GetFields()
-			.Select(x => Convert(x, "_ptr", option.FieldNameMapping, option.FieldTypeMapping)))
+		foreach (string line in string.Join("\r\n\r\n", option.GetFields()
+			.Select((x, i) => Convert(x, "_ptr", option.FieldNameMapping, option.FieldTypeMapping)))
 			.Split("\r\n"))
 		{
 			writer.WriteLine(line);
@@ -164,21 +162,21 @@ string Convert(FieldInfo field, string pointerName, Dictionary<string, string> p
 		"str" =>
 			$"{modifier} {destType} {propName}\r\n" +
 			$"{{\r\n" +
-			$"    get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr){pointerName}->{fieldName});\r\n" + 
-	        $"    set\r\n" + 
-	        $"    {{\r\n" + 
-	        $"        if ({pointerName}->{fieldName} != null)\r\n" + 
-	        $"        {{\r\n" + 
-	        $"            av_free({pointerName}->{fieldName});\r\n" + 
-	        $"            {pointerName}->{fieldName} = null;\r\n" + 
-	        $"        }}\r\n" + 
-			$"\r\n" + 
-	        $"        if (value != null)\r\n" + 
-	        $"        {{\r\n" + 
-	        $"            {pointerName}->{fieldName} = av_strdup(value);\r\n" + 
-	        $"        }}\r\n" + 
-	        $"    }}\r\n" + 
-	        $"}}\r\n", 
+			$"    get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr){pointerName}->{fieldName});\r\n" +
+			$"    set\r\n" +
+			$"    {{\r\n" +
+			$"        if ({pointerName}->{fieldName} != null)\r\n" +
+			$"        {{\r\n" +
+			$"            av_free({pointerName}->{fieldName});\r\n" +
+			$"            {pointerName}->{fieldName} = null;\r\n" +
+			$"        }}\r\n" +
+			$"\r\n" +
+			$"        if (value != null)\r\n" +
+			$"        {{\r\n" +
+			$"            {pointerName}->{fieldName} = av_strdup(value);\r\n" +
+			$"        }}\r\n" +
+			$"    }}\r\n" +
+			$"}}\r\n",
 		"force" =>
 			$"{modifier} {destType} {propName}\r\n" +
 			$"{{\r\n" +
@@ -211,16 +209,16 @@ string Convert(FieldInfo field, string pointerName, Dictionary<string, string> p
 		("AVCodec*", _) => call("Codec", "FromNative"),
 		("AVIOContext*", _) => call("MediaIO", "FromNativeNotOwner"),
 		("AVRational", _) => direct("MediaRational"),
-		("AVDictionary*", _) => call("MediaDictionary", "FromNativeNotOwner"), 
+		("AVDictionary*", _) => call("MediaDictionary", "FromNativeNotOwner"),
 		("Void*", _) => force("IntPtr"),
 		("Byte*", _) => force("IntPtr"),
 		("byte_ptrArray4", _) => force("Ptr4"),
 		("void_ptrArray4", _) => force("Ptr4"),
 		("byte_ptrArray8", _) => force("Ptr8"),
 		("void_ptrArray8", _) => force("Ptr8"),
-		("int_array4", _) => force("Int32x4"), 
-		("int_array8", _) => force("Int32x8"), 
-		("AVBufferRef*", _) => call("BufferReference", "FromNativeNotOwner"), 
+		("int_array4", _) => force("Int32x4"),
+		("int_array8", _) => force("Int32x8"),
+		("AVBufferRef*", _) => call("BufferReference", "FromNativeNotOwner"),
 		("AVPixelFormat", _) => force("PixelFormat"),
 		("AVSampleFormat", _) => force("SampleFormat"),
 		("AVCodecID", _) => force("CodecID"),
@@ -234,9 +232,9 @@ string Convert(FieldInfo field, string pointerName, Dictionary<string, string> p
 		("AVChromaLocation", _) => force("ChromaLocation"),
 		("AVPictureType", _) => force("PictureType"),
 		("AVPacketSideDataType", _) => force("PacketSideDataType"),
-		("AVDurationEstimationMethod", _) => force("DurationEstimationMethod"), 
-		("AVInputFormat*", _) => call("InputFormat", "FromNative"), 
-		("AVOutputFormat*", _) => call("OutputFormat", "FromNative"), 
+		("AVDurationEstimationMethod", _) => force("DurationEstimationMethod"),
+		("AVInputFormat*", _) => call("InputFormat", "FromNative"),
+		("AVOutputFormat*", _) => call("OutputFormat", "FromNative"),
 		var x when GetFriendlyTypeName(fieldType) != x.fieldTypeName => direct(GetFriendlyTypeName(fieldType)),
 		var x => direct(x.fieldTypeName),
 	};
@@ -253,9 +251,25 @@ record GenerateOption
 	public string Namespace { get; init; }
 	public string NewName { get; init; }
 	public Dictionary<string, (string destType, string? method)> FieldTypeMapping { get; init; } = new();
-	public Dictionary<string, string> FieldNameMapping { get; init; } = new ();
+	public Dictionary<string, string> FieldNameMapping { get; init; } = new();
 	public string[] AdditionalNamespaces { get; init; } = new string[0];
 	public bool WriteStub { get; init; } = false;
+	public string? PrivateMemberFrom { private get; init; }
+	public bool KeepObsolete { private get; init; } = false;
+	public bool KeepFunctionPointers { private get; init; } = false;
+
+	public IEnumerable<FieldInfo> GetFields()
+	{
+		int privateIndex = PrivateMemberFrom != null ? TargetType.GetFields()
+			.Select(x => x.Name)
+			.ToList()
+			.IndexOf(PrivateMemberFrom) : int.MaxValue;
+		return TargetType
+			.GetFields()
+			.Where((x, i) => i < privateIndex && 
+				(KeepObsolete || x.GetCustomAttribute<ObsoleteAttribute>() == null) &&
+				(KeepFunctionPointers || !x.FieldType.Name.EndsWith("_func")));
+	}
 
 	public GenerateOption(Type targetType, string ns, string newName)
 	{

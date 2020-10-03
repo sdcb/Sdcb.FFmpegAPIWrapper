@@ -51,7 +51,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para>The output container format.</para>
         /// <see cref="AVFormatContext.oformat" />
         /// </summary>
-        public OutputFormat Oformat
+        public OutputFormat OutputFormat
         {
             get => OutputFormat.FromNative(Pointer->oformat);
             set => Pointer->oformat = value;
@@ -111,17 +111,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         {
             get => Pointer->streams;
             set => Pointer->streams = value;
-        }
-        
-        /// <summary>
-        /// <para>input or output filename.</para>
-        /// <see cref="AVFormatContext.filename" />
-        /// </summary>
-        [Obsolete("Use url instead.")]
-        internal byte_array1024 Filename
-        {
-            get => Pointer->filename;
-            set => Pointer->filename = value;
         }
         
         /// <summary>
@@ -739,16 +728,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>Callback used by devices to communicate with application.</para>
-        /// <see cref="AVFormatContext.control_message_cb" />
-        /// </summary>
-        internal AVFormatContext_control_message_cb_func ControlMessageCb
-        {
-            get => Pointer->control_message_cb;
-            set => Pointer->control_message_cb = value;
-        }
-        
-        /// <summary>
         /// <para>Output timestamp offset, in microseconds.</para>
         /// <para> Muxing: set by user.</para>
         /// <see cref="AVFormatContext.output_ts_offset" />
@@ -783,17 +762,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>Called to open further IO contexts when needed for demuxing.</para>
-        /// <see cref="AVFormatContext.open_cb" />
-        /// </summary>
-        [Obsolete("Use io_open and io_close.")]
-        internal AVFormatContext_open_cb_func OpenCb
-        {
-            get => Pointer->open_cb;
-            set => Pointer->open_cb = value;
-        }
-        
-        /// <summary>
         /// <para>&#39;,&#39; separated list of allowed protocols.</para>
         /// <para> - encoding: unused - decoding: set by user.</para>
         /// <see cref="AVFormatContext.protocol_whitelist" />
@@ -802,27 +770,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         {
             get => (IntPtr)Pointer->protocol_whitelist;
             set => Pointer->protocol_whitelist = (byte*)value;
-        }
-        
-        /// <summary>
-        /// <para>A callback for opening new IO streams.</para>
-        /// <see cref="AVFormatContext.io_open" />
-        /// </summary>
-        internal AVFormatContext_io_open_func IoOpen
-        {
-            get => Pointer->io_open;
-            set => Pointer->io_open = value;
-        }
-        
-        /// <summary>
-        /// <para>A callback for closing the streams opened with AVFormatContext.</para>
-        /// <para>io_open().</para>
-        /// <see cref="AVFormatContext.io_close" />
-        /// </summary>
-        internal AVFormatContext_io_close_func IoClose
-        {
-            get => Pointer->io_close;
-            set => Pointer->io_close = value;
         }
         
         /// <summary>
