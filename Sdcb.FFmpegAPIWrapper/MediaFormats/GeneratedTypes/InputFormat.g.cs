@@ -128,7 +128,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public FFmpegClass PrivateClass
         {
-            get => FFmpegClass.FromNative(_ptr->priv_class);
+            get => FFmpegClass.FromNativeOrNull(_ptr->priv_class);
             set => _ptr->priv_class = value;
         }
         

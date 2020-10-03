@@ -35,7 +35,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public FFmpegClass Class
         {
-            get => FFmpegClass.FromNative(Pointer->av_class);
+            get => FFmpegClass.FromNativeOrNull(Pointer->av_class);
             set => Pointer->av_class = value;
         }
         

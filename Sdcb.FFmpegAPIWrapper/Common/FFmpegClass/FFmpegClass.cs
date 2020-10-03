@@ -19,10 +19,9 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             _p = p; 
         }
 
-        public static FFmpegClass FromNative(AVClass* p)
-        {
-            return new FFmpegClass(p);
-        }
+        public static FFmpegClass FromNative(AVClass* p) => new FFmpegClass(p);
+
+        public static FFmpegClass? FromNativeOrNull(AVClass* p) => p != null ? new FFmpegClass(p) : null;
 
         public static implicit operator AVClass*(FFmpegClass data) => data._p;
 

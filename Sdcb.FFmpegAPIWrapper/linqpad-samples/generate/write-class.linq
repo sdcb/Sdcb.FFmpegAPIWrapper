@@ -204,7 +204,7 @@ string Convert(FieldInfo field, string pointerName, Dictionary<string, string> p
 	return (fieldTypeName: fieldType.Name, fieldName: field.Name) switch
 	{
 		var x when propTypeMapping.TryGetValue(x.fieldName, out (string, string?) val) => val,
-		("AVClass*", _) => call("FFmpegClass", "FromNative"),
+		("AVClass*", _) => call("FFmpegClass", "FromNativeOrNull"),
 		("AVCodec*", _) => call("Codec", "FromNative"),
 		("AVIOContext*", _) => call("MediaIO", "FromNativeNotOwner"),
 		("AVRational", _) => direct("MediaRational"),
