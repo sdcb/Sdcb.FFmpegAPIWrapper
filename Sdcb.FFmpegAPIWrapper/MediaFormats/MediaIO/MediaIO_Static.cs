@@ -13,25 +13,18 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="avio_open2(AVIOContext**, string, int, AVIOInterruptCB*, AVDictionary**)"/>
         /// </summary>
-        public static unsafe MediaIO Open(string url, MediaIOFlags flags = MediaIOFlags.Read, MediaDictionary? options = default)
+        public static unsafe MediaIO Open(string url, MediaIOFlags flags = MediaIOFlags.Read, MediaDictionary? options = null)
         {
             AVIOContext* ctx = null;
-            if (options != null)
-            {
-                AVDictionary* dict = options;
-                avio_open2(&ctx, url, (int)flags, null, &dict).ThrowIfError();
-                options.Reset(dict);
-            }
-            else
-            {
-                avio_open2(&ctx, url, (int)flags, null, null).ThrowIfError();
-            }
+            AVDictionary* dictPtr = options;
+            avio_open2(&ctx, url, (int)flags, null, &dictPtr).ThrowIfError();
+            options.Reset(dictPtr);
             
             return new MediaIO(ctx, isOwner: true);
         }
 
-        public static unsafe MediaIO OpenRead(string url, MediaDictionary options) => Open(url, MediaIOFlags.Read, options);
-        public static unsafe MediaIO OpenWrite(string url, MediaDictionary options) => Open(url, MediaIOFlags.Write, options);
+        public static unsafe MediaIO OpenRead(string url, MediaDictionary? options = null) => Open(url, MediaIOFlags.Read, options);
+        public static unsafe MediaIO OpenWrite(string url, MediaDictionary? options = null) => Open(url, MediaIOFlags.Write, options);
 
         /// <summary>
         /// <see cref="avio_open_dyn_buf(AVIOContext**)"/>

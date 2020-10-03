@@ -32,7 +32,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public static MediaDictionary FromNative(AVDictionary* dict, bool isOwner) => new MediaDictionary(dict, isOwner);
 
-        public static implicit operator AVDictionary*(MediaDictionary? dict) => (AVDictionary*)dict?._nativePointer;
+        public static implicit operator AVDictionary*(MediaDictionary? dict) => dict != null ? (AVDictionary*)dict?._nativePointer : null;
 
         #region IDictionary<string, string> entries
         public ICollection<string> Keys => this.Select(x => x.Key).ToArray();

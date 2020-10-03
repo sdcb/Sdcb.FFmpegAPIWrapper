@@ -20,7 +20,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, string, string)"/>
         /// </summary>
-        public static FormatContext AllocOutput(OutputFormat? format, string formatName, string fileName)
+        public static FormatContext AllocOutput(OutputFormat? format = null, string? formatName = null, string? fileName = null)
         {
             AVFormatContext* ptr;
             avformat_alloc_output_context2(
