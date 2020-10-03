@@ -19,7 +19,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
     {
         private AVStream* _ptr;
         
-        public static implicit operator AVStream*(MediaStream data) => (AVStream*)data._ptr;
+        public static implicit operator AVStream*(MediaStream? data)
+            => data.HasValue ? (AVStream*)data.Value._ptr : null;
         
         private MediaStream(AVStream* ptr)
         {

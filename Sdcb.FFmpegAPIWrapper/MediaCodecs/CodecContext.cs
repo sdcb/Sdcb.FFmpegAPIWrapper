@@ -48,7 +48,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public void Open(Codec codec, MediaDictionary? options = null)
         {
-            options = options ?? MediaDictionary.CreateEmpty();
             AVDictionary* ptrDict = options;
             avcodec_open2(this, codec, &ptrDict).ThrowIfError();
             options.Reset(ptrDict);

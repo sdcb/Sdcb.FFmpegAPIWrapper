@@ -16,7 +16,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
     {
         private AVOutputFormat* _ptr;
         
-        public static implicit operator AVOutputFormat*(OutputFormat data) => (AVOutputFormat*)data._ptr;
+        public static implicit operator AVOutputFormat*(OutputFormat? data)
+            => data.HasValue ? (AVOutputFormat*)data.Value._ptr : null;
         
         private OutputFormat(AVOutputFormat* ptr)
         {

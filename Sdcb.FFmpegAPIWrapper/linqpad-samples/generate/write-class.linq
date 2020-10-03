@@ -88,11 +88,7 @@ void WriteStruct(GenerateOption option)
 			placeholderWriter.WriteLine($"public unsafe partial struct {option.NewName}");
 			PushIndent(placeholderWriter, () =>
 			{
-				placeholderWriter.WriteLine("public override void Close()");
-				PushIndent(placeholderWriter, () =>
-				{
-					placeholderWriter.WriteLine("throw new NotImplementedException();");
-				});
+				placeholderWriter.WriteLine("// write something here");
 			});
 		}, withHeader: false, additionalNamespaces: option.AdditionalNamespaces);
 	}
@@ -101,7 +97,8 @@ void WriteStruct(GenerateOption option)
 	{
 		writer.WriteLine($"private {option.TargetType.Name}* _ptr;");
 		writer.WriteLine();
-		writer.WriteLine($"public static implicit operator {option.TargetType.Name}*({option.NewName} data) => ({option.TargetType.Name}*)data._ptr;");
+		writer.WriteLine($"public static implicit operator {option.TargetType.Name}*({option.NewName}? data)");
+		writer.WriteLine($"    => data.HasValue ? ({option.TargetType.Name}*)data.Value._ptr : null;");
 		writer.WriteLine();
 		writer.WriteLine($"private {option.NewName}({option.TargetType.Name}* ptr)");
 		writer.WriteLine("{");
@@ -238,6 +235,7 @@ string Convert(FieldInfo field, string pointerName, Dictionary<string, string> p
 		("AVCodecParameters*", _) => call("CodecParameters", "FromNativeNotOwner"),
 		("AVStreamParseType", _) => force("StreamParseType"),
 		("AVCodecParserContext*", _) => call("CodecParserContext", "FromNativeNotOwner"), 
+		("AVProgram*", _) => call("MediaProgram", "FromNative"), 
 		var x when GetFriendlyTypeName(fieldType) != x.fieldTypeName => direct(GetFriendlyTypeName(fieldType)),
 		var x => direct(x.fieldTypeName),
 	};

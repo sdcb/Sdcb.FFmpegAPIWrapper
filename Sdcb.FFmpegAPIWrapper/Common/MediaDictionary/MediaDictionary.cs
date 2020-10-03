@@ -14,15 +14,15 @@ namespace Sdcb.FFmpegAPIWrapper.Common
     /// </summary>
     public unsafe class MediaDictionary : FFmpegSafeObject, IDictionary<string, string>
     {
+        public MediaDictionary() : base(IntPtr.Zero, true)
+        {
+        }
+
         private MediaDictionary(AVDictionary* dict, bool isOwner) : base((IntPtr)dict, isOwner) { }
-
-        public static MediaDictionary CreateEmpty() => new MediaDictionary(null, true);
-
-        internal void Reset(AVDictionary* dict) => _nativePointer = (IntPtr)dict;
 
         public static MediaDictionary FromDictionary(IDictionary<string, string> dict)
         {
-            MediaDictionary md = CreateEmpty();
+            var md = new MediaDictionary();
             foreach (var entry in dict)
             {
                 md[entry.Key] = entry.Value;
@@ -32,7 +32,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public static MediaDictionary FromNative(AVDictionary* dict, bool isOwner) => new MediaDictionary(dict, isOwner);
 
-        public static implicit operator AVDictionary*(MediaDictionary dict) => (AVDictionary*)dict._nativePointer;
+        public static implicit operator AVDictionary*(MediaDictionary? dict) => (AVDictionary*)dict?._nativePointer;
 
         #region IDictionary<string, string> entries
         public ICollection<string> Keys => this.Select(x => x.Key).ToArray();
@@ -206,5 +206,16 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         }
 
         protected override void DisposeNative() => Free();
+    }
+
+    internal unsafe static class MediaDictionaryExtensions
+    {
+        public static void Reset(this MediaDictionary? md, AVDictionary* dict)
+        {
+            if (md != null)
+            {
+                md._nativePointer = (IntPtr)dict;
+            }
+        }
     }
 }

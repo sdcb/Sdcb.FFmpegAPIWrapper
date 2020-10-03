@@ -4,7 +4,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 {
     public abstract class FFmpegSafeObject : IDisposable
     {
-        protected IntPtr _nativePointer;
+        protected internal IntPtr _nativePointer;
         protected bool _isOwner;
 
         protected FFmpegSafeObject(IntPtr nativePointer, bool isOwner)

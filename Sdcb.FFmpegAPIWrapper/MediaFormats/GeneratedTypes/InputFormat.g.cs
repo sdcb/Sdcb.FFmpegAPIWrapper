@@ -15,7 +15,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
     {
         private AVInputFormat* _ptr;
         
-        public static implicit operator AVInputFormat*(InputFormat data) => (AVInputFormat*)data._ptr;
+        public static implicit operator AVInputFormat*(InputFormat? data)
+            => data.HasValue ? (AVInputFormat*)data.Value._ptr : null;
         
         private InputFormat(AVInputFormat* ptr)
         {
