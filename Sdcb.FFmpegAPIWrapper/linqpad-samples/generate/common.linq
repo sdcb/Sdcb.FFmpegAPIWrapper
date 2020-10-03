@@ -75,12 +75,33 @@ string GetFriendlyTypeName(Type type, bool includeNamespace = false)
 	}
 }
 
-string PascalCase(string input)
+string FieldConvert(string fieldName, Func<string, string?>? nameMapping)
 {
-	var x = string.Concat(input
+	if (nameMapping != null)
+	{
+		string? mappingResult = nameMapping(fieldName);
+		if (mappingResult != null)
+		{
+			return mappingResult;
+		}
+	}
+
+	Dictionary<string, string> knownMapping = new()
+	{
+		["pkt"] = "Packet",
+		["pix"] = "Pixel",
+		["fmt"] = "Format",
+		["ctx"] = "Context",
+		["priv"] = "Private",
+		["pict_"] = "Picture_",
+		["av_class"] = "FFmpegClass",
+	};
+
+	string result = string.Concat(fieldName
 		.Split('_')
-		.Select(x => char.ToUpper(x[0]) + x[1..].ToLower()));
-	return char.IsDigit(x[0]) ? "_" + x : x;
+		.Select(x => knownMapping.TryGetValue(x, out string? value) ? value : char.ToUpper(x[0]) + x[1..].ToLower()));
+		
+	return char.IsDigit(result[0]) ? "_" + result : result;
 }
 
 void PushIndent(IndentedTextWriter writer, Action action)
@@ -92,7 +113,7 @@ void PushIndent(IndentedTextWriter writer, Action action)
 	writer.WriteLine("}");
 }
 
-void WriteBasic(IndentedTextWriter writer, string ns, Action bodyWriter, bool withHeader = true)
+void WriteBasic(IndentedTextWriter writer, string ns, Action bodyWriter, bool withHeader = true, string[]? additionalNamespaces = null)
 {
 	if (withHeader)
 	{
@@ -104,6 +125,10 @@ void WriteBasic(IndentedTextWriter writer, string ns, Action bodyWriter, bool wi
 	writer.WriteLine("using Sdcb.FFmpegAPIWrapper.Common;");
 	writer.WriteLine("using FFmpeg.AutoGen;");
 	writer.WriteLine("using static FFmpeg.AutoGen.ffmpeg;");
+	foreach (string additionalNamespace in additionalNamespaces ?? new string[0])
+	{
+		writer.WriteLine($"using {additionalNamespace};");
+	}
 	writer.WriteLine();
 
 	writer.WriteLine($"namespace {ns}");

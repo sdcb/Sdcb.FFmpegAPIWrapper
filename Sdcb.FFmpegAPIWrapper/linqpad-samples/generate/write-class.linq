@@ -15,11 +15,14 @@ void Main()
 }
 
 void WriteClass(Type targetType, string ns, string newName, 
-	Func<string, string?>? propNameMapping = null,
+	Func<string, (string, string?)?> propTypeMapping = null!,
+	Func<string, string?> propNameMapping = null!, 
+	string[]? additionalNamespaces = null, 
 	bool writeStub = false)
 {
-	if (propNameMapping == null) propNameMapping = str => null;
-
+	if (propTypeMapping == null) propTypeMapping = _ => null;
+	if (propNameMapping == null) propNameMapping = _ => null;
+	
 	using var _file = new StreamWriter($"{newName}.g.cs");
 	using var writer = new IndentedTextWriter(_file, new string(' ', 4));
 
@@ -28,7 +31,7 @@ void WriteClass(Type targetType, string ns, string newName,
 		WriteMultiLines(writer, BuildTypeDocument(targetType));
 		writer.WriteLine($"public unsafe partial class {newName} : FFmpegSafeObject");
 		PushIndent(writer, WriteClassBodies);
-	});
+	}, additionalNamespaces: additionalNamespaces);
 	
 	if (writeStub && !File.Exists(newName + ".stub.cs"))
 	{
@@ -64,47 +67,10 @@ void WriteClass(Type targetType, string ns, string newName,
 
 		foreach (string line in string.Join("\r\n\r\n", targetType
 			.GetFields()
-			.Select(Convert))
+			.Select(x => Convert(x, "Pointer", propNameMapping, propTypeMapping)))
 			.Split("\r\n"))
 		{
 			writer.WriteLine(line);
-		};
-	}
-
-	string Convert(FieldInfo field)
-	{
-		string fieldName = IdentifierConvert(field.Name);
-		string propName = PropertyConvert(field);
-		(string destType, string method) = FromTypeString(field, propNameMapping);
-		ObsoleteAttribute? obsolete = field.GetCustomAttribute<ObsoleteAttribute>();
-
-		return BuildFieldDocument(field) + BuildPrefix(field, obsolete) + method switch
-		{
-			null =>
-				$"public {destType} {propName}\r\n" +
-				$"{{\r\n" +
-				$"    get => Pointer->{fieldName};\r\n" +
-				$"    set => Pointer->{fieldName} = value;\r\n" +
-				$"}}",
-			"force" =>
-				$"public {destType} {propName}\r\n" +
-				$"{{\r\n" +
-				$"    get => ({destType})Pointer->{fieldName};\r\n" +
-				$"    set => Pointer->{fieldName} = ({GetFriendlyTypeName(field.FieldType)})value;\r\n" +
-				$"}}",
-			".FromNativeNotOwner" =>
-				$"public {destType} {propName}\r\n" +
-				$"{{\r\n" +
-				$"    get => {destType}.FromNative(Pointer->{fieldName}, isOwner: false);\r\n" +
-				$"    set => Pointer->{fieldName} = value;\r\n" +
-				$"}}",
-			var x when x.StartsWith(".") =>
-				$"public {destType} {propName}\r\n" +
-				$"{{\r\n" +
-				$"    get => {destType}{method}(Pointer->{fieldName});\r\n" +
-				$"    set => Pointer->{fieldName} = value;\r\n" +
-				$"}}",
-			_ => throw new ArgumentOutOfRangeException(method),
 		};
 	}
 }
@@ -126,10 +92,13 @@ string BuildPrefix(FieldInfo field, ObsoleteAttribute? obsolete)
 }
 
 void WriteStruct(Type targetType, string ns, string newName,
-	Func<string, string?>? propNameMapping = null,
-	bool writeStub = false)
+	Func<string, (string, string?)?> propTypeMapping = null!,
+	Func<string, string?> propNameMapping = null!, 
+	bool writeStub = false, 
+	bool hideCallback = true)
 {
-	if (propNameMapping == null) propNameMapping = str => null;
+	if (propTypeMapping == null) propTypeMapping = _ => null;
+	if (propNameMapping == null) propNameMapping = _ => null;
 
 	using var _file = new StreamWriter($"{newName}.g.cs");
 	using var writer = new IndentedTextWriter(_file, new string(' ', 4));
@@ -179,59 +148,84 @@ void WriteStruct(Type targetType, string ns, string newName,
 
 		foreach (string line in string.Join("\r\n\r\n", targetType
 			.GetFields()
-			.Select(Convert))
+			.Select(x => Convert(x, "_ptr", propNameMapping, propTypeMapping)))
 			.Split("\r\n"))
 		{
 			writer.WriteLine(line);
 		};
 	}
-
-	string Convert(FieldInfo field)
-	{
-		string fieldName = IdentifierConvert(field.Name);
-		string propName = PropertyConvert(field);
-		(string destType, string method) = FromTypeString(field, propNameMapping);
-		ObsoleteAttribute? obsolete = field.GetCustomAttribute<ObsoleteAttribute>();
-
-		return BuildFieldDocument(field) + BuildPrefix(field, obsolete) + method switch
-		{
-			null =>
-				$"public {destType} {propName}\r\n" +
-				$"{{\r\n" +
-				$"    get => _ptr->{fieldName};\r\n" +
-				$"    set => _ptr->{fieldName} = value;\r\n" +
-				$"}}",
-			"force" =>
-				$"public {destType} {propName}\r\n" +
-				$"{{\r\n" +
-				$"    get => ({destType})_ptr->{fieldName};\r\n" +
-				$"    set => _ptr->{fieldName} = ({GetFriendlyTypeName(field.FieldType)})value;\r\n" +
-				$"}}",
-			".FromNativeNotOwner" =>
-				$"public {destType} {propName}\r\n" +
-				$"{{\r\n" +
-				$"    get => {destType}.FromNative(_ptr->{fieldName}, isOwner: false);\r\n" +
-				$"    set => _ptr->{fieldName} = value;\r\n" +
-				$"}}",
-			var x when x.StartsWith('.') =>
-				$"public {destType} {propName}\r\n" +
-				$"{{\r\n" +
-				$"    get => {destType}{method}(_ptr->{fieldName});\r\n" +
-				$"    set => _ptr->{fieldName} = value;\r\n" +
-				$"}}",
-			_ => throw new ArgumentOutOfRangeException(method),
-		};
-	}
 }
 
-(string destType, string method) FromTypeString(FieldInfo field, Func<string, string> propNameMapping)
+string Convert(FieldInfo field, string pointerName, Func<string, string?> propNameMapping, Func<string, (string, string?)?> propTypeMapping)
+{
+	string fieldName = IdentifierConvert(field.Name);
+	string propName = FieldConvert(field.Name, propNameMapping);
+	(string destType, string? method) = FromTypeString(field, propTypeMapping);
+	ObsoleteAttribute? obsolete = field.GetCustomAttribute<ObsoleteAttribute>();
+
+	bool isCallback = field.FieldType.Name.EndsWith("_func");
+	bool isObsolete = obsolete != null;
+	string modifier = (isCallback || isObsolete) ? "internal" : "public";
+
+	return BuildFieldDocument(field) + BuildPrefix(field, obsolete) + method switch
+	{
+		null =>
+			$"{modifier} {destType} {propName}\r\n" +
+			$"{{\r\n" +
+			$"    get => {pointerName}->{fieldName};\r\n" +
+			$"    set => {pointerName}->{fieldName} = value;\r\n" +
+			$"}}",
+		"str" =>
+			$"{modifier} {destType} {propName}\r\n" +
+			$"{{\r\n" +
+			$"    get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr){pointerName}->{fieldName});\r\n" + 
+	        $"    set\r\n" + 
+	        $"    {{\r\n" + 
+	        $"        if ({pointerName}->{fieldName} != null)\r\n" + 
+	        $"        {{\r\n" + 
+	        $"            av_free({pointerName}->{fieldName});\r\n" + 
+	        $"            {pointerName}->{fieldName} = null;\r\n" + 
+	        $"        }}\r\n" + 
+			$"\r\n" + 
+	        $"        if (value != null)\r\n" + 
+	        $"        {{\r\n" + 
+	        $"            {pointerName}->{fieldName} = av_strdup(value);\r\n" + 
+	        $"        }}\r\n" + 
+	        $"    }}\r\n" + 
+	        $"}}\r\n", 
+		"force" =>
+			$"{modifier} {destType} {propName}\r\n" +
+			$"{{\r\n" +
+			$"    get => ({destType}){pointerName}->{fieldName};\r\n" +
+			$"    set => {pointerName}->{fieldName} = ({GetFriendlyTypeName(field.FieldType)})value;\r\n" +
+			$"}}",
+		".FromNativeNotOwner" =>
+			$"{modifier} {destType} {propName}\r\n" +
+			$"{{\r\n" +
+			$"    get => {destType}.FromNative({pointerName}->{fieldName}, isOwner: false);\r\n" +
+			$"    set => {pointerName}->{fieldName} = value;\r\n" +
+			$"}}",
+		var x when x.StartsWith('.') =>
+			$"{modifier} {destType} {propName}\r\n" +
+			$"{{\r\n" +
+			$"    get => {destType}{method}({pointerName}->{fieldName});\r\n" +
+			$"    set => {pointerName}->{fieldName} = value;\r\n" +
+			$"}}",
+		_ => throw new ArgumentOutOfRangeException(method),
+	};
+}
+
+(string destType, string? method) FromTypeString(FieldInfo field, Func<string, (string destType, string? method)?> propTypeMapping)
 {
 	Type fieldType = field.FieldType;
 	return (fieldTypeName: fieldType.Name, fieldName: field.Name) switch
 	{
+		var x when propTypeMapping(field.Name) != null => propTypeMapping(field.Name)!.Value,
 		("AVClass*", _) => call("FFmpegClass", "FromNative"),
 		("AVCodec*", _) => call("Codec", "FromNative"),
+		("AVIOContext*", _) => call("MediaIO", "FromNativeNotOwner"),
 		("AVRational", _) => direct("MediaRational"),
+		("AVDictionary*", _) => call("MediaDictionary", "FromNativeNotOwner"), 
 		("Void*", _) => force("IntPtr"),
 		("Byte*", _) => force("IntPtr"),
 		("byte_ptrArray4", _) => force("Ptr4"),
@@ -254,34 +248,15 @@ void WriteStruct(Type targetType, string ns, string newName,
 		("AVChromaLocation", _) => force("ChromaLocation"),
 		("AVPictureType", _) => force("PictureType"),
 		("AVPacketSideDataType", _) => force("PacketSideDataType"),
-		var x when propNameMapping(field.Name) != null => force(propNameMapping(field.Name)),
+		("AVDurationEstimationMethod", _) => force("DurationEstimationMethod"), 
+		("AVInputFormat*", _) => call("InputFormat", "FromNativeNotOwner"), 
+		("AVOutputFormat*", _) => call("OutputFormat", "FromNativeNotOwner"), 
 		var x when GetFriendlyTypeName(fieldType) != x.fieldTypeName => direct(GetFriendlyTypeName(fieldType)),
 		var x => direct(x.fieldTypeName),
 	};
-
-	(string, string) force(string s) => (s, "force");
-	(string, string) direct(string s) => (s, null);
-	(string, string) call(string s, string m) => (s, "." + m);
 }
 
-string PropertyConvert(FieldInfo field)
-{
-	Dictionary<string, string> knownMapping = new()
-	{
-		["pkt"] = "Packet",
-		["pix_"] = "Pixel_",
-		["fmt"] = "Format",
-		["ctx"] = "Context",
-		["priv_"] = "Private_",
-		["pict_"] = "Picture_",
-		["av_class"] = "FFmpegClass",
-	};
-
-	string fieldName = field.Name;
-	foreach (var m in knownMapping)
-	{
-		fieldName = fieldName.Replace(m.Key, m.Value);
-	}
-
-	return PascalCase(fieldName);
-}
+(string, string) str() => ("string", "str");
+(string, string) force(string s) => (s, "force");
+(string, string?) direct(string s) => (s, null);
+(string, string) call(string s, string m) => (s, "." + m);

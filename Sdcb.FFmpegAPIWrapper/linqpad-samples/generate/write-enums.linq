@@ -49,6 +49,14 @@
 	WriteConstEnum("AV_OPT_SEARCH_", ns, "OptionSearchFlags");
 }
 
+{
+	SetDir(@"\MediaFormats\GeneratedEnums");
+	string ns = "Sdcb.FFmpegAPIWrapper.MediaFormats";
+	WriteEnum(typeof(AVDurationEstimationMethod), ns, "DurationEstimationMethod");
+	WriteConstEnum("AVFMT_FLAG_", ns, "FormatFlag");
+	WriteConstEnum("AVFMT_EVENT_FLAG_", ns, "EventFlag");
+}
+
 void WriteConstEnum(string prefix, string ns, string newName)
 {
 	using var _file = new StreamWriter(newName + ".g.cs");
@@ -93,7 +101,7 @@ void WriteConstEnum(string prefix, string ns, string newName)
 		
 		foreach (FieldInfo field in fields.OrderBy(x => Convert.ToDecimal(x.GetValue(null))))
 		{
-			string name = PascalCase(field.Name.Replace(prefix, ""));
+			string name = FieldConvert(field.Name.Replace(prefix, ""), nameMapping: null);
 
 			WriteMultiLines(writer, BuildFieldDocument(field));
 			writer.WriteLine($"{name} = {CSharpLiteral(field.GetValue(null), underlyingType)},");
@@ -140,7 +148,7 @@ void WriteEnum(Type enumType, string ns, string newName)
 		for (var i = 0; i < names.Length; ++i)
 		{
 			string cname = names[i];
-			string name = PascalCase(cname.Replace(commonPrefix, ""));
+			string name = FieldConvert(cname.Replace(commonPrefix, ""), nameMapping: null);
 
 			WriteMultiLines(writer, BuildFieldDocument(enumType.GetField(cname)));
 			writer.WriteLine($"{name} = {CSharpLiteral(values.GetValue(i), underlyingType)},");
