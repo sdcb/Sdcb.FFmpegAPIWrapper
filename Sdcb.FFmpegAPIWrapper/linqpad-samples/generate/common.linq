@@ -75,15 +75,11 @@ string GetFriendlyTypeName(Type type, bool includeNamespace = false)
 	}
 }
 
-string FieldConvert(string fieldName, Func<string, string?>? nameMapping)
+string FieldConvert(string fieldName, Dictionary<string, string> nameMapping)
 {
-	if (nameMapping != null)
+	if (nameMapping.TryGetValue(fieldName, out string? val))
 	{
-		string? mappingResult = nameMapping(fieldName);
-		if (mappingResult != null)
-		{
-			return mappingResult;
-		}
+		return val;
 	}
 
 	Dictionary<string, string> knownMapping = new()

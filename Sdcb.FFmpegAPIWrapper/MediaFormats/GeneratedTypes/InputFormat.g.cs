@@ -11,17 +11,22 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
     /// <para>@{.</para>
     /// <see cref="AVInputFormat" />
     /// </summary>
-    public unsafe partial class InputFormat : FFmpegSafeObject
+    public unsafe partial struct InputFormat
     {
-        protected AVInputFormat* Pointer => this;
+        private AVInputFormat* _ptr;
         
-        public static implicit operator AVInputFormat*(InputFormat data) => data != null ? (AVInputFormat*)data._nativePointer : null;
+        public static implicit operator AVInputFormat*(InputFormat data) => (AVInputFormat*)data._ptr;
         
-        protected InputFormat(AVInputFormat* ptr, bool isOwner): base(NativeUtils.NotNull((IntPtr)ptr), isOwner)
+        private InputFormat(AVInputFormat* ptr)
         {
+            if (ptr == null)
+            {
+                throw new ArgumentNullException(nameof(ptr));
+            }
+            _ptr = ptr;
         }
         
-        public static InputFormat FromNative(AVInputFormat* ptr, bool isOwner) => new InputFormat(ptr, isOwner);
+        public static InputFormat FromNative(AVInputFormat* ptr) => new InputFormat(ptr);
         
         /// <summary>
         /// <para>A comma separated list of short names for the format.</para>
@@ -30,18 +35,18 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public string Name
         {
-            get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr)Pointer->name);
+            get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr)_ptr->name);
             set
             {
-                if (Pointer->name != null)
+                if (_ptr->name != null)
                 {
-                    av_free(Pointer->name);
-                    Pointer->name = null;
+                    av_free(_ptr->name);
+                    _ptr->name = null;
                 }
         
                 if (value != null)
                 {
-                    Pointer->name = av_strdup(value);
+                    _ptr->name = av_strdup(value);
                 }
             }
         }
@@ -54,18 +59,18 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public string LongName
         {
-            get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr)Pointer->long_name);
+            get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr)_ptr->long_name);
             set
             {
-                if (Pointer->long_name != null)
+                if (_ptr->long_name != null)
                 {
-                    av_free(Pointer->long_name);
-                    Pointer->long_name = null;
+                    av_free(_ptr->long_name);
+                    _ptr->long_name = null;
                 }
         
                 if (value != null)
                 {
-                    Pointer->long_name = av_strdup(value);
+                    _ptr->long_name = av_strdup(value);
                 }
             }
         }
@@ -77,8 +82,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public int Flags
         {
-            get => Pointer->flags;
-            set => Pointer->flags = value;
+            get => _ptr->flags;
+            set => _ptr->flags = value;
         }
         
         /// <summary>
@@ -86,19 +91,32 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para> You should usually not use extension format guessing because it is not reliable enough.</para>
         /// <see cref="AVInputFormat.extensions" />
         /// </summary>
-        public IntPtr Extensions
+        public string Extensions
         {
-            get => (IntPtr)Pointer->extensions;
-            set => Pointer->extensions = (byte*)value;
+            get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr)_ptr->extensions);
+            set
+            {
+                if (_ptr->extensions != null)
+                {
+                    av_free(_ptr->extensions);
+                    _ptr->extensions = null;
+                }
+        
+                if (value != null)
+                {
+                    _ptr->extensions = av_strdup(value);
+                }
+            }
         }
+        
         
         /// <summary>
         /// <see cref="AVInputFormat.codec_tag" />
         /// </summary>
         public AVCodecTag** CodecTag
         {
-            get => Pointer->codec_tag;
-            set => Pointer->codec_tag = value;
+            get => _ptr->codec_tag;
+            set => _ptr->codec_tag = value;
         }
         
         /// <summary>
@@ -107,8 +125,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public FFmpegClass PrivateClass
         {
-            get => FFmpegClass.FromNative(Pointer->priv_class);
-            set => Pointer->priv_class = value;
+            get => FFmpegClass.FromNative(_ptr->priv_class);
+            set => _ptr->priv_class = value;
         }
         
         /// <summary>
@@ -118,18 +136,18 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public string MimeType
         {
-            get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr)Pointer->mime_type);
+            get => System.Runtime.InteropServices.Marshal.PtrToStringUTF8((IntPtr)_ptr->mime_type);
             set
             {
-                if (Pointer->mime_type != null)
+                if (_ptr->mime_type != null)
                 {
-                    av_free(Pointer->mime_type);
-                    Pointer->mime_type = null;
+                    av_free(_ptr->mime_type);
+                    _ptr->mime_type = null;
                 }
         
                 if (value != null)
                 {
-                    Pointer->mime_type = av_strdup(value);
+                    _ptr->mime_type = av_strdup(value);
                 }
             }
         }
@@ -144,8 +162,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public InputFormat Next
         {
-            get => InputFormat.FromNative(Pointer->next, isOwner: false);
-            set => Pointer->next = value;
+            get => InputFormat.FromNative(_ptr->next);
+            set => _ptr->next = value;
         }
         
         /// <summary>
@@ -154,8 +172,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public int RawCodecId
         {
-            get => Pointer->raw_codec_id;
-            set => Pointer->raw_codec_id = value;
+            get => _ptr->raw_codec_id;
+            set => _ptr->raw_codec_id = value;
         }
         
         /// <summary>
@@ -164,8 +182,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public int PrivateDataSize
         {
-            get => Pointer->priv_data_size;
-            set => Pointer->priv_data_size = value;
+            get => _ptr->priv_data_size;
+            set => _ptr->priv_data_size = value;
         }
         
         /// <summary>
@@ -175,8 +193,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_read_probe_func ReadProbe
         {
-            get => Pointer->read_probe;
-            set => Pointer->read_probe = value;
+            get => _ptr->read_probe;
+            set => _ptr->read_probe = value;
         }
         
         /// <summary>
@@ -187,8 +205,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_read_header_func ReadHeader
         {
-            get => Pointer->read_header;
-            set => Pointer->read_header = value;
+            get => _ptr->read_header;
+            set => _ptr->read_header = value;
         }
         
         /// <summary>
@@ -199,8 +217,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_read_packet_func ReadPacket
         {
-            get => Pointer->read_packet;
-            set => Pointer->read_packet = value;
+            get => _ptr->read_packet;
+            set => _ptr->read_packet = value;
         }
         
         /// <summary>
@@ -210,8 +228,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_read_close_func ReadClose
         {
-            get => Pointer->read_close;
-            set => Pointer->read_close = value;
+            get => _ptr->read_close;
+            set => _ptr->read_close = value;
         }
         
         /// <summary>
@@ -220,8 +238,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_read_seek_func ReadSeek
         {
-            get => Pointer->read_seek;
-            set => Pointer->read_seek = value;
+            get => _ptr->read_seek;
+            set => _ptr->read_seek = value;
         }
         
         /// <summary>
@@ -231,8 +249,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_read_timestamp_func ReadTimestamp
         {
-            get => Pointer->read_timestamp;
-            set => Pointer->read_timestamp = value;
+            get => _ptr->read_timestamp;
+            set => _ptr->read_timestamp = value;
         }
         
         /// <summary>
@@ -241,8 +259,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_read_play_func ReadPlay
         {
-            get => Pointer->read_play;
-            set => Pointer->read_play = value;
+            get => _ptr->read_play;
+            set => _ptr->read_play = value;
         }
         
         /// <summary>
@@ -251,8 +269,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_read_pause_func ReadPause
         {
-            get => Pointer->read_pause;
-            set => Pointer->read_pause = value;
+            get => _ptr->read_pause;
+            set => _ptr->read_pause = value;
         }
         
         /// <summary>
@@ -264,8 +282,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_read_seek2_func ReadSeek2
         {
-            get => Pointer->read_seek2;
-            set => Pointer->read_seek2 = value;
+            get => _ptr->read_seek2;
+            set => _ptr->read_seek2 = value;
         }
         
         /// <summary>
@@ -274,8 +292,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_get_device_list_func GetDeviceList
         {
-            get => Pointer->get_device_list;
-            set => Pointer->get_device_list = value;
+            get => _ptr->get_device_list;
+            set => _ptr->get_device_list = value;
         }
         
         /// <summary>
@@ -284,8 +302,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_create_device_capabilities_func CreateDeviceCapabilities
         {
-            get => Pointer->create_device_capabilities;
-            set => Pointer->create_device_capabilities = value;
+            get => _ptr->create_device_capabilities;
+            set => _ptr->create_device_capabilities = value;
         }
         
         /// <summary>
@@ -294,8 +312,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         internal AVInputFormat_free_device_capabilities_func FreeDeviceCapabilities
         {
-            get => Pointer->free_device_capabilities;
-            set => Pointer->free_device_capabilities = value;
+            get => _ptr->free_device_capabilities;
+            set => _ptr->free_device_capabilities = value;
         }
     }
 }

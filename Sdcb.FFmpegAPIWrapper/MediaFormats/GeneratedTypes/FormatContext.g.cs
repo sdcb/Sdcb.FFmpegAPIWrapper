@@ -43,7 +43,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public InputFormat InputFormat
         {
-            get => InputFormat.FromNative(Pointer->iformat, isOwner: false);
+            get => InputFormat.FromNative(Pointer->iformat);
             set => Pointer->iformat = value;
         }
         
@@ -53,7 +53,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public OutputFormat Oformat
         {
-            get => OutputFormat.FromNative(Pointer->oformat, isOwner: false);
+            get => OutputFormat.FromNative(Pointer->oformat);
             set => Pointer->oformat = value;
         }
         

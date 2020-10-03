@@ -15,31 +15,44 @@ Directory.CreateDirectory(baseDir);
 Environment.CurrentDirectory = baseDir;
 
 string ns = "Sdcb.FFmpegAPIWrapper.MediaFormats";
-WriteClass(typeof(AVFormatContext), ns, "FormatContext", propNameMapping: x => x switch
-{	
-	"iformat" => "InputFormat", 
-	"pb" => "IO",
-	_ => null,
-}, propTypeMapping: x => x switch
+WriteClass(new GenerateOption(typeof(AVFormatContext), ns, "FormatContext")
 {
-	"url" => str(),	
-	"flags" => force("FormatFlag"), 
-	"event_flags" => force("EventFlag"), 
-	"avio_flags" => force("MediaIOFlags"), 
-	_ => null
-}, additionalNamespaces: new[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" });
-WriteClass(typeof(AVInputFormat), ns, "InputFormat", propTypeMapping: x => x switch
-{
-	"name" => str(), 
-	"long_name" => str(), 
-	"mime_type" => str(), 
-	_ => null, 
+	FieldNameMapping = new()
+	{
+		["iformat"] = "InputFormat",
+		["pb"] = "IO",
+	},
+	FieldTypeMapping = new()
+	{
+		["url"] = str(),
+		["flags"] = force("FormatFlag"),
+		["event_flags"] = force("EventFlag"),
+		["avio_flags"] = force("MediaIOFlags"),
+	},
+	AdditionalNamespaces = new string[] {"Sdcb.FFmpegAPIWrapper.MediaCodecs" }, 
+	WriteStub = true, 
 });
-WriteClass(typeof(AVOutputFormat), ns, "OutputFormat", propTypeMapping: x => x switch
+
+WriteStruct(new GenerateOption(typeof(AVInputFormat), ns, "InputFormat")
 {
-	"name" => str(),
-	"long_name" => str(),
-	"mime_type" => str(),
-	_ => null,
-}, additionalNamespaces: new[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" });
-//WriteClass(typeof(AVBufferPool), ns, "BufferPool");
+	FieldTypeMapping = new()
+	{
+		["name"] = str(),
+		["long_name"] = str(),
+		["extensions"] = str(),
+		["mime_type"] = str(),
+	}, 
+	WriteStub = false
+});
+
+WriteStruct(new GenerateOption(typeof(AVOutputFormat), ns, "OutputFormat")
+{
+	FieldTypeMapping = new()
+	{
+		["name"] = str(),
+		["long_name"] = str(),
+		["extensions"] = str(),
+		["mime_type"] = str(),
+	},
+	AdditionalNamespaces = new string[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" }
+});
