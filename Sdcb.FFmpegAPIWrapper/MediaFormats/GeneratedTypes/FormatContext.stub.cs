@@ -59,6 +59,22 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         public MediaProgram NewProgram(int id) => MediaProgram.FromNative(av_new_program(this, id));
 
         /// <summary>
+        /// <see cref="avformat_find_stream_info(AVFormatContext*, AVDictionary**)"/>
+        /// </summary>
+        public MediaDictionary FindStreamInfo()
+        {
+            AVDictionary* dict;
+            avformat_find_stream_info(this, &dict);
+            return MediaDictionary.FromNative(dict, isOwner: true);
+        }
+
+        /// <summary>
+        /// <see cref="av_find_program_from_stream(AVFormatContext*, AVProgram*, int)"/>
+        /// </summary>
+        public MediaProgram? FindProgramFromStream(MediaProgram? last, int index)
+            => MediaProgram.FromNativeOrNull(av_find_program_from_stream(this, last, index));
+
+        /// <summary>
         /// <see cref="avformat_free_context(AVFormatContext*)"/>
         /// </summary>
         public void Free()

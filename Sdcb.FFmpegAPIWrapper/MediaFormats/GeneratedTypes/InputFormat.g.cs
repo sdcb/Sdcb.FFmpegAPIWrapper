@@ -28,6 +28,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         public static InputFormat FromNative(AVInputFormat* ptr) => new InputFormat(ptr);
+        internal static InputFormat? FromNativeOrNull(AVInputFormat* ptr)
+            => ptr != null ? new InputFormat?(new InputFormat(ptr)) : null;
         
         /// <summary>
         /// <para>A comma separated list of short names for the format.</para>

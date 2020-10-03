@@ -31,6 +31,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         public static MediaProgram FromNative(AVProgram* ptr) => new MediaProgram(ptr);
+        internal static MediaProgram? FromNativeOrNull(AVProgram* ptr)
+            => ptr != null ? new MediaProgram?(new MediaProgram(ptr)) : null;
         
         /// <summary>
         /// <see cref="AVProgram.id" />
