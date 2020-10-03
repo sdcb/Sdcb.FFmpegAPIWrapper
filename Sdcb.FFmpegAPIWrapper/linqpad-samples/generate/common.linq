@@ -90,6 +90,7 @@ string FieldConvert(string fieldName, Dictionary<string, string> nameMapping)
 		["ctx"] = "Context",
 		["priv"] = "Private",
 		["pict"] = "Picture",
+		["av"] = "", 
 	};
 
 	string result = string.Concat(fieldName

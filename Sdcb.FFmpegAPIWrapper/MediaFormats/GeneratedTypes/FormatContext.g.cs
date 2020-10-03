@@ -31,7 +31,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para>A class for logging and Exports (de)muxer private options if they exist.</para>
         /// <see cref="AVFormatContext.av_class" />
         /// </summary>
-        public FFmpegClass AvClass
+        public FFmpegClass Class
         {
             get => FFmpegClass.FromNative(Pointer->av_class);
             set => Pointer->av_class = value;

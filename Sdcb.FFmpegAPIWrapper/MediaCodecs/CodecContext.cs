@@ -33,7 +33,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="avcodec_get_class"/>
         /// </summary>
-        public static FFmpegClass FFmpegClass => FFmpegClass.FromNative(avcodec_get_class())!;
+        public static FFmpegClass ContextClass => FFmpegClass.FromNative(avcodec_get_class())!;
 
         /// <summary>
         /// <see cref="avcodec_parameters_to_context(AVCodecContext*, AVCodecParameters*)"/>

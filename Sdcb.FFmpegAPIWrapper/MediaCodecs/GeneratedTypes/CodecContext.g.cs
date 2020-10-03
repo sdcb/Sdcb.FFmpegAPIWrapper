@@ -33,7 +33,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>information on struct for av_log - set by avcodec_alloc_context3.</para>
         /// <see cref="AVCodecContext.av_class" />
         /// </summary>
-        public FFmpegClass AvClass
+        public FFmpegClass Class
         {
             get => FFmpegClass.FromNative(Pointer->av_class);
             set => Pointer->av_class = value;

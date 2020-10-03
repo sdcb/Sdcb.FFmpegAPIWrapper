@@ -170,6 +170,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="avformat_get_class"/>
         /// </summary>
-        public static FFmpegClass FFmpegClass => FFmpegClass.FromNative(avformat_get_class());
+        public static FFmpegClass ContextClass => FFmpegClass.FromNative(avformat_get_class());
     }
 }
