@@ -235,6 +235,9 @@ string Convert(FieldInfo field, string pointerName, Dictionary<string, string> p
 		("AVDurationEstimationMethod", _) => force("DurationEstimationMethod"),
 		("AVInputFormat*", _) => call("InputFormat", "FromNative"),
 		("AVOutputFormat*", _) => call("OutputFormat", "FromNative"),
+		("AVCodecParameters*", _) => call("CodecParameters", "FromNativeNotOwner"),
+		("AVStreamParseType", _) => force("StreamParseType"),
+		("AVCodecParserContext*", _) => call("CodecParserContext", "FromNativeNotOwner"), 
 		var x when GetFriendlyTypeName(fieldType) != x.fieldTypeName => direct(GetFriendlyTypeName(fieldType)),
 		var x => direct(x.fieldTypeName),
 	};

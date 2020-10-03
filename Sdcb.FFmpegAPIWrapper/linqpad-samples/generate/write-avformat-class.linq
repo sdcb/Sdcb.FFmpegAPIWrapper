@@ -59,3 +59,12 @@ WriteStruct(new GenerateOption(typeof(AVOutputFormat), ns, "OutputFormat")
 	AdditionalNamespaces = new string[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" },
 	PrivateMemberFrom = nameof(AVInputFormat.next)
 });
+
+WriteStruct(new GenerateOption(typeof(AVStream), ns, "MediaStream")
+{
+	FieldTypeMapping = new()
+	{
+	},
+	AdditionalNamespaces = new string[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" },
+	//PrivateMemberFrom = nameof(AVInputFormat.next)
+});
