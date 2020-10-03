@@ -27,6 +27,7 @@ WriteClass(new GenerateOption(typeof(AVFormatContext), ns, "FormatContext")
 	{
 		["url"] = str(),
 		["flags"] = force("FormatFlag"),
+		["ctx_flags"] = force("FormatContextFlag"), 
 		["event_flags"] = force("EventFlag"),
 		["avio_flags"] = force("MediaIOFlags"),
 	},

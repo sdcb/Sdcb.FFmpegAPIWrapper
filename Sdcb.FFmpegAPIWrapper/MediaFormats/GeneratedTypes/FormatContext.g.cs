@@ -85,10 +85,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para> Set by libavformat.</para>
         /// <see cref="AVFormatContext.ctx_flags" />
         /// </summary>
-        public int ContextFlags
+        public FormatContextFlag ContextFlags
         {
-            get => Pointer->ctx_flags;
-            set => Pointer->ctx_flags = value;
+            get => (FormatContextFlag)Pointer->ctx_flags;
+            set => Pointer->ctx_flags = (int)value;
         }
         
         /// <summary>

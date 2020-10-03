@@ -27,6 +27,7 @@
   <PropertyGroup>
     <PackageVersionSuffix>$([System.DateTime]::Now.ToString("yyyyMMdd'-'HHmmss"))</PackageVersionSuffix>
     <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPackage|AnyCPU'">

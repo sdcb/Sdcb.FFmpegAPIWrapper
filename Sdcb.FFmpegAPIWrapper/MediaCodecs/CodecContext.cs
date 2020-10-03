@@ -73,7 +73,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public CodecResult ReceiveFrame(Frame frame) => ToCodecResult(avcodec_receive_frame(this, frame));
 
-        private CodecResult ToCodecResult(int result, [CallerMemberName]string? callerMember = null) => result switch
+        internal static CodecResult ToCodecResult(int result, [CallerMemberName]string? callerMember = null) => result switch
         {
             0 => CodecResult.Success,
             var x when x == AVERROR_EOF => CodecResult.EOF,

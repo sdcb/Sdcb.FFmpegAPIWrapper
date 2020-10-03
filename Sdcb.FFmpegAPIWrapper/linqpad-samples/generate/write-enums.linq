@@ -56,9 +56,12 @@
 	WriteEnum(typeof(AVStreamParseType), ns, "StreamParseType");
 	WriteConstEnum("AVFMT_FLAG_", ns, "FormatFlag");
 	WriteConstEnum("AVFMT_EVENT_FLAG_", ns, "EventFlag");
+	WriteConstEnum("AVFMTCTX_", ns, "FormatContextFlag");
+	WriteConstEnum("AVSEEK_FLAG_", ns, "MediaSeek", hasDefault: false);
+	WriteConstEnum("AVSTREAM_INIT_IN_", ns, "StreamInitIn", hasDefault: false);
 }
 
-void WriteConstEnum(string prefix, string ns, string newName)
+void WriteConstEnum(string prefix, string ns, string newName, bool hasDefault = true)
 {
 	using var _file = new StreamWriter(newName + ".g.cs");
 	using var writer = new IndentedTextWriter(_file, new string(' ', 4));
@@ -94,7 +97,7 @@ void WriteConstEnum(string prefix, string ns, string newName)
 		HashSet<decimal> values = fields
 			.Select(x => Convert.ToDecimal(x.GetValue(null)))
 			.ToHashSet();
-		if (!values.Contains(0))
+		if (hasDefault && !values.Contains(0))
 		{
 			writer.WriteLine($"None = {CSharpLiteral(0, underlyingType)},");
 			writer.WriteLine();
