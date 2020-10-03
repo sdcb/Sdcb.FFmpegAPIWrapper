@@ -15,5 +15,5 @@ Directory.CreateDirectory(baseDir);
 Environment.CurrentDirectory = baseDir;
 
 string ns = "Sdcb.FFmpegAPIWrapper.Common";
-WriteClass(typeof(AVBufferRef), ns, "BufferReference");
+WriteClass(new (typeof(AVBufferRef), ns, "BufferReference"));
 //WriteClass(typeof(AVBufferPool), ns, "BufferPool");

@@ -15,26 +15,33 @@ Directory.CreateDirectory(baseDir);
 Environment.CurrentDirectory = baseDir;
 
 string ns = "Sdcb.FFmpegAPIWrapper.MediaCodecs";
-WriteClass(typeof(AVCodecParameters), ns, "CodecParameters");
-WriteClass(typeof(AVFrame), ns, "Frame");
-WriteClass(typeof(AVPacket), ns, "Packet", writeStub: true, propNameMapping: x => x switch
+WriteClass(new GenerateOption(typeof(AVCodecParameters), ns, "CodecParameters"));
+WriteClass(new GenerateOption(typeof(AVFrame), ns, "Frame"));
+WriteClass(new GenerateOption(typeof(AVPacket), ns, "Packet")
 {
-	"flags" => "PacketFlag", 
-	_ => null, 
+	WriteStub = true,
+	FieldTypeMapping = new()
+	{
+		["flags"] = force("PacketFlag")
+	}
 });
-WriteStruct(typeof(AVPacketSideData), ns, "PacketSideData");
-WriteClass(typeof(AVCodecContext), "Sdcb.FFmpegAPIWrapper.MediaCodecs", "CodecContext", x => x switch
+WriteStruct(new GenerateOption(typeof(AVPacketSideData), ns, "PacketSideData"));
+WriteClass(new GenerateOption(typeof(AVCodecContext), ns, "CodecContext")
 {
-	"flags" => "CodecFlag",
-	"flags2" => "CodecFlag2",
-	"ildct_cmp" => "DctComparison",
-	"slice_flags" => "CodecSliceFlag",
-	"mb_decision" => "MacroblockDecision",
-	"export_side_data" => "CodecExportData",
-	_ => null, 
+	FieldTypeMapping = new()
+	{
+		["flags"] = force("CodecFlag"),
+		["flags2"] = force("CodecFlag2"),
+		["ildct_cmp"] = force("DctComparison"),
+		["slice_flags"] = force("CodecSliceFlag"),
+		["mb_decision"] = force("MacroblockDecision"),
+		["export_side_data"] = force("CodecExportData"),
+	},
 });
-WriteClass(typeof(AVCodecParserContext), ns, "CodecParserContext", x => x switch
+WriteClass(new GenerateOption(typeof(AVCodecParserContext), ns, "CodecParserContext")
 {
-	"flags" => "ParserFlag", 
-	_ =>  null, 
+	FieldTypeMapping = new()
+	{
+		["flags"] = force("ParserFlag")
+	}
 });

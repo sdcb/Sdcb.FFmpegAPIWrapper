@@ -33,7 +33,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>information on struct for av_log - set by avcodec_alloc_context3.</para>
         /// <see cref="AVCodecContext.av_class" />
         /// </summary>
-        public FFmpegClass Ffmpegclass
+        public FFmpegClass AvClass
         {
             get => FFmpegClass.FromNative(Pointer->av_class);
             set => Pointer->av_class = value;
@@ -320,35 +320,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <para>If non NULL, &#39;draw_horiz_band&#39; is called by the libavcodec decoder to draw a horizontal band.</para>
-        /// <para> It improves cache usage.</para>
-        /// <para> Not all codecs can do that.</para>
-        /// <para> You must check the codec capabilities beforehand.</para>
-        /// <para> When multithreading is used, it may be called from multiple threads at the same time; threads might draw different parts of the same AVFrame, or multiple AVFrames, and there is no guarantee that slices will be drawn in order.</para>
-        /// <para> The function is also used by hardware acceleration APIs.</para>
-        /// <para> It is called at least once during frame decoding to pass the data needed for hardware render.</para>
-        /// <para> In that mode instead of pixel data, AVFrame points to a structure specific to the acceleration API.</para>
-        /// <para> The application reads the structure and can change some fields to indicate progress or mark state.</para>
-        /// <para> - encoding: unused - decoding: Set by user.</para>
-        /// <see cref="AVCodecContext.draw_horiz_band" />
-        /// </summary>
-        public AVCodecContext_draw_horiz_band_func DrawHorizBand
-        {
-            get => Pointer->draw_horiz_band;
-            set => Pointer->draw_horiz_band = value;
-        }
-        
-        /// <summary>
-        /// <para>callback to negotiate the pixelFormat.</para>
-        /// <see cref="AVCodecContext.get_format" />
-        /// </summary>
-        public AVCodecContext_get_format_func GetFormat
-        {
-            get => Pointer->get_format;
-            set => Pointer->get_format = value;
-        }
-        
-        /// <summary>
         /// <para>maximum number of B-frames between non-B-frames Note: The output will be delayed by max_b_frames+1 relative to the input.</para>
         /// <para> - encoding: Set by user.</para>
         /// <para> - decoding: unused.</para>
@@ -374,16 +345,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <see cref="AVCodecContext.b_frame_strategy" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int BFrameStrategy
-        {
-            get => Pointer->b_frame_strategy;
-            set => Pointer->b_frame_strategy = value;
-        }
-        
-        /// <summary>
         /// <para>qscale offset between IP and B-frames - encoding: Set by user.</para>
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.b_quant_offset" />
@@ -405,16 +366,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->has_b_frames;
             set => Pointer->has_b_frames = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.mpeg_quant" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int MpegQuant
-        {
-            get => Pointer->mpeg_quant;
-            set => Pointer->mpeg_quant = value;
         }
         
         /// <summary>
@@ -508,16 +459,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <see cref="AVCodecContext.prediction_method" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int PredictionMethod
-        {
-            get => Pointer->prediction_method;
-            set => Pointer->prediction_method = value;
-        }
-        
-        /// <summary>
         /// <para>slice offsets in the frame in bytes - encoding: Set/allocated by libavcodec.</para>
         /// <para> - decoding: Set/allocated by user (or NULL).</para>
         /// <see cref="AVCodecContext.slice_offset" />
@@ -605,16 +546,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->last_predictor_count;
             set => Pointer->last_predictor_count = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.pre_me" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int PreMe
-        {
-            get => Pointer->pre_me;
-            set => Pointer->pre_me = value;
         }
         
         /// <summary>
@@ -708,26 +639,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <see cref="AVCodecContext.scenechange_threshold" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int ScenechangeThreshold
-        {
-            get => Pointer->scenechange_threshold;
-            set => Pointer->scenechange_threshold = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.noise_reduction" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int NoiseReduction
-        {
-            get => Pointer->noise_reduction;
-            set => Pointer->noise_reduction = value;
-        }
-        
-        /// <summary>
         /// <para>precision of the intra DC coefficient - 8 - encoding: Set by user.</para>
         /// <para> - decoding: Set by libavcodec.</para>
         /// <see cref="AVCodecContext.intra_dc_precision" />
@@ -783,16 +694,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <see cref="AVCodecContext.me_penalty_compensation" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int MePenaltyCompensation
-        {
-            get => Pointer->me_penalty_compensation;
-            set => Pointer->me_penalty_compensation = value;
-        }
-        
-        /// <summary>
         /// <para>- encoding: Set by user.</para>
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.bidir_refine" />
@@ -801,16 +702,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->bidir_refine;
             set => Pointer->bidir_refine = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.brd_scale" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int BrdScale
-        {
-            get => Pointer->brd_scale;
-            set => Pointer->brd_scale = value;
         }
         
         /// <summary>
@@ -836,16 +727,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <see cref="AVCodecContext.chromaoffset" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int Chromaoffset
-        {
-            get => Pointer->chromaoffset;
-            set => Pointer->chromaoffset = value;
-        }
-        
-        /// <summary>
         /// <para>Note: Value depends upon the compare function used for fullpel ME.</para>
         /// <para> - encoding: Set by user.</para>
         /// <para> - decoding: unused.</para>
@@ -855,16 +736,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->mv0_threshold;
             set => Pointer->mv0_threshold = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.b_sensitivity" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int BSensitivity
-        {
-            get => Pointer->b_sensitivity;
-            set => Pointer->b_sensitivity = value;
         }
         
         /// <summary>
@@ -1063,19 +934,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <para>This callback is called at the beginning of each frame to get data buffer(s) for it.</para>
-        /// <para> There may be one contiguous buffer for all the data or there may be a buffer per each data plane or anything in between.</para>
-        /// <para> What this means is, you may set however many entries in buf[] you feel necessary.</para>
-        /// <para> Each buffer must be reference-counted using the AVBuffer API (see description of buf[] below).</para>
-        /// <see cref="AVCodecContext.get_buffer2" />
-        /// </summary>
-        public AVCodecContext_get_buffer2_func GetBuffer2
-        {
-            get => Pointer->get_buffer2;
-            set => Pointer->get_buffer2 = value;
-        }
-        
-        /// <summary>
         /// <para>If non-zero, the decoded audio and video frames returned from avcodec_decode_video2() and avcodec_decode_audio4() are reference-counted and are valid indefinitely.</para>
         /// <para> The caller must free them with av_frame_unref() when they are not needed anymore.</para>
         /// <para> Otherwise, the decoded frames must not be freed by the caller and are only valid until the next decode call.</para>
@@ -1234,66 +1092,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <see cref="AVCodecContext.coder_type" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int CoderType
-        {
-            get => Pointer->coder_type;
-            set => Pointer->coder_type = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.context_model" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int ContextModel
-        {
-            get => Pointer->context_model;
-            set => Pointer->context_model = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.frame_skip_threshold" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int FrameSkipThreshold
-        {
-            get => Pointer->frame_skip_threshold;
-            set => Pointer->frame_skip_threshold = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.frame_skip_factor" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int FrameSkipFactor
-        {
-            get => Pointer->frame_skip_factor;
-            set => Pointer->frame_skip_factor = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.frame_skip_exp" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int FrameSkipExp
-        {
-            get => Pointer->frame_skip_exp;
-            set => Pointer->frame_skip_exp = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.frame_skip_cmp" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int FrameSkipCmp
-        {
-            get => Pointer->frame_skip_cmp;
-            set => Pointer->frame_skip_cmp = value;
-        }
-        
-        /// <summary>
         /// <para>trellis RD quantization - encoding: Set by user.</para>
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.trellis" />
@@ -1302,56 +1100,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->trellis;
             set => Pointer->trellis = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.min_prediction_order" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int MinPredictionOrder
-        {
-            get => Pointer->min_prediction_order;
-            set => Pointer->min_prediction_order = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.max_prediction_order" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int MaxPredictionOrder
-        {
-            get => Pointer->max_prediction_order;
-            set => Pointer->max_prediction_order = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.timecode_frame_start" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public long TimecodeFrameStart
-        {
-            get => Pointer->timecode_frame_start;
-            set => Pointer->timecode_frame_start = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.rtp_callback" />
-        /// </summary>
-        [Obsolete("unused")]
-        public AVCodecContext_rtp_callback_func RtpCallback
-        {
-            get => Pointer->rtp_callback;
-            set => Pointer->rtp_callback = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.rtp_payload_size" />
-        /// </summary>
-        [Obsolete("use encoder private options instead")]
-        public int RtpPayloadSize
-        {
-            get => Pointer->rtp_payload_size;
-            set => Pointer->rtp_payload_size = value;
         }
         
         /// <summary>
@@ -1424,16 +1172,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->misc_bits;
             set => Pointer->misc_bits = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.frame_bits" />
-        /// </summary>
-        [Obsolete("this field is unused")]
-        public int FrameBits
-        {
-            get => Pointer->frame_bits;
-            set => Pointer->frame_bits = value;
         }
         
         /// <summary>
@@ -1627,18 +1365,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <para>the picture in the bitstream - encoding: Set by libavcodec.</para>
-        /// <para> - decoding: unused.</para>
-        /// <see cref="AVCodecContext.coded_frame" />
-        /// </summary>
-        [Obsolete("use the quality factor packet side data instead")]
-        public AVFrame* CodedFrame
-        {
-            get => Pointer->coded_frame;
-            set => Pointer->coded_frame = value;
-        }
-        
-        /// <summary>
         /// <para>thread count is used to decide how many independent tasks should be passed to execute() - encoding: Set by user.</para>
         /// <para> - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.thread_count" />
@@ -1684,33 +1410,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->thread_safe_callbacks;
             set => Pointer->thread_safe_callbacks = value;
-        }
-        
-        /// <summary>
-        /// <para>The codec may call this to execute several independent things.</para>
-        /// <para> It will return only after finishing all tasks.</para>
-        /// <para> The user may replace this with some multithreaded implementation, the default implementation will execute the parts serially.</para>
-        /// <see cref="AVCodecContext.execute" />
-        /// </summary>
-        public AVCodecContext_execute_func Execute
-        {
-            get => Pointer->execute;
-            set => Pointer->execute = value;
-        }
-        
-        /// <summary>
-        /// <para>The codec may call this to execute several independent things.</para>
-        /// <para> It will return only after finishing all tasks.</para>
-        /// <para> The user may replace this with some multithreaded implementation, the default implementation will execute the parts serially.</para>
-        /// <para> Also see avcodec_thread_init and e.</para>
-        /// <para>g.</para>
-        /// <para> the --enable-pthread configure option.</para>
-        /// <see cref="AVCodecContext.execute2" />
-        /// </summary>
-        public AVCodecContext_execute2_func Execute2
-        {
-            get => Pointer->execute2;
-            set => Pointer->execute2 = value;
         }
         
         /// <summary>
@@ -1800,32 +1499,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->subtitle_header_size;
             set => Pointer->subtitle_header_size = value;
-        }
-        
-        /// <summary>
-        /// <para>VBV delay coded in the last frame (in periods of a 27 MHz clock).</para>
-        /// <para> Used for compliant TS muxing.</para>
-        /// <para> - encoding: Set by libavcodec.</para>
-        /// <para> - decoding: unused.</para>
-        /// <see cref="AVCodecContext.vbv_delay" />
-        /// </summary>
-        [Obsolete("this value is now exported as a part of AV_PKT_DATA_CPB_PROPERTIES packet side data")]
-        public ulong VbvDelay
-        {
-            get => Pointer->vbv_delay;
-            set => Pointer->vbv_delay = value;
-        }
-        
-        /// <summary>
-        /// <para>Encoding only and set by default.</para>
-        /// <para> Allow encoders to output packets that do not contain any encoded data, only side data.</para>
-        /// <see cref="AVCodecContext.side_data_only_packets" />
-        /// </summary>
-        [Obsolete("this field disables the default behaviour and it is kept only for compatibility.")]
-        public int SideDataOnlyPackets
-        {
-            get => Pointer->side_data_only_packets;
-            set => Pointer->side_data_only_packets = value;
         }
         
         /// <summary>

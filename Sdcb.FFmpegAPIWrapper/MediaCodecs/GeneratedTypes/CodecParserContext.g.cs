@@ -81,7 +81,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> It signals, how much longer the frame duration of the current frame is compared to normal frame duration.</para>
         /// <see cref="AVCodecParserContext.repeat_pict" />
         /// </summary>
-        public int RepeatPict
+        public int RepeatPicture
         {
             get => Pointer->repeat_pict;
             set => Pointer->repeat_pict = value;
@@ -205,16 +205,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->key_frame;
             set => Pointer->key_frame = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecParserContext.convergence_duration" />
-        /// </summary>
-        [Obsolete("unused")]
-        public long ConvergenceDuration
-        {
-            get => Pointer->convergence_duration;
-            set => Pointer->convergence_duration = value;
         }
         
         /// <summary>

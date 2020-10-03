@@ -89,8 +89,7 @@ string FieldConvert(string fieldName, Dictionary<string, string> nameMapping)
 		["fmt"] = "Format",
 		["ctx"] = "Context",
 		["priv"] = "Private",
-		["pict_"] = "Picture_",
-		["av_class"] = "FFmpegClass",
+		["pict"] = "Picture",
 	};
 
 	string result = string.Concat(fieldName

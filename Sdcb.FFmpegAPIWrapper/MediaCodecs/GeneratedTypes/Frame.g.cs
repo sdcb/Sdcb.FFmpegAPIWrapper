@@ -142,17 +142,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <para>PTS copied from the AVPacket that was decoded to produce this frame.</para>
-        /// <see cref="AVFrame.pkt_pts" />
-        /// </summary>
-        [Obsolete("use the pts field instead")]
-        public long PacketPts
-        {
-            get => Pointer->pkt_pts;
-            set => Pointer->pkt_pts = value;
-        }
-        
-        /// <summary>
         /// <para>DTS copied from the AVPacket that triggered returning this frame.</para>
         /// <para> (if frame threading isn&#39;t used) This is also the Presentation time of this AVFrame calculated from only AVPacket.</para>
         /// <para>dts values without pts values.</para>
@@ -205,21 +194,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <see cref="AVFrame.error" />
-        /// </summary>
-        [Obsolete("unused")]
-        public ulong_array8 Error
-        {
-            get => Pointer->error;
-            set => Pointer->error = value;
-        }
-        
-        /// <summary>
         /// <para>When decoding, this signals how much the picture must be delayed.</para>
         /// <para> extra_delay = repeat_pict / (2*fps).</para>
         /// <see cref="AVFrame.repeat_pict" />
         /// </summary>
-        public int RepeatPict
+        public int RepeatPicture
         {
             get => Pointer->repeat_pict;
             set => Pointer->repeat_pict = value;
@@ -436,9 +415,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: Set by libavcodec.</para>
         /// <see cref="AVFrame.metadata" />
         /// </summary>
-        public AVDictionary* Metadata
+        public MediaDictionary Metadata
         {
-            get => Pointer->metadata;
+            get => MediaDictionary.FromNative(Pointer->metadata, isOwner: false);
             set => Pointer->metadata = value;
         }
         

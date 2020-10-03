@@ -14,7 +14,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     {
         private AVPacketSideData* _ptr;
         
-        public static implicit operator AVPacketSideData*(PacketSideData data) => (AVPacketSideData*)data._ptr;
+        public static implicit operator AVPacketSideData*(PacketSideData? data)
+            => data.HasValue ? (AVPacketSideData*)data.Value._ptr : null;
         
         private PacketSideData(AVPacketSideData* ptr)
         {
@@ -26,6 +27,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         public static PacketSideData FromNative(AVPacketSideData* ptr) => new PacketSideData(ptr);
+        internal static PacketSideData? FromNativeOrNull(AVPacketSideData* ptr)
+            => ptr != null ? new PacketSideData?(new PacketSideData(ptr)) : null;
         
         /// <summary>
         /// <see cref="AVPacketSideData.data" />
