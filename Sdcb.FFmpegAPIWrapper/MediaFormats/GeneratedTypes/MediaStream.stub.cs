@@ -28,5 +28,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
             int size;
             return new DataPointer(av_stream_get_side_data(this, (AVPacketSideDataType)type, &size), size);
         }
+
+        /// <summary>
+        /// <see cref="av_index_search_timestamp(AVStream*, long, int)"/>
+        /// </summary>
+        public int SearchTimestamp(long timestamp, MediaSeek flags = MediaSeek.Backward)
+            => av_index_search_timestamp(this, timestamp, (int)flags);
     }
 }

@@ -191,6 +191,23 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public void WriteTrailer() => av_write_trailer(this).ThrowIfError();
 
+        public (long dts, long wall) GetOutputTimestamp(int streamIndex)
+        {
+            long dts, wall;
+            av_get_output_timestamp(this, streamIndex, &dts, &wall).ThrowIfError();
+            return (dts, wall);
+        }
+
+        /// <summary>
+        /// <see cref="DefaultStreamIndex"/>
+        /// </summary>
+        public int DefaultStreamIndex => av_find_default_stream_index(this);
+
+        /// <summary>
+        /// <see cref="av_dump_format(AVFormatContext*, int, string, int)"/>
+        /// </summary>
+        public void DumpFormat(int streamIndex, string? url, bool isOutput) => av_dump_format(this, streamIndex, url, isOutput ? 1 : 0);
+
         /// <summary>
         /// <see cref="avformat_free_context(AVFormatContext*)"/>
         /// </summary>
