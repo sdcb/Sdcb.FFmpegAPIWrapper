@@ -83,10 +83,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para>Can use flags: AVFMT_NOFILE, AVFMT_NEEDNUMBER, AVFMT_SHOW_IDS, AVFMT_NOTIMESTAMPS, AVFMT_GENERIC_INDEX, AVFMT_TS_DISCONT, AVFMT_NOBINSEARCH, AVFMT_NOGENSEARCH, AVFMT_NO_BYTE_SEEK, AVFMT_SEEK_TO_PTS.</para>
         /// <see cref="AVInputFormat.flags" />
         /// </summary>
-        public int Flags
+        public FormatInputFlag Flags
         {
-            get => _ptr->flags;
-            set => _ptr->flags = value;
+            get => (FormatInputFlag)_ptr->flags;
+            set => _ptr->flags = (int)value;
         }
         
         /// <summary>

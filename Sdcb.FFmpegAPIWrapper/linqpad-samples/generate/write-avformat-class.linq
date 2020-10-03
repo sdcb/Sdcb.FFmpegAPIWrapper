@@ -43,6 +43,7 @@ WriteStruct(new GenerateOption(typeof(AVInputFormat), ns, "InputFormat")
 		["long_name"] = str(),
 		["extensions"] = str(),
 		["mime_type"] = str(),
+		["flags"] = force("FormatInputFlag"), 
 	}, 
 	PrivateMemberFrom = nameof(AVInputFormat.next)
 });
@@ -55,6 +56,7 @@ WriteStruct(new GenerateOption(typeof(AVOutputFormat), ns, "OutputFormat")
 		["long_name"] = str(),
 		["extensions"] = str(),
 		["mime_type"] = str(),
+		["flags"] = force("FormatOutputFlag"), 
 	},
 	AdditionalNamespaces = new string[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" },
 	PrivateMemberFrom = nameof(AVOutputFormat.next),

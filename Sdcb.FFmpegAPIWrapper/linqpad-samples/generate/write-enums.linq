@@ -1,10 +1,11 @@
 <Query Kind="Statements">
   <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
   <Namespace>FFmpeg.AutoGen</Namespace>
-  <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
-  <Namespace>System.CodeDom.Compiler</Namespace>
   <Namespace>Microsoft.CSharp</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
+  <Namespace>static FFmpeg.AutoGen.ffmpeg</Namespace>
   <Namespace>System.CodeDom</Namespace>
+  <Namespace>System.CodeDom.Compiler</Namespace>
 </Query>
 
 #load ".\common"
@@ -59,9 +60,35 @@
 	WriteConstEnum("AVFMTCTX_", ns, "FormatContextFlag");
 	WriteConstEnum("AVSEEK_FLAG_", ns, "MediaSeek", hasDefault: false);
 	WriteConstEnum("AVSTREAM_INIT_IN_", ns, "StreamInitIn", hasDefault: false);
+	WriteConstEnum("AVFMT_", ns, "FormatInputFlag", onlyKeys: new()
+	{ 
+		nameof(AVFMT_NOFILE), 
+		nameof(AVFMT_NEEDNUMBER),  
+		nameof(AVFMT_SHOW_IDS), 
+		nameof(AVFMT_NOTIMESTAMPS), 
+		nameof(AVFMT_GENERIC_INDEX),  
+		nameof(AVFMT_TS_DISCONT), 
+		nameof(AVFMT_NOBINSEARCH), 
+		nameof(AVFMT_NOGENSEARCH), 
+		nameof(AVFMT_NO_BYTE_SEEK),  
+		nameof(AVFMT_SEEK_TO_PTS), 
+	}, hasDefault: false);
+	WriteConstEnum("AVFMT_", ns, "FormatOutputFlag", onlyKeys: new()
+	{
+		nameof(AVFMT_NOFILE),
+		nameof(AVFMT_NEEDNUMBER),
+		nameof(AVFMT_GLOBALHEADER),
+		nameof(AVFMT_NOTIMESTAMPS),
+		nameof(AVFMT_VARIABLE_FPS),
+		nameof(AVFMT_NODIMENSIONS), 
+		nameof(AVFMT_NOSTREAMS),
+		nameof(AVFMT_ALLOW_FLUSH),
+		nameof(AVFMT_TS_NONSTRICT), 
+		nameof(AVFMT_TS_NEGATIVE),
+	}, hasDefault: false);
 }
 
-void WriteConstEnum(string prefix, string ns, string newName, bool hasDefault = true)
+void WriteConstEnum(string prefix, string ns, string newName, bool hasDefault = true, HashSet<string>? onlyKeys = null)
 {
 	using var _file = new StreamWriter(newName + ".g.cs");
 	using var writer = new IndentedTextWriter(_file, new string(' ', 4));
@@ -103,7 +130,9 @@ void WriteConstEnum(string prefix, string ns, string newName, bool hasDefault = 
 			writer.WriteLine();
 		}
 		
-		foreach (FieldInfo field in fields.OrderBy(x => Convert.ToDecimal(x.GetValue(null))))
+		foreach (FieldInfo field in fields
+			.Where(x => onlyKeys != null ? onlyKeys.Contains(x.Name) : true)
+			.OrderBy(x => Convert.ToDecimal(x.GetValue(null))))
 		{
 			string name = FieldConvert(field.Name.Replace(prefix, ""), nameMapping: new ());
 
