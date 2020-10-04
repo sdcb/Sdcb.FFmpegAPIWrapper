@@ -88,8 +88,21 @@
 	}, hasDefault: false);
 }
 
-void WriteConstEnum(string prefix, string ns, string newName, bool hasDefault = true, HashSet<string>? onlyKeys = null)
 {
+	SetDir(@"\Swscales\GeneratedEnums");
+	string ns = "Sdcb.FFmpegAPIWrapper.Swscales";
+	WriteConstEnum("SWS_", ns, "ScaleFlag", selector: SelectScaleFlags);
+	bool SelectScaleFlags(FieldInfo f) => !f.Name.StartsWith("SWS_CS") && !f.Name.StartsWith("SWS_MAX");
+	
+	WriteConstEnum("SWS_CS_", ns, "ScaleColorSpace", hasDefault: false);
+}
+
+void WriteConstEnum(string prefix, string ns, string newName, 
+	bool hasDefault = true, 
+	HashSet<string>? onlyKeys = null, 
+	Func<FieldInfo, bool> selector = null!)
+{
+	selector = selector ?? delegate { return true; };
 	using var _file = new StreamWriter(newName + ".g.cs");
 	using var writer = new IndentedTextWriter(_file, new string(' ', 4));
 	FieldInfo[] fields = typeof(ffmpeg)
@@ -131,7 +144,7 @@ void WriteConstEnum(string prefix, string ns, string newName, bool hasDefault = 
 		}
 		
 		foreach (FieldInfo field in fields
-			.Where(x => onlyKeys != null ? onlyKeys.Contains(x.Name) : true)
+			.Where(x => selector(x) && (onlyKeys != null ? onlyKeys.Contains(x.Name) : true))
 			.OrderBy(x => Convert.ToDecimal(x.GetValue(null))))
 		{
 			string name = FieldConvert(field.Name.Replace(prefix, ""), nameMapping: new ());

@@ -18,6 +18,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public IntPtr[] ToArray() => new[] { _0, _1, _2, _3 };
 
+        internal byte*[] ToBytePtrArray() => new[] { (byte*)_0, (byte*)_1, (byte*)_2, (byte*)_3 };
+
         public static implicit operator Ptr4(byte_ptrArray4 s) => *(Ptr4*)&s;
 
         public static implicit operator byte_ptrArray4(Ptr4 s) => *(byte_ptrArray4*)&s;

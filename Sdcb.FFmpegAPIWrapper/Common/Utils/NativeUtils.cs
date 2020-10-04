@@ -40,11 +40,11 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 			}
 		}
 
-		public static IntPtr NotNull(IntPtr ptr)
+		public static IntPtr NotNull(IntPtr ptr, string? message = null)
         {
 			if (ptr == IntPtr.Zero)
             {
-				throw FFmpegException.NoMemory("NotNull check failed, ptr == 0.");
+				throw FFmpegException.NoMemory(message ?? "NotNull check failed, ptr == 0.");
             }
 			return ptr;
         }
