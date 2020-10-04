@@ -29,6 +29,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         public static OutputFormat FromNative(AVOutputFormat* ptr) => new OutputFormat(ptr);
+        public static OutputFormat FromNative(IntPtr ptr) => new OutputFormat((AVOutputFormat*)ptr);
         internal static OutputFormat? FromNativeOrNull(AVOutputFormat* ptr)
             => ptr != null ? new OutputFormat?(new OutputFormat(ptr)) : null;
         

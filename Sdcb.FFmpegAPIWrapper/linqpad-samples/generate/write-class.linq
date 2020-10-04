@@ -110,6 +110,7 @@ void WriteStruct(GenerateOption option)
 		writer.WriteLine("}");
 		writer.WriteLine();
 		writer.WriteLine($"public static {option.NewName} FromNative({option.TargetType.Name}* ptr) => new {option.NewName}(ptr);");
+		writer.WriteLine($"public static {option.NewName} FromNative(IntPtr ptr) => new {option.NewName}(({option.TargetType.Name}*)ptr);");
 		writer.WriteLine($"internal static {option.NewName}? FromNativeOrNull({option.TargetType.Name}* ptr)");
 		writer.WriteLine($"    => ptr != null ? new {option.NewName}?(new {option.NewName}(ptr)) : null;");
 		writer.WriteLine();

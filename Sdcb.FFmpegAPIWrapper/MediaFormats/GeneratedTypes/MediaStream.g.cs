@@ -32,6 +32,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         public static MediaStream FromNative(AVStream* ptr) => new MediaStream(ptr);
+        public static MediaStream FromNative(IntPtr ptr) => new MediaStream((AVStream*)ptr);
         internal static MediaStream? FromNativeOrNull(AVStream* ptr)
             => ptr != null ? new MediaStream?(new MediaStream(ptr)) : null;
         
