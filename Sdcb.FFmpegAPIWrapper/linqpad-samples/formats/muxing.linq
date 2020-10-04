@@ -17,7 +17,6 @@ using FormatContext fc = FormatContext.AllocOutput(formatName: "mp4");
 
 fc.VideoCodec = Codec.FindEncoderByName("libx265");
 MediaStream vstream = fc.NewStream(fc.VideoCodec);
-vstream.Id = (int)fc.NbStreams - 1;
 vstream.TimeBase = new MediaRational(1, 25);
 using var vcodec = new CodecContext(fc.VideoCodec)
 {
@@ -38,7 +37,7 @@ fc.DumpFormat(streamIndex: 0, outputPath, isOutput: true);
 using MediaIO io = MediaIO.OpenWrite(outputPath);
 fc.IO = io;
 fc.WriteHeader();
-foreach (Packet packet in vcodec.EncodeFrames(VideoFrameSample.Yuv420pSequence(vcodec.Width, vcodec.Height).Take(500)))
+foreach (Packet packet in vcodec.EncodeFrames(VideoFrameSample.Yuv420pSequence(vcodec.Width, vcodec.Height).Take(50)))
 {
 	try
 	{

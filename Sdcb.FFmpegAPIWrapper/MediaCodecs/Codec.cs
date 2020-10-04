@@ -13,7 +13,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     /// </summary>
     public unsafe partial struct Codec
     {
-        AVCodec* _p;
+        private readonly AVCodec* _p;
 
         public Codec(AVCodec* ptr)
         {

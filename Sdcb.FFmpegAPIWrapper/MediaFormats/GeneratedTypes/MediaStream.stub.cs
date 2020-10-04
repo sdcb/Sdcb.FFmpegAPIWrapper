@@ -9,6 +9,13 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
     public unsafe partial struct MediaStream
     {
         /// <summary>
+        /// <see cref="avformat_new_stream(AVFormatContext*, AVCodec*)"/>
+        /// </summary>
+        public MediaStream(FormatContext formatContext, Codec? codec = null) : this(avformat_new_stream(formatContext, codec))
+        {
+        }
+
+        /// <summary>
         /// <see cref="av_stream_add_side_data(AVStream*, AVPacketSideDataType, byte*, ulong)"/>
         /// </summary>
         public void AddSideData(PacketSideDataType type, DataPointer data) => 

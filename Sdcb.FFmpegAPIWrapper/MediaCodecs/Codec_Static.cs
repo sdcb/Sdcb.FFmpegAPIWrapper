@@ -9,7 +9,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
     public unsafe partial struct Codec
     {
-        public static implicit operator AVCodec*(Codec data) => data._p;
+        public static implicit operator AVCodec*(Codec? data) => data != null ? data.Value._p : null;
 
         public unsafe static Codec FromNative(IntPtr p) => FromNative((AVCodec*)p);
 

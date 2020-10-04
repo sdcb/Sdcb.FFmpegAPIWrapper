@@ -26,7 +26,7 @@ namespace Sdcb.FFmpegAPIWrapper.Swscales
         public PixelConverter(
             int sourceWidth, int sourceHeight, PixelFormat sourcePixelFormat,
             int destWidth, int destHeight, PixelFormat destPixelFormat,
-            ScaleFlag flags = ScaleFlag.None)
+            ScaleFlag flags = ScaleFlag.Bilinear)
         {
             _nativePointer = NativeUtils.NotNull(
                 ptr: (IntPtr)sws_getContext(

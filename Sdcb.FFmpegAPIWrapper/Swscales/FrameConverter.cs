@@ -18,7 +18,7 @@ namespace Sdcb.FFmpegAPIWrapper.Swscales
         /// <see cref="sws_getCachedContext(SwsContext*, int, int, AVPixelFormat, int, int, AVPixelFormat, int, SwsFilter*, SwsFilter*, double*)"/>
         /// <see cref="sws_scale(SwsContext*, byte*[], int[], int, int, byte*[], int[])"/>
         /// </summary>
-        public void ConvertFrame(Frame sourceFrame, Frame destFrame, ScaleFlag flags = ScaleFlag.None)
+        public void ConvertFrame(Frame sourceFrame, Frame destFrame, ScaleFlag flags = ScaleFlag.Bilinear)
         {
             _nativePointer = NativeUtils.NotNull(
                 ptr: (IntPtr)sws_getCachedContext(this,
@@ -33,7 +33,7 @@ namespace Sdcb.FFmpegAPIWrapper.Swscales
             sws_scale(this,
                 srcSlice: ((Ptr4)sourceFrame.Data).ToBytePtrArray(),
                 srcStride: ((Int32x4)sourceFrame.Linesize).ToArray(),
-                srcSliceY: 0, srcSliceH: sourceFrame.Width,
+                srcSliceY: 0, srcSliceH: sourceFrame.Height,
                 dst: ((Ptr4)destFrame.Data).ToBytePtrArray(), ((Int32x4)destFrame.Linesize).ToArray()).ThrowIfError();
         }
 

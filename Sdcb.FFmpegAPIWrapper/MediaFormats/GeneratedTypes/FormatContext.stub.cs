@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
-    public unsafe partial class FormatContext : FFmpegSafeObject
+    public unsafe partial class FormatContext
     {
         /// <summary>
         /// <see cref="avformat_alloc_context"/>
@@ -53,7 +53,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="avformat_new_stream(AVFormatContext*, AVCodec*)"/>
         /// </summary>
-        public MediaStream NewStream(Codec codec) => MediaStream.FromNative(avformat_new_stream(this, codec));
+        public MediaStream NewStream(Codec? codec = null) => new MediaStream(this, codec);
 
         /// <summary>
         /// <see cref="av_new_program(AVFormatContext*, int)"/>
