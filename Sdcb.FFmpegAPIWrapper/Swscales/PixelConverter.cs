@@ -7,6 +7,7 @@ using Sdcb.FFmpegAPIWrapper.MediaCodecs;
 using FFmpeg.AutoGen;
 using Sdcb.FFmpegAPIWrapper.MediaUtils;
 using System.Reflection;
+using System.Linq;
 
 namespace Sdcb.FFmpegAPIWrapper.Swscales
 {
@@ -68,5 +69,22 @@ namespace Sdcb.FFmpegAPIWrapper.Swscales
         }
 
         protected override void DisposeNative() => Free();
+
+        /// <summary>
+        /// <see cref="swscale_version"/>
+        /// </summary>
+        public static string Version => swscale_version().ToFourCC();
+
+        /// <summary>
+        /// <see cref="swscale_configuration"/>
+        /// </summary>
+        public static HashSet<string> Configuration => swscale_configuration()
+            .Split(' ')
+            .ToHashSet();
+
+        /// <summary>
+        /// <see cref="swscale_license"/>
+        /// </summary>
+        public static string License => swscale_license();
     }
 }
