@@ -53,17 +53,23 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
             {
                 throw FFmpegException.NoMemory("Failed to alloc MediaIO buffer");
             }
+            var callbackObject = new
+            {
+                ReadPacket = new avio_alloc_context_read_packet(Read), 
+                WritePacket = new avio_alloc_context_write_packet(Write), 
+                Seek = new avio_alloc_context_seek(Seek)
+            };
             AVIOContext* ctx = avio_alloc_context(buffer, bufferSize, writeFlag,
                 opaque: null, 
-                read_packet: new avio_alloc_context_read_packet(Read), 
-                write_packet: new avio_alloc_context_write_packet(Write), 
-                seek: new avio_alloc_context_seek(Seek));
+                read_packet: callbackObject.ReadPacket, 
+                write_packet: callbackObject.WritePacket, 
+                seek: callbackObject.Seek);
             if (ctx == null)
             {
                 throw FFmpegException.NoMemory("Failed to alloc AVIOContext");
             }
 
-            return new MediaIO(ctx, isOwner: true);
+            return new StreamMediaIO(ctx, isOwner: true, callbackObject);
 
             int Read(void* opaque, byte* buffer, int length)
             {
@@ -149,6 +155,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
             return avio_enum_protocols((void**)opaque, output);
         }
 
-        public static unsafe FFmpegClass GetProtocolClass(string protocol) => FFmpegClass.FromNative(avio_protocol_get_class(protocol));
+        public static unsafe FFmpegClass? GetProtocolClass(string protocol) => FFmpegClass.FromNativeOrNull(avio_protocol_get_class(protocol));
     }
 }

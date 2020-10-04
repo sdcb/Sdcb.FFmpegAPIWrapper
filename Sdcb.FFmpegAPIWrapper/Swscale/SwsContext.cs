@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sdcb.FFmpegAPIWrapper.Swscale
 {
-    public class PixelConverter
+    public class PixelConverter 
     {
     }
 }

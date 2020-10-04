@@ -1,7 +1,7 @@
 <Query Kind="Statements">
   <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
-  <Namespace>Sdcb.FFmpegAPIWrapper.MediaMuxers</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.MediaFormats</Namespace>
 </Query>
 
 TestProtocols().Dump();
@@ -24,9 +24,9 @@ IEnumerable<object> TestProtocols()
 
 public record FFmpegProtocol
 {
-	public string Protocol { get; set; }
-	public bool Input { get; set; }
-	public bool Output { get; set; }
-	public IEnumerable<FFmpegOption> Options { get; set; }
-	public string Version { get; set; }
+	public string Protocol { get; init; }
+	public bool Input { get; init; }
+	public bool Output { get; init; }
+	public IEnumerable<FFmpegOption>? Options { get; init; }
+	public string? Version { get; init; }
 }
