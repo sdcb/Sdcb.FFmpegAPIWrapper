@@ -104,6 +104,29 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public CodecResult ReadFrame(Packet packet) => CodecContext.ToCodecResult(av_read_frame(this, packet));
 
+        public IEnumerable<Packet> ReadPackets(Packet resultHolder)
+        {
+            while (true)
+            {
+                CodecResult result = ReadFrame(resultHolder);
+                if (result == CodecResult.EOF) break;
+                System.Diagnostics.Debug.Assert(result == CodecResult.Success);
+                try
+                {
+                    yield return resultHolder;
+                }
+                finally
+                {
+                    resultHolder.Unreference();
+                }
+            }
+        }
+
+        public void WriteFrames(IEnumerable<Frame> frames)
+        {
+
+        }
+
         /// <summary>
         /// <see cref="av_seek_frame(AVFormatContext*, int, long, int)"/>
         /// </summary>
@@ -159,12 +182,12 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="av_write_frame(AVFormatContext*, AVPacket*)"/>
         /// </summary>
-        public void WriteFrame(Packet packet) => av_write_frame(this, packet).ThrowIfError();
+        public void WritePacket(Packet packet) => av_write_frame(this, packet).ThrowIfError();
 
         /// <summary>
         /// <see cref="av_interleaved_write_frame(AVFormatContext*, AVPacket*)"/>
         /// </summary>
-        public void InterleavedWriteFrame(Packet packet) => av_interleaved_write_frame(this, packet).ThrowIfError();
+        public void InterleavedWritePacket(Packet packet) => av_interleaved_write_frame(this, packet).ThrowIfError();
 
         /// <summary>
         /// <see cref="av_write_uncoded_frame(AVFormatContext*, int, AVFrame*)"/>
@@ -252,56 +275,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         public static IEnumerable<InputFormat> Demuxers => NativeUtils
             .EnumeratePtrIterator(ptr => (IntPtr)av_demuxer_iterate((void**)ptr))
             .Select(x => InputFormat.FromNative((AVInputFormat*)x));
-
-        /// <summary>
-        /// <see cref="av_find_input_format(string)"/>
-        /// </summary>
-        public static InputFormat? FindInputFormat(string shortName)
-        {
-            AVInputFormat* ptr = av_find_input_format(shortName);
-            return ptr != null ? new InputFormat?(InputFormat.FromNative(ptr)) : null;
-        }
-
-        /// <summary>
-        /// <see cref="av_probe_input_format(AVProbeData*, int)"/>
-        /// </summary>
-        public static InputFormat? ProbeInputFormat(AVProbeData* data, bool isOpened)
-        {
-            AVInputFormat* ptr = av_probe_input_format(data, isOpened ? 1 : 0);
-            return ptr != null ? new InputFormat?(InputFormat.FromNative(ptr)) : null;
-        }
-
-        /// <summary>
-        /// <see cref="av_probe_input_format2(AVProbeData*, int, int*)"/>
-        /// </summary>
-        public static InputFormat? ProbeInputFormat2(AVProbeData* data, bool isOpened, out int maxScore)
-        {
-            int maxScoreRet;
-            AVInputFormat* ptr = av_probe_input_format2(data, isOpened ? 1 : 0, &maxScoreRet);
-            maxScore = maxScoreRet;
-            return ptr != null ? new InputFormat?(InputFormat.FromNative(ptr)) : null;
-        }
-
-        /// <summary>
-        /// <see cref="av_probe_input_format3(AVProbeData*, int, int*)"/>
-        /// </summary>
-        public static InputFormat? ProbeInputFormat3(AVProbeData* data, bool isOpened, out int score)
-        {
-            int scoreRet;
-            AVInputFormat* ptr = av_probe_input_format3(data, isOpened ? 1 : 0, &scoreRet);
-            score = scoreRet;
-            return ptr != null ? new InputFormat?(InputFormat.FromNative(ptr)) : null;
-        }
-
-        /// <summary>
-        /// <see cref="av_probe_input_buffer2(AVIOContext*, AVInputFormat**, string, void*, uint, uint)"/>
-        /// </summary>
-        public static InputFormat ProbeInputBuffer(MediaIO io, string url, IntPtr logCtx, out int score, uint offset = 0, uint maxProbeSize = 0)
-        {
-            AVInputFormat* format;
-            score = av_probe_input_buffer2(io, &format, url, (void*)logCtx, offset, maxProbeSize).ThrowIfError();
-            return InputFormat.FromNative(format);
-        }
 
         /// <summary>
         /// <see cref="avformat_get_class"/>

@@ -8,6 +8,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
     public unsafe partial struct OutputFormat
     {
+        /// <summary>
+        /// <see cref="av_guess_format(string, string, string)"/>
+        /// </summary>
         public static OutputFormat? Guess(string? shortName = null, string? fileName = null, string? mimeType = null)
             => FromNativeOrNull(av_guess_format(shortName, fileName, mimeType));
     }

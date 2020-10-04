@@ -45,7 +45,8 @@ WriteStruct(new GenerateOption(typeof(AVInputFormat), ns, "InputFormat")
 		["mime_type"] = str(),
 		["flags"] = force("FormatInputFlag"), 
 	}, 
-	PrivateMemberFrom = nameof(AVInputFormat.next)
+	PrivateMemberFrom = nameof(AVInputFormat.next),
+	WriteStub = true, 
 });
 
 WriteStruct(new GenerateOption(typeof(AVOutputFormat), ns, "OutputFormat")

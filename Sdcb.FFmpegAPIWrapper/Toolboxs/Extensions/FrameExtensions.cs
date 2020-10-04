@@ -76,7 +76,7 @@ namespace Sdcb.FFmpegAPIWrapper.Toolboxs
             fc.WriteHeader();
             foreach (Packet packet in codecContext.EncodeFrames(new[] { frame }))
             {
-                fc.WriteFrame(packet);
+                fc.WritePacket(packet);
             }
             fc.WriteTrailer();
         }
