@@ -29,7 +29,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
             byte* buffer = null;
             int length = avio_close_dyn_buf(this, &buffer);
             _nativePointer = IntPtr.Zero;
-            return new DisposableDataPointer(_nativePointer, length);
+            return new DisposableDataPointer(buffer, length);
         }
 
         protected override void DisposeNative()
