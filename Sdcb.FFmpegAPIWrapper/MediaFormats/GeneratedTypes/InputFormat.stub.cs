@@ -54,5 +54,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
             score = av_probe_input_buffer2(io, &format, url, (void*)logCtx, offset, maxProbeSize).ThrowIfError();
             return FromNative(format);
         }
+
+        public static InputFormat DShow => new InputFormat("dshow");
+        public static InputFormat GdiGrab => new InputFormat("gdigrab");
     }
 }
