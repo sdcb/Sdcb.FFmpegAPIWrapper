@@ -6,6 +6,7 @@ using System.Text;
 using Sdcb.FFmpegAPIWrapper.MediaCodecs;
 using FFmpeg.AutoGen;
 using Sdcb.FFmpegAPIWrapper.MediaUtils;
+using System.Reflection;
 
 namespace Sdcb.FFmpegAPIWrapper.Swscales
 {
@@ -54,6 +55,8 @@ namespace Sdcb.FFmpegAPIWrapper.Swscales
             sws_scale(this,
                 srcSlice: sourceData.ToBytePtrArray(), srcStride: sourceLinesize.ToArray(), srcSliceY: sourceSliceY, srcSliceH: sourceSliceH,
                 destData.ToBytePtrArray(), destLinesize.ToArray()).ThrowIfError();
+
+        public FFmpegOptions Options => new FFmpegOptions(this);
 
         /// <summary>
         /// <see cref="sws_freeContext(SwsContext*)"/>

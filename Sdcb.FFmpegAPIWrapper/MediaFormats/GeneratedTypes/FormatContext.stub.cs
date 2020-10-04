@@ -17,6 +17,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         {
         }
 
+        public FFmpegOptions Options => new FFmpegOptions(this);
+
         /// <summary>
         /// <see cref="avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, string, string)"/>
         /// </summary>

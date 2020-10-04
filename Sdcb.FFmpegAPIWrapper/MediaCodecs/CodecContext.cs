@@ -13,6 +13,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     {
         public const int CompressionDefault = FF_COMPRESSION_DEFAULT;
 
+        public FFmpegOptions Options => new FFmpegOptions(this);
         public FFmpegOptions PrivateOptions => new FFmpegOptions(Pointer->priv_data);
 
         /// <summary>

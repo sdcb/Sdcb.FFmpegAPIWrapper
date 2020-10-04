@@ -12,6 +12,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
     {
         protected unsafe MediaIO(AVIOContext* ptr, bool isOwner): base((IntPtr)ptr, isOwner) { }
 
+        public unsafe FFmpegOptions Options => new FFmpegOptions(this);
+
         /// <summary>
         /// <para>Similar to feof() but also returns nonzero on read errors.</para>
         /// <para>@return non zero if and only if at end of file or a read error happened when reading.</para>
