@@ -67,6 +67,10 @@ WriteStruct(new GenerateOption(typeof(AVOutputFormat), ns, "OutputFormat")
 WriteStruct(new GenerateOption(typeof(AVStream), ns, "MediaStream")
 {
 	AdditionalNamespaces = new string[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" },
+	FieldNameMapping = new ()
+	{
+		["r"] = "Real", 
+	},
 	WriteStub = true, 
 });
 

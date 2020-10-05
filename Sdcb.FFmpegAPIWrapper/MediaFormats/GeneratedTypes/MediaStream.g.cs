@@ -210,7 +210,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para> Note, this value is just a guess! For example, if the time base is 1/90000 and all frames have either approximately 3600 or 1800 timer ticks, then r_frame_rate will be 50/1.</para>
         /// <see cref="AVStream.r_frame_rate" />
         /// </summary>
-        public MediaRational RFrameRate
+        public MediaRational RealFrameRate
         {
             get => _ptr->r_frame_rate;
             set => _ptr->r_frame_rate = value;

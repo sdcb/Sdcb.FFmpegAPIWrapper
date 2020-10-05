@@ -10,8 +10,14 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="av_find_input_format(string)"/>
         /// </summary>
-        public InputFormat(string shortName) : this(av_find_input_format(shortName))
+        public InputFormat(string shortName)
         {
+            AVInputFormat* ptr = av_find_input_format(shortName);
+            if (ptr == null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(shortName), $"Cannot find InputFormat: {shortName}");
+            }
+            _ptr = ptr;
         }
 
         /// <summary>

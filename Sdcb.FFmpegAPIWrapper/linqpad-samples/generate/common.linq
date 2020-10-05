@@ -92,6 +92,7 @@ string FieldConvert(string fieldName, Dictionary<string, string> nameMapping)
 		["pict"] = "Picture",
 		["av"] = "", 
 	};
+	foreach (var np in nameMapping) knownMapping[np.Key] = np.Value;
 
 	string result = string.Concat(fieldName
 		.Split('_')

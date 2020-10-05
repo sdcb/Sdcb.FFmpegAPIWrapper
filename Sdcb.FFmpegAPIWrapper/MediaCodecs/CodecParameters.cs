@@ -5,7 +5,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
-    public unsafe partial class CodecParameters : FFmpegSafeObject
+    public unsafe partial class CodecParameters
     {
         /// <summary>
         /// <see cref="avcodec_parameters_alloc"/>

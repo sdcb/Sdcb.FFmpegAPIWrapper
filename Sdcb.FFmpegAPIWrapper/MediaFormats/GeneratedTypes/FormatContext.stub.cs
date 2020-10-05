@@ -36,13 +36,13 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="avformat_open_input(AVFormatContext**, string, AVInputFormat*, AVDictionary**)"/>
         /// </summary>
-        public static FormatContext OpenInput(string? url, InputFormat? format, MediaDictionary? options = null)
+        public static FormatContext OpenInput(string? url, InputFormat? format = null, MediaDictionary? options = null)
         {
             AVFormatContext* resultPtr;
             AVDictionary* dictPtr = options;
             avformat_open_input(&resultPtr, url, format, &dictPtr).ThrowIfError();
             options.Reset(dictPtr);
-            return FromNative(resultPtr, isOwner: true);
+            return new InputFormatContext(resultPtr, isOwner: true);
         }
 
         /// <summary>
@@ -146,16 +146,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <see cref="av_read_pause(AVFormatContext*)"/>
         /// </summary>
         public void ReadPause() => av_read_pause(this).ThrowIfError();
-
-        /// <summary>
-        /// <see cref="avformat_close_input(AVFormatContext**)"/>
-        /// </summary>
-        public void CloseInput()
-        {
-            AVFormatContext* ptr = this;
-            avformat_close_input(&ptr);
-            _nativePointer = (IntPtr)ptr;
-        }
 
         /// <summary>
         /// <see cref="avformat_write_header(AVFormatContext*, AVDictionary**)"/>

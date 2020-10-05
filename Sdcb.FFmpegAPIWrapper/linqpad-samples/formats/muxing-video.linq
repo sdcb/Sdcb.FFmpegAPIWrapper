@@ -44,7 +44,7 @@ foreach (Packet packet in vcodec.EncodeFrames(VideoFrameSample.Yuv420pSequence(v
 		packet.RescaleTimestamp(vcodec.TimeBase, vstream.TimeBase);
 		packet.StreamIndex = vstream.Index;
 		LogPacket(fc, packet);
-		fc.InterleavedWriteFrame(packet);
+		fc.InterleavedWritePacket(packet);
 	}
 	finally
 	{

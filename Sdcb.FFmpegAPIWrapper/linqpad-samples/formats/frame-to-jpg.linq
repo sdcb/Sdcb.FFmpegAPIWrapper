@@ -11,6 +11,7 @@
   <Namespace>System.Runtime.CompilerServices</Namespace>
   <Namespace>System.Runtime.InteropServices</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.Swscales</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.Toolboxs</Namespace>
 </Query>
 
 FFmpegLogger.LogWriter = c => Console.Write(c);
