@@ -893,10 +893,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para> - decoding: set by user, may be overwritten by libavcodec.</para>
         /// <see cref="AVCodecContext.channel_layout" />
         /// </summary>
-        public ulong ChannelLayout
+        public ChannelLayout ChannelLayout
         {
-            get => Pointer->channel_layout;
-            set => Pointer->channel_layout = value;
+            get => (ChannelLayout)Pointer->channel_layout;
+            set => Pointer->channel_layout = (ulong)value;
         }
         
         /// <summary>

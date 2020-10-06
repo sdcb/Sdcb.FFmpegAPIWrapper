@@ -36,6 +36,7 @@ WriteClass(new GenerateOption(typeof(AVCodecContext), ns, "CodecContext")
 		["slice_flags"] = force("CodecSliceFlag"),
 		["mb_decision"] = force("MacroblockDecision"),
 		["export_side_data"] = force("CodecExportData"),
+		["channel_layout"] = force("ChannelLayout")
 	},
 });
 WriteClass(new GenerateOption(typeof(AVCodecParserContext), ns, "CodecParserContext")

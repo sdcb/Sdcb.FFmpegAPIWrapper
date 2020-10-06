@@ -13,36 +13,35 @@
 </Query>
 
 FFmpegLogger.LogWriter = c => Console.Write(c);
-using FormatContext fc = FormatContext.AllocOutput(formatName: "mp4");
+using FormatContext fc = FormatContext.AllocOutput(formatName: "mp3");
+fc.AudioCodec = Codec.FindEncoderByName("libmp3lame");
 
-fc.VideoCodec = Codec.FindEncoderByName("libx265");
-MediaStream vstream = fc.NewStream(fc.VideoCodec);
-vstream.TimeBase = new MediaRational(1, 25);
-using var vcodec = new CodecContext(fc.VideoCodec)
+MediaStream audioStream = fc.NewStream(fc.AudioCodec);
+audioStream.TimeBase = new MediaRational(1, 25);
+using var audioCodec = new CodecContext(fc.VideoCodec)
 {
-	BitRate = 2 * 1024 * 1024, // 2M
-	Width = 1920, 
-	Height = 1080, 
-	TimeBase = vstream.TimeBase,
-	GopSize = 33, 
-	PixelFormat = PixelFormat.Yuv420p, 
-	Flags = CodecFlag.GlobalHeader
+	SampleFormat = fc.AudioCodec.SampleFormats.First(), 
+	BitRate = 64000, 
+	SampleRate = fc.AudioCodec.SupportedSampleRates.First(),
+	ChannelLayout = ChannelLayout.Mono, 
+	Channels = 1, 
+	TimeBase = new MediaRational(1, fc.AudioCodec.SupportedSampleRates.First()), 
 };
-vcodec.Open(fc.VideoCodec);
-vstream.Codecpar.CopyFrom(vcodec);
+audioCodec.Open(fc.VideoCodec);
+audioStream.Codecpar.CopyFrom(audioCodec);
 
-string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "muxing.mp4");
+string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "muxing.mp3");
 fc.DumpFormat(streamIndex: 0, outputPath, isOutput: true);
 
 using MediaIO io = MediaIO.OpenWrite(outputPath);
 fc.IO = io;
 fc.WriteHeader();
-foreach (Packet packet in vcodec.EncodeFrames(VideoFrameSample.Yuv420pSequence(vcodec.Width, vcodec.Height).Take(50)))
+foreach (Packet packet in audioCodec.EncodeFrames(VideoFrameSample.Yuv420pSequence(audioCodec.Width, audioCodec.Height).Take(50)))
 {
 	try
 	{
-		packet.RescaleTimestamp(vcodec.TimeBase, vstream.TimeBase);
-		packet.StreamIndex = vstream.Index;
+		packet.RescaleTimestamp(audioCodec.TimeBase, audioStream.TimeBase);
+		packet.StreamIndex = audioStream.Index;
 		LogPacket(fc, packet);
 		fc.InterleavedWritePacket(packet);
 	}

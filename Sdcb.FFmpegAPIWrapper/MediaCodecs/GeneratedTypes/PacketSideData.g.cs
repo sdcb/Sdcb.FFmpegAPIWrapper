@@ -27,6 +27,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         public static PacketSideData FromNative(AVPacketSideData* ptr) => new PacketSideData(ptr);
+        public static PacketSideData FromNative(IntPtr ptr) => new PacketSideData((AVPacketSideData*)ptr);
         internal static PacketSideData? FromNativeOrNull(AVPacketSideData* ptr)
             => ptr != null ? new PacketSideData?(new PacketSideData(ptr)) : null;
         
