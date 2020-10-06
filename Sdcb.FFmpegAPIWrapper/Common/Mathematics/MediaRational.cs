@@ -1,13 +1,8 @@
 ﻿using FFmpeg.AutoGen;
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
-    [StructLayout(LayoutKind.Sequential)]
     public struct MediaRational
     {
         /// <summary>
@@ -106,6 +101,6 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public override int GetHashCode() => Num.GetHashCode() ^ Den.GetHashCode();
 
-        public override string ToString() => $"{Num}/{Den}({ToDouble():F2})";
+        public override string ToString() => $"{Num}/{Den}({ToDouble():F6})";
     }
 }

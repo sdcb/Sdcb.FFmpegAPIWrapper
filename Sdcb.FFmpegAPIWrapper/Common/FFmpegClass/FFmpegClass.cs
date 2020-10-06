@@ -31,7 +31,13 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public FFmpegCategory Category => (FFmpegCategory)_p->category;
 
-        public IEnumerable<FFmpegOption> Options => ReadSequence(
+        public IEnumerable<FFmpegOption> ConstValues => GetKnownOptions()
+            .Where(x => x.Type == FFmpegOptionType.Const);
+
+        public IEnumerable<FFmpegOption> Options => GetKnownOptions()
+            .Where(x => x.Type != FFmpegOptionType.Const);
+
+        public IEnumerable<FFmpegOption> GetKnownOptions() => ReadSequence(
             p            : (IntPtr)_p->option, 
             unitSize     : sizeof(AVOption), 
             exitCondition: _p => ((AVOption*)_p)->name == null, 

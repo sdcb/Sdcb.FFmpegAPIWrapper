@@ -15,21 +15,20 @@
 FFmpegLogger.LogWriter = c => Console.Write(c);
 using FormatContext fc = FormatContext.AllocOutput(formatName: "mp4");
 
-fc.VideoCodec = Codec.FindEncoderByName("libvpx-vp9");
-fc.Options.Dump();
+fc.VideoCodec = Codec.FindEncoderByName("libx265");
 MediaStream vstream = fc.NewStream(fc.VideoCodec);
+vstream.TimeBase = new MediaRational(1, 25);
 using var vcodec = new CodecContext(fc.VideoCodec)
 {
+	BitRate = 2 * 1024 * 1024, // 2M
 	Width = 1920, 
 	Height = 1080, 
-	TimeBase = new MediaRational(1, 25),
+	TimeBase = vstream.TimeBase,
+	GopSize = 33, 
 	PixelFormat = PixelFormat.Yuv420p, 
 	Flags = CodecFlag.GlobalHeader
 };
-vcodec.Open(options: new MediaDictionary
-{
-	["qpxx"] = "0"
-});
+vcodec.Open(fc.VideoCodec);
 vstream.Codecpar.CopyFrom(vcodec);
 
 string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "muxing.mp4");

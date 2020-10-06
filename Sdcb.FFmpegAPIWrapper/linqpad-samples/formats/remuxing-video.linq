@@ -27,18 +27,16 @@ decoder.FillParameters(inputStream.Codecpar);
 decoder.Open();
 
 using FormatContext output = FormatContext.AllocOutput(fileName: outputPath);
-Codec outputCodec = Codec.FindEncoderByName("libx265");
+Codec outputCodec = Codec.FindEncoderByNames("libsvtav1");
 var outputStream = new MediaStream(output);
-outputStream.TimeBase = inputStream.TimeBase;
 using CodecContext encoder = new CodecContext(outputCodec)
 {
-	TimeBase = outputStream.TimeBase,
+    Width = inputStream.Codecpar.Width,
+    Height = inputStream.Codecpar.Height,
+    TimeBase = inputStream.RealFrameRate.Inverse(), 
 	PixelFormat = PixelFormat.Yuv420p,
-	Width = inputStream.Codecpar.Width, 
-	Height = inputStream.Codecpar.Height, 
-	Flags = CodecFlag.GlobalHeader
+	BitRate = 2 * 1024 * 1024,
 };
-encoder.PrivateOptions.Set("crf", "23");
 encoder.Open();
 outputStream.Codecpar.CopyFrom(encoder);
 
@@ -48,7 +46,8 @@ output.IO = io;
 
 output.WriteHeader();
 using var packet = new Packet();
-foreach (Packet outPacket in encoder.EncodeFrames(decoder.DecodePackets(input.ReadPackets(packet).Where(x => x.StreamIndex == inputStream.Index))))
+foreach (Packet outPacket in encoder.EncodeFrames(
+	decoder.DecodePackets(input.ReadPackets().Where(x => x.StreamIndex == inputStream.Index))))
 {
 	outPacket.RescaleTimestamp(encoder.TimeBase, outputStream.TimeBase);
 	outPacket.StreamIndex = outputStream.Index;

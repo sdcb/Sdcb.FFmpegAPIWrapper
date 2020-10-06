@@ -107,13 +107,17 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// frames -> packets
         /// </summary>
-        public IEnumerable<Packet> EncodeFrames(IEnumerable<Frame> frames)
+        public IEnumerable<Packet> EncodeFrames(IEnumerable<Frame> frames, bool makeSequential = true)
         {
             using var packet = new Packet();
-            
+
+            int pts = 0;
             foreach (Frame frame in frames)
-                foreach (var _ in EncodeFrame(frame, packet)) 
+            {
+                if (makeSequential) frame.Pts = pts++;
+                foreach (var _ in EncodeFrame(frame, packet))
                     yield return packet;
+            }
 
             foreach (var _ in EncodeFrame(null, packet)) 
                 yield return packet;

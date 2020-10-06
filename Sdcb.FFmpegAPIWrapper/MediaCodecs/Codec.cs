@@ -147,5 +147,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 			public IntPtr value;
 #pragma warning restore CS0649
 		};
-	}
+
+		public override string ToString() => $"{Name} - {LongName}";
+    }
 }

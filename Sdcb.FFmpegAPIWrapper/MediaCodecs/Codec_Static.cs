@@ -42,6 +42,26 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public static Codec FindEncoderByName(string name) => FromNative(FindChecking(avcodec_find_encoder_by_name(name), name));
 
+        public static Codec FindEncoderByNames(params string[] names)
+        {
+            foreach (string name in names)
+            {
+                AVCodec* codec = avcodec_find_encoder_by_name(name);
+                if (codec != null) return FromNative(codec);
+            }
+            throw new ArgumentException($"Encoder names '{string.Join(",", names)}' not found.");
+        }
+
+        public static Codec FindDecoderByNames(params string[] names)
+        {
+            foreach (string name in names)
+            {
+                AVCodec* codec = avcodec_find_decoder_by_name(name);
+                if (codec != null) return FromNative(codec);
+            }
+            throw new ArgumentException($"Decoder names '{string.Join(",", names)}' not found.");
+        }
+
         private static AVCodec* FindChecking(AVCodec* codec, AVCodecID id) => codec != null ? codec : throw new FFmpegException($"codec id {id} not found.");
         private static AVCodec* FindChecking(AVCodec* codec, string name) => codec != null ? codec : throw new FFmpegException($"codec name '{name}' not found.");
 

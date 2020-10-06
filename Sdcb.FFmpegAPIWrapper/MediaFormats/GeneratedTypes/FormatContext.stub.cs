@@ -104,20 +104,21 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public CodecResult ReadFrame(Packet packet) => CodecContext.ToCodecResult(av_read_frame(this, packet));
 
-        public IEnumerable<Packet> ReadPackets(Packet resultHolder)
+        public IEnumerable<Packet> ReadPackets()
         {
+            using var packet = new Packet();
             while (true)
             {
-                CodecResult result = ReadFrame(resultHolder);
+                CodecResult result = ReadFrame(packet);
                 if (result == CodecResult.EOF) break;
                 System.Diagnostics.Debug.Assert(result == CodecResult.Success);
                 try
                 {
-                    yield return resultHolder;
+                    yield return packet;
                 }
                 finally
                 {
-                    resultHolder.Unreference();
+                    packet.Unreference();
                 }
             }
         }

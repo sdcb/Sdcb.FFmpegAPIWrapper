@@ -117,7 +117,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         public DisposableNativeString GetData(string name, OptionSearchFlags searchFlags = OptionSearchFlags.None)
         {
             byte* outVal;
-            av_opt_get(_obj, name, (int)searchFlags, &outVal).ThrowIfError();
+            av_opt_get(_obj, name, (int)searchFlags, &outVal).ThrowIfError($"name: {name}");
             return new DisposableNativeString(outVal);
         }
 
@@ -201,7 +201,15 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             return MediaDictionary.FromNative(dict, isOwner: true);
         }
 
-        public Dictionary<string, string> ToDictionary() => KnownOptions.ToDictionary(k => k.Name, v =>
+        public IEnumerable<FFmpegOption> ConstValues => GetKnownOptions()
+            .Where(x => x.Type == FFmpegOptionType.Const);
+
+        public IEnumerable<FFmpegOption> Options => GetKnownOptions()
+            .Where(x => x.Type != FFmpegOptionType.Const);
+
+        public Dictionary<string, string> Values => GetKnownOptions()
+            .Where(x => x.Type != FFmpegOptionType.Const)
+            .ToDictionary(k => k.Name, v =>
         {
             using DisposableNativeString data = GetData(v.Name);
             return data.ToString();
@@ -210,20 +218,17 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         /// <summary>
         /// <see cref="av_opt_next(void*, AVOption*)"/>
         /// </summary>
-        public IEnumerable<FFmpegOption> KnownOptions
+        public IEnumerable<FFmpegOption> GetKnownOptions()
         {
-            get
+            IntPtr prev = IntPtr.Zero;
+            while (true)
             {
-                IntPtr prev = IntPtr.Zero;
-                while (true)
-                {
-                    prev = av_opt_next_safe(prev);
-                    if (prev == IntPtr.Zero) break;
-                    yield return new FFmpegOption(prev);
-                }
-
-                IntPtr av_opt_next_safe(IntPtr prev) => (IntPtr)av_opt_next(_obj, (AVOption*)prev);
+                prev = av_opt_next_safe(prev);
+                if (prev == IntPtr.Zero) break;
+                yield return new FFmpegOption(prev);
             }
+
+            IntPtr av_opt_next_safe(IntPtr prev) => (IntPtr)av_opt_next(_obj, (AVOption*)prev);
         }
     }
 }
