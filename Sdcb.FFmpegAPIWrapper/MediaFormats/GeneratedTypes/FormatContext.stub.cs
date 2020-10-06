@@ -97,7 +97,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         public MediaStream FindBestStream(MediaType type, int wantedStreamId = -1, int relatedStream = -1)
         {
             int streamId = av_find_best_stream(this, (AVMediaType)type, wantedStreamId, relatedStream, decoder_ret: null, flags: 0).ThrowIfError();
-            return GetStream(streamId);
+            return MediaStream.FromNative(Pointer->streams[streamId]);
         }
 
         /// <summary>
