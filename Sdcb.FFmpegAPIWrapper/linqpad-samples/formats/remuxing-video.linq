@@ -45,7 +45,6 @@ using var io = MediaIO.OpenWrite(outputPath);
 output.IO = io;
 
 output.WriteHeader();
-using var packet = new Packet();
 foreach (Packet outPacket in encoder.EncodeFrames(
 	decoder.DecodePackets(input.ReadPackets().Where(x => x.StreamIndex == inputStream.Index))))
 {
