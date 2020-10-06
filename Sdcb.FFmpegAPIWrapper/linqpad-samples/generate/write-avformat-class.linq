@@ -31,6 +31,11 @@ WriteClass(new GenerateOption(typeof(AVFormatContext), ns, "FormatContext")
 		["event_flags"] = force("EventFlag"),
 		["avio_flags"] = force("MediaIOFlags"),
 	},
+	FieldOptions = new()
+	{
+		["streams"] = FieldOption.Hide, 
+		["nb_streams"] = FieldOption.Hide
+	},
 	AdditionalNamespaces = new string[] {"Sdcb.FFmpegAPIWrapper.MediaCodecs" }, 
 	WriteStub = true, 
 });

@@ -3,6 +3,8 @@ using Sdcb.FFmpegAPIWrapper.Common;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 using Sdcb.FFmpegAPIWrapper.MediaCodecs;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
@@ -13,5 +15,12 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public static OutputFormat? Guess(string? shortName = null, string? fileName = null, string? mimeType = null)
             => FromNativeOrNull(av_guess_format(shortName, fileName, mimeType));
+
+        /// <summary>
+        /// <see cref="av_muxer_iterate(void**)"/>
+        /// </summary>
+        public static IEnumerable<OutputFormat> All => NativeUtils
+            .EnumeratePtrIterator(ptr => (IntPtr)av_muxer_iterate((void**)ptr))
+            .Select(x => FromNative((AVOutputFormat*)x));
     }
 }

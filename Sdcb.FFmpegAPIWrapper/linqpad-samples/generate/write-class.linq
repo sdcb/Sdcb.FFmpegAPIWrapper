@@ -256,11 +256,21 @@ record GenerateOption
 	public string NewName { get; init; }
 	public Dictionary<string, (string destType, string? method)> FieldTypeMapping { get; init; } = new();
 	public Dictionary<string, string> FieldNameMapping { get; init; } = new();
+	public Dictionary<string, FieldOption> FieldOptions { get;init;} = new();
 	public string[] AdditionalNamespaces { get; init; } = new string[0];
 	public bool WriteStub { get; init; } = false;
 	public string? PrivateMemberFrom { private get; init; }
 	public bool KeepObsolete { private get; init; } = false;
 	public bool KeepFunctionPointers { private get; init; } = false;
+	
+	private bool FieldShouldGenerate(FieldInfo x, int i, int privateIndex)
+	{
+		if (i >= privateIndex) return false;
+		if (!KeepObsolete && x.GetCustomAttribute<ObsoleteAttribute>() != null) return false;
+		if (!KeepFunctionPointers && x.FieldType.Name.EndsWith("_func")) return false;
+		if (FieldOptions.TryGetValue(x.Name, out var fo) && ((fo & FieldOption.Hide) != FieldOption.None)) return false;
+		return true;
+	}
 
 	public IEnumerable<FieldInfo> GetFields()
 	{
@@ -270,9 +280,7 @@ record GenerateOption
 			.IndexOf(PrivateMemberFrom) : int.MaxValue;
 		return TargetType
 			.GetFields()
-			.Where((x, i) => i < privateIndex && 
-				(KeepObsolete || x.GetCustomAttribute<ObsoleteAttribute>() == null) &&
-				(KeepFunctionPointers || !x.FieldType.Name.EndsWith("_func")));
+			.Where((x, i) => FieldShouldGenerate(x, i, privateIndex));
 	}
 
 	public GenerateOption(Type targetType, string ns, string newName)
@@ -281,4 +289,11 @@ record GenerateOption
 		Namespace = ns;
 		NewName = newName;
 	}
+}
+
+[Flags]
+enum FieldOption
+{
+	None = 0, 
+	Hide = 1, 
 }

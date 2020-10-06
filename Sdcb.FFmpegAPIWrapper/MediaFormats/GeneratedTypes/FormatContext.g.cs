@@ -92,28 +92,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>Number of elements in AVFormatContext.</para>
-        /// <para>streams.</para>
-        /// <see cref="AVFormatContext.nb_streams" />
-        /// </summary>
-        public uint NbStreams
-        {
-            get => Pointer->nb_streams;
-            set => Pointer->nb_streams = value;
-        }
-        
-        /// <summary>
-        /// <para>A list of all streams in the file.</para>
-        /// <para> New streams are created with avformat_new_stream().</para>
-        /// <see cref="AVFormatContext.streams" />
-        /// </summary>
-        public AVStream** Streams
-        {
-            get => Pointer->streams;
-            set => Pointer->streams = value;
-        }
-        
-        /// <summary>
         /// <para>input or output URL.</para>
         /// <para> Unlike the old filename field, this field has no length restriction.</para>
         /// <see cref="AVFormatContext.url" />

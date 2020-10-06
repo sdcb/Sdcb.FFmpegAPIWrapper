@@ -2,6 +2,8 @@ using System;
 using Sdcb.FFmpegAPIWrapper.Common;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
@@ -60,6 +62,13 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
             score = av_probe_input_buffer2(io, &format, url, (void*)logCtx, offset, maxProbeSize).ThrowIfError();
             return FromNative(format);
         }
+
+        /// <summary>
+        /// <see cref="av_demuxer_iterate(void**)"/>
+        /// </summary>
+        public static IEnumerable<InputFormat> All => NativeUtils
+            .EnumeratePtrIterator(ptr => (IntPtr)av_demuxer_iterate((void**)ptr))
+            .Select(x => FromNative((AVInputFormat*)x));
 
         public static InputFormat DShow => new InputFormat("dshow");
         public static InputFormat GdiGrab => new InputFormat("gdigrab");

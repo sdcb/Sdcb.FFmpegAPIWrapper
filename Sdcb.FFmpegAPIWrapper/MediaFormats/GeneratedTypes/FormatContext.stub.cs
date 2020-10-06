@@ -5,6 +5,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 using Sdcb.FFmpegAPIWrapper.MediaCodecs;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
@@ -96,7 +97,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         public MediaStream FindBestStream(MediaType type, int wantedStreamId = -1, int relatedStream = -1)
         {
             int streamId = av_find_best_stream(this, (AVMediaType)type, wantedStreamId, relatedStream, decoder_ret: null, flags: 0).ThrowIfError();
-            return MediaStream.FromNative(Streams[streamId]);
+            return GetStream(streamId);
         }
 
         /// <summary>
@@ -121,11 +122,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
                     packet.Unreference();
                 }
             }
-        }
-
-        public void WriteFrames(IEnumerable<Frame> frames)
-        {
-
         }
 
         /// <summary>
@@ -224,6 +220,12 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         public void DumpFormat(int streamIndex, string? url, bool isOutput) => av_dump_format(this, streamIndex, url, isOutput ? 1 : 0);
 
+        public IReadOnlyList<MediaStream> Streams => new MediaStreamPtrArray(Pointer->streams, (int)Pointer->nb_streams);
+
+        public MediaStream GetVideoStream() => FindBestStream(MediaType.Video);
+        public MediaStream GetAudioStream() => FindBestStream(MediaType.Audio);
+        public MediaStream GetSubtitleStream() => FindBestStream(MediaType.Subtitle);
+
         /// <summary>
         /// <see cref="avformat_free_context(AVFormatContext*)"/>
         /// </summary>
@@ -252,20 +254,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// </summary>
         /// <returns></returns>
         public static string License() => avformat_license();
-
-        /// <summary>
-        /// <see cref="av_muxer_iterate(void**)"/>
-        /// </summary>
-        public static IEnumerable<OutputFormat> Muxers => NativeUtils
-            .EnumeratePtrIterator(ptr => (IntPtr)av_muxer_iterate((void**)ptr))
-            .Select(x => OutputFormat.FromNative((AVOutputFormat*)x));
-
-        /// <summary>
-        /// <see cref="av_demuxer_iterate(void**)"/>
-        /// </summary>
-        public static IEnumerable<InputFormat> Demuxers => NativeUtils
-            .EnumeratePtrIterator(ptr => (IntPtr)av_demuxer_iterate((void**)ptr))
-            .Select(x => InputFormat.FromNative((AVInputFormat*)x));
 
         /// <summary>
         /// <see cref="avformat_get_class"/>
