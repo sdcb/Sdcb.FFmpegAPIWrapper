@@ -3,9 +3,7 @@ using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 using System;
 using System.Runtime.CompilerServices;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
@@ -122,6 +120,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             foreach (var _ in EncodeFrame(null, packet)) 
                 yield return packet;
         }
+
+        public Frame CreateVideoFrame() => Frame.CreateWritableVideo(Width, Height, PixelFormat);
 
         /// <summary>
         /// packets -> frames

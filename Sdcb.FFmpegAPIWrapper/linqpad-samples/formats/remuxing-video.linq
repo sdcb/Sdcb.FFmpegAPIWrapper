@@ -27,15 +27,15 @@ decoder.FillParameters(inputStream.Codecpar);
 decoder.Open();
 
 using FormatContext output = FormatContext.AllocOutput(fileName: outputPath);
-Codec outputCodec = Codec.FindEncoderByNames("libsvtav1");
+Codec outputCodec = Codec.FindEncoderByNames("libvpx-vp9");
 var outputStream = new MediaStream(output);
 using CodecContext encoder = new CodecContext(outputCodec)
 {
-    Width = inputStream.Codecpar.Width,
-    Height = inputStream.Codecpar.Height,
+    Width = inputStream.Codecpar.Width / 2,
+    Height = inputStream.Codecpar.Height / 2,
     TimeBase = inputStream.RealFrameRate.Inverse(), 
-	PixelFormat = PixelFormat.Yuv420p,
-	BitRate = 2 * 1024 * 1024,
+	PixelFormat = outputCodec.PixelFormats.First(),
+	BitRate = 1 * 1024 * 1024,
 };
 encoder.Open();
 outputStream.Codecpar.CopyFrom(encoder);
@@ -45,8 +45,11 @@ using var io = MediaIO.OpenWrite(outputPath);
 output.IO = io;
 
 output.WriteHeader();
-foreach (Packet outPacket in encoder.EncodeFrames(
-	decoder.DecodePackets(input.ReadPackets().Where(x => x.StreamIndex == inputStream.Index))))
+foreach (Packet outPacket in 
+	encoder.EncodeFrames(
+	encoder.ConvertVideoFrames(
+	decoder.DecodePackets(
+	input.ReadPackets().Where(x => x.StreamIndex == inputStream.Index)))))
 {
 	outPacket.RescaleTimestamp(encoder.TimeBase, outputStream.TimeBase);
 	outPacket.StreamIndex = outputStream.Index;
