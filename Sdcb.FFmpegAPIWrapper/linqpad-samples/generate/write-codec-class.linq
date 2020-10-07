@@ -16,7 +16,13 @@ Environment.CurrentDirectory = baseDir;
 
 string ns = "Sdcb.FFmpegAPIWrapper.MediaCodecs";
 WriteClass(new GenerateOption(typeof(AVCodecParameters), ns, "CodecParameters"));
-WriteClass(new GenerateOption(typeof(AVFrame), ns, "Frame"));
+WriteClass(new GenerateOption(typeof(AVFrame), ns, "Frame")
+{
+	FieldTypeMapping = new()
+	{
+		["channel_layout"] = force("ChannelLayout")
+	}
+});
 WriteClass(new GenerateOption(typeof(AVPacket), ns, "Packet")
 {
 	WriteStub = true,

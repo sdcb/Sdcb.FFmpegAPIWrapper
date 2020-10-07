@@ -28,6 +28,20 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             return frame;
         }
 
+        public static Frame CreateWritableAudio(SampleFormat sampleFormat, ChannelLayout channelLayout, int sampleRate, int sampleCount)
+        {
+            var frame = new Frame
+            {
+                Format = (int)sampleFormat,
+                ChannelLayout = channelLayout,
+                SampleRate = sampleRate,
+                NbSamples = sampleCount,
+            };
+            frame.EnsureBuffer();
+            frame.MakeWritable();
+            return frame;
+        }
+
         /// <summary>
         /// <see cref="av_frame_is_writable(AVFrame*)"/>
         /// </summary>

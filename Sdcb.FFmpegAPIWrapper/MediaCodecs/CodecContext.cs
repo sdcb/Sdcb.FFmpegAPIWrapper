@@ -105,14 +105,17 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// frames -> packets
         /// </summary>
-        public IEnumerable<Packet> EncodeFrames(IEnumerable<Frame> frames, bool makeSequential = true)
+        public IEnumerable<Packet> EncodeFrames(IEnumerable<Frame> frames, bool makeSequential = false)
         {
             using var packet = new Packet();
-
             int pts = 0;
             foreach (Frame frame in frames)
             {
-                if (makeSequential) frame.Pts = pts++;
+                if (makeSequential && Codec.Type == MediaType.Video) 
+                    frame.Pts = pts++;
+                else if (makeSequential && SampleRate > 0 && Codec.Type == MediaType.Audio) 
+                    frame.Pts = (pts += FrameSize);
+
                 foreach (var _ in EncodeFrame(frame, packet))
                     yield return packet;
             }
@@ -121,7 +124,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
                 yield return packet;
         }
 
-        public Frame CreateVideoFrame() => Frame.CreateWritableVideo(Width, Height, PixelFormat);
+        internal Frame CreateVideoFrame() => Frame.CreateWritableVideo(Width, Height, PixelFormat);
+        internal Frame CreateAudioFrame() => Frame.CreateWritableAudio(SampleFormat, ChannelLayout, SampleRate,
+            Codec.Capabilities.HasFlag(CodecCompability.VariableFrameSize) ? 10000 : FrameSize);
+
+        public Frame CreateFrame() => Width > 0 ? CreateVideoFrame() : CreateAudioFrame();
 
         /// <summary>
         /// packets -> frames

@@ -148,6 +148,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 #pragma warning restore CS0649
 		};
 
-		public override string ToString() => $"{Name} - {LongName}";
+		public override string ToString() => $"{LongName}({Name})";
     }
 }

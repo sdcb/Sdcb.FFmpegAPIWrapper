@@ -27,7 +27,7 @@ decoder.FillParameters(inputStream.Codecpar);
 decoder.Open();
 
 using FormatContext output = FormatContext.AllocOutput(fileName: outputPath);
-Codec outputCodec = Codec.FindEncoderByNames("libvpx-vp9");
+Codec outputCodec = Codec.FindEncoderByName("libvpx-vp9");
 var outputStream = new MediaStream(output);
 using CodecContext encoder = new CodecContext(outputCodec)
 {
@@ -47,7 +47,7 @@ output.IO = io;
 output.WriteHeader();
 foreach (Packet outPacket in 
 	encoder.EncodeFrames(
-	encoder.ConvertVideoFrames(
+	encoder.ConvertFrames(
 	decoder.DecodePackets(
 	input.ReadPackets().Where(x => x.StreamIndex == inputStream.Index)))))
 {

@@ -262,10 +262,10 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>Channel layout of the audio data.</para>
         /// <see cref="AVFrame.channel_layout" />
         /// </summary>
-        public ulong ChannelLayout
+        public ChannelLayout ChannelLayout
         {
-            get => Pointer->channel_layout;
-            set => Pointer->channel_layout = value;
+            get => (ChannelLayout)Pointer->channel_layout;
+            set => Pointer->channel_layout = (ulong)value;
         }
         
         /// <summary>

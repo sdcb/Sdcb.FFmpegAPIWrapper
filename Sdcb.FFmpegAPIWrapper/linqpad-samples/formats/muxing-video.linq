@@ -16,7 +16,6 @@ FFmpegLogger.LogWriter = c => Console.Write(c);
 using FormatContext fc = FormatContext.AllocOutput(formatName: "mp4");
 
 fc.VideoCodec = Codec.FindEncoderByName("libvpx-vp9");
-fc.Options.Dump();
 MediaStream vstream = fc.NewStream(fc.VideoCodec);
 using var vcodec = new CodecContext(fc.VideoCodec)
 {
@@ -28,7 +27,7 @@ using var vcodec = new CodecContext(fc.VideoCodec)
 };
 vcodec.Open(options: new MediaDictionary
 {
-	["qpxx"] = "0"
+	["crf"] = "0"
 });
 vstream.Codecpar.CopyFrom(vcodec);
 
