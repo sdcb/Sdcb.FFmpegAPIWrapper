@@ -15,34 +15,32 @@
 </Query>
 
 FFmpegLogger.LogWriter = c => Console.Write(c);
-using FormatContext fc = FormatContext.AllocOutput(formatName: "mp3");
-fc.AudioCodec = Codec.FindEncoderByName("libmp3lame");
+using FormatContext fc = FormatContext.AllocOutput(OutputFormat.Guess(shortName: "adts"));
+fc.AudioCodec = Codec.FindEncoderByName("aac");
 
 MediaStream audioStream = fc.NewStream(fc.AudioCodec);
 using var audioCodec = new CodecContext(fc.AudioCodec)
-		  {
-			  SampleFormat = fc.AudioCodec.SampleFormats.First(),
-			  BitRate = 64000,
-			  SampleRate = fc.AudioCodec.SupportedSampleRates.First(),
-			  ChannelLayout = ChannelLayout.Mono,
-			  Channels = 1,
-			  TimeBase = new MediaRational(1, fc.AudioCodec.SupportedSampleRates.First()),
-		  };
+{
+    SampleFormat = fc.AudioCodec.SampleFormats.First(),
+    BitRate = 64000,
+    SampleRate = 44100,
+    ChannelLayout = ChannelLayout.Stereo,
+    TimeBase = new MediaRational(1, 44100),
+};
 audioCodec.Open(fc.AudioCodec);
 audioStream.Codecpar.CopyFrom(audioCodec);
 
-string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "muxing.mp3");
+string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "muxing.aac");
 fc.DumpFormat(streamIndex: 0, outputPath, isOutput: true);
 
 using MediaIO io = MediaIO.OpenWrite(outputPath);
 fc.IO = io;
 fc.WriteHeader();
-using var resampler = new SampleConverter();
-using var newFrame = audioCodec.CreateFrame();
+
 foreach (Packet packet in 
 	audioCodec.EncodeFrames(
 	audioCodec.ConvertFrames(
-	GetSampleFrames().Take(500))))
+	GetSampleFrames(audioCodec.ChannelLayout, audioCodec.SampleRate, audioCodec.FrameSize).Take(500))))
 {
 	try
 	{
@@ -77,14 +75,14 @@ unsafe void LogPacket(FormatContext fc, Packet packet)
 	int* pv = &v;
 }
 
-IEnumerable<Frame> GetSampleFrames()
+IEnumerable<Frame> GetSampleFrames(ChannelLayout channelLayout, int sampleRate, int sampleCount)
 {
 	using var frame = new Frame
 	{
 		Format = (int)SampleFormat.S16,
-		ChannelLayout = ChannelLayout.Stereo,
-		SampleRate = 44100,
-		NbSamples = 10000,
+		ChannelLayout = channelLayout,
+		SampleRate = sampleRate,
+		NbSamples = sampleCount,
 	};
 	frame.EnsureBuffer();
 

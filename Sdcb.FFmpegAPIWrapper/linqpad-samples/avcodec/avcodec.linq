@@ -11,7 +11,8 @@
 
 new
 {
-	Codec.MediaCodecs, 
+	Codec.Encoders, 
+	Codec.Decoders,
 	Codec.Configuration,
 	Codec.License,
 }.Dump(1);

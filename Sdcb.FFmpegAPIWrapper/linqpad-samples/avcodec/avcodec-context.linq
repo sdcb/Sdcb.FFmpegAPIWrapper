@@ -9,6 +9,7 @@
   <Namespace>System.Buffers.Binary</Namespace>
   <Namespace>System.Runtime.CompilerServices</Namespace>
   <Namespace>System.Runtime.InteropServices</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.Toolboxs</Namespace>
 </Query>
 
 void Main1()
@@ -26,11 +27,12 @@ void Main2()
 	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
 
 	using Stream file = File.OpenRead(destPath);
-	string yuvFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo-yuv";
+	string yuvFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo-jpg";
 	Directory.CreateDirectory(yuvFolder);
-	foreach (var x in DecodeSampleH265(file).Select((x, i) => (bytes: x, i)))
+	int i = 0;
+	foreach (Frame x in DecodeSampleH265(file))
 	{
-		File.WriteAllBytes(yuvFolder + @$"\{x.i}.yuv", x.bytes);
+		x.WriteImageTo(yuvFolder + @$"\{i++}.jpg");
 	}
 }
 
@@ -44,11 +46,9 @@ void WriteSampleH265(Stream stream)
 		Height = 1080,
 		TimeBase = new MediaRational(1, 15),
 		Framerate = new MediaRational(15, 1),
-		GopSize = 10,
-		MaxBFrames = 1,
 		PixelFormat = PixelFormat.Yuv420p,
 	};
-	c.Options.Set("preset", "fast");
+	//c.PrivateOptions.Set("preset", "fast");
 	c.Open(codec);
 
 	var writer = new BinaryWriter(stream);
@@ -61,7 +61,7 @@ void WriteSampleH265(Stream stream)
 	Console.WriteLine($"All done, total size={stream.Position}");
 }
 
-IEnumerable<byte[]> DecodeSampleH265(Stream stream)
+IEnumerable<Frame> DecodeSampleH265(Stream stream)
 {
 	using var reader = new BinaryReader(stream);
 	CodecID codecId = (CodecID)reader.ReadInt32();
@@ -77,12 +77,12 @@ IEnumerable<byte[]> DecodeSampleH265(Stream stream)
 		packet.Size = dp.Length;
 		foreach (var _ in c.DecodePacket(packet, frame))
 		{
-			yield return frame.ToImageBuffer();
+			yield return frame;
 		}
 	}
 
 	foreach (var _ in c.DecodePacket(null, frame))
 	{
-		yield return frame.ToImageBuffer();
+		yield return frame;
 	}
 }
