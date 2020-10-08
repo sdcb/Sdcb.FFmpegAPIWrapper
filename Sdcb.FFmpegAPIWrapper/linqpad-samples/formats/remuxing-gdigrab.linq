@@ -12,14 +12,19 @@
   <Namespace>System.Runtime.InteropServices</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.Swscales</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.Toolboxs</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.MediaDevices</Namespace>
 </Query>
 
 FFmpegLogger.LogWriter = c => Console.Write(c);
 //FFmpegLogger.LogLevel = LogLevel.Debug;
-string inputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "muxing.mp4");
-string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "remuxing.mp4");
+string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "gdigrab.mp4");
 
-using FormatContext input = FormatContext.OpenInput(inputPath);
+MediaDevice.RegisterAll();
+int framerate = 10;
+using FormatContext input = FormatContext.OpenInput("desktop", InputFormat.GdiGrab, new()
+{
+	["framerate"] = framerate.ToString(),
+});
 MediaStream inputStream = input.FindBestStream(MediaType.Video);
 Codec inputCodec = Codec.FindDecoder(inputStream.Codecpar.CodecId);
 using CodecContext decoder = new CodecContext(inputCodec);
@@ -27,15 +32,15 @@ decoder.FillParameters(inputStream.Codecpar);
 decoder.Open();
 
 using FormatContext output = FormatContext.AllocOutput(fileName: outputPath);
-Codec outputCodec = Codec.FindEncoderByName("libvpx-vp9");
+Codec outputCodec = Codec.FindEncoderByName("libx264");
 var outputStream = new MediaStream(output);
 using CodecContext encoder = new CodecContext(outputCodec)
 {
-    Width = inputStream.Codecpar.Width / 2,
-    Height = inputStream.Codecpar.Height / 2,
-    TimeBase = inputStream.RealFrameRate.Inverse(), 
-	PixelFormat = outputCodec.PixelFormats.First(),
-	BitRate = 1 * 1024 * 1024,
+    Width = 1920,
+    Height = 1080,
+    TimeBase = new MediaRational(1, framerate), 
+	PixelFormat = outputCodec.PixelFormats.Dump().First(),
+	BitRate = 2 * 1024 * 1024,
 };
 encoder.Open();
 outputStream.Codecpar.CopyFrom(encoder);
@@ -49,7 +54,7 @@ foreach (Packet outPacket in
 	encoder.EncodeFrames(
 	encoder.ConvertFrames(
 	decoder.DecodePackets(
-	input.ReadPackets().Where(x => x.StreamIndex == inputStream.Index)))))
+	input.ReadPackets().Where(x => x.StreamIndex == inputStream.Index).Take(100)))))
 {
 	outPacket.RescaleTimestamp(encoder.TimeBase, outputStream.TimeBase);
 	outPacket.StreamIndex = outputStream.Index;
