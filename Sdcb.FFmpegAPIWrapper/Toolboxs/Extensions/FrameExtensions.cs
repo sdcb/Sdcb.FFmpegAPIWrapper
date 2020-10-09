@@ -53,7 +53,7 @@ namespace Sdcb.FFmpegAPIWrapper.Toolboxs
                 Width = frame.Width,
                 Height = frame.Height,
                 TimeBase = new MediaRational(1, 25),
-                Flags = ((fc.OutputFormat.Flags & FormatOutputFlag.Globalheader) != 0) ? CodecFlag.GlobalHeader : CodecFlag.None,
+                Flags = fc.OutputFormat.Flags.HasFlag(FormatOutputFlag.Globalheader) ? CodecFlag.GlobalHeader : CodecFlag.None,
             };
             codecContext.Open(codec);
             mediaStream.Codecpar.CopyFrom(codecContext);
