@@ -15,14 +15,15 @@ Status
 
 ### Codecs
 - [x] `AVCodec` - `MediaCodec`
-- [x] `AVCodecContext` - `MediaCodecContext` (in progress)
+- [x] `AVCodecContext` - `MediaCodecContext`
 
 ### Muxers
 - [x] `AVIOContext` - `MediaIO`
-- [x] `AVFormatContext` (not started)
+- [x] `AVFormatContext` - `InputFormat`/`OutputFormat`/`FormatContext`
 
 ### Others(filters, ...)
-- [x] `swscale` - `PixelConverter`
+- [x] `swscale` - `PixelConverter`/`FrameConverter`
+- [x] `resampler` - `SampleConverter`
 - other not supported.
 
 Known other famous FFmpeg API wrapper in Github
