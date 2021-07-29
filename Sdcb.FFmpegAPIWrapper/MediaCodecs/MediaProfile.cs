@@ -12,7 +12,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		private AVProfile* _p;
 
 		public int Profile => _p->profile;
-		public string Name => Marshal.PtrToStringAnsi((IntPtr)_p->name);
+		public string Name => Marshal.PtrToStringAnsi((IntPtr)_p->name)!;
 		public unsafe static MediaProfile FromNative(AVProfile* p) => new MediaProfile { _p = p };
 	}
 }

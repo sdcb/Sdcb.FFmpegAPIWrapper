@@ -90,7 +90,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public static MediaRational Gcd(in MediaRational a, in MediaRational b, int maxDenominator, AVRational @default = default) => av_gcd_q(a, b, maxDenominator, @default);
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is MediaRational r)
             {

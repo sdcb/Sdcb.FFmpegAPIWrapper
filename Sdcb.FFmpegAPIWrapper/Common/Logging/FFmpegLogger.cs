@@ -43,7 +43,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 					int printPrefix = 1;
 					byte* lineBuffer = stackalloc byte[lineSize];
 					av_log_format_line2(p0, level, format, vl, lineBuffer, lineSize, &printPrefix);
-					value.Invoke(Marshal.PtrToStringUTF8((IntPtr)lineBuffer));
+					value.Invoke(Marshal.PtrToStringUTF8((IntPtr)lineBuffer)!);
 				})
 			});
         }

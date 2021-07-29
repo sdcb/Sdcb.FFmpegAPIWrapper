@@ -25,12 +25,12 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		/// <summary>
 		/// <see cref="AVCodec.name"/>
 		/// </summary>
-		public string Name => Marshal.PtrToStringUTF8((IntPtr)_p->name);
+		public string Name => Marshal.PtrToStringUTF8((IntPtr)_p->name)!;
 
 		/// <summary>
 		/// <see cref="AVCodec.long_name"/>
 		/// </summary>
-		public string LongName => Marshal.PtrToStringUTF8((IntPtr)_p->long_name);
+		public string? LongName => Marshal.PtrToStringUTF8((IntPtr)_p->long_name);
 
 		/// <summary>
 		/// <see cref="AVCodec.type"/>
@@ -114,7 +114,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		/// <summary>
 		/// <see cref="AVCodec.wrapper_name"/>
 		/// </summary>
-		public string WrapperName => Marshal.PtrToStringUTF8((IntPtr)_p->wrapper_name);
+		public string WrapperName => Marshal.PtrToStringUTF8((IntPtr)_p->wrapper_name)!;
 
 		/// <summary>
 		/// <see cref=""/>
@@ -132,13 +132,13 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		public bool IsDecoder => av_codec_is_decoder(this) != 0;
 
 
-		public Dictionary<string, string> Defaults => NativeUtils.ReadSequence(
+		public Dictionary<string, string?> Defaults => NativeUtils.ReadSequence(
 				p: (IntPtr)_p->defaults, 
 				unitSize: sizeof(AvCodecDefaultDef), 
 				exitCondition: p => ((AvCodecDefaultDef*)p)->key == IntPtr.Zero, 
 				valGetter: p => *(AvCodecDefaultDef*)p
 			)
-			.ToDictionary(k => Marshal.PtrToStringAnsi(k.key), v => Marshal.PtrToStringAnsi(v.value));
+			.ToDictionary(k => Marshal.PtrToStringAnsi(k.key)!, v => Marshal.PtrToStringAnsi(v.value));
 
 		private unsafe struct AvCodecDefaultDef
 		{

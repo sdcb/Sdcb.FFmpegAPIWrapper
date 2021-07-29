@@ -49,7 +49,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaUtils
         /// </summary>
         public static unsafe Ptr4 ToPlaneData(IntPtr sourceData, Int32x4 linesizes, PixelFormat pixelFormat, int height)
         {
-            byte_ptrArray4 ret;
+            byte_ptrArray4 ret = default;
             av_image_fill_pointers(ret, (AVPixelFormat)pixelFormat, height, (byte*)sourceData, linesizes).ThrowIfError();
             return ret;
         }

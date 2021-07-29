@@ -110,7 +110,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public override string ToString()
         {
-            return Marshal.PtrToStringUTF8(Pointer);
+            return Marshal.PtrToStringUTF8(Pointer)!;
         }
     }
 }

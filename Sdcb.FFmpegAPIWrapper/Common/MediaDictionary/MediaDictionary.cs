@@ -53,7 +53,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
                     throw new KeyNotFoundException(key);
                 }
 
-                return Marshal.PtrToStringUTF8((IntPtr)entry->value);
+                return Marshal.PtrToStringUTF8((IntPtr)entry->value)!;
             }
             set
             {
@@ -108,7 +108,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             }
             else
             {
-                value = Marshal.PtrToStringUTF8((IntPtr)entry->value);
+                value = Marshal.PtrToStringUTF8((IntPtr)entry->value)!;
                 return true;
             }
         }
@@ -162,8 +162,8 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             {
                 var entry = (AVDictionaryEntry*)ptr;
                 return KeyValuePair.Create(
-                    Marshal.PtrToStringUTF8((IntPtr)entry->key),
-                    Marshal.PtrToStringUTF8((IntPtr)entry->value));
+                    Marshal.PtrToStringUTF8((IntPtr)entry->key)!,
+                    Marshal.PtrToStringUTF8((IntPtr)entry->value)!);
             }
 
             static IntPtr av_dict_get_safe(MediaDictionary dict, IntPtr prev)

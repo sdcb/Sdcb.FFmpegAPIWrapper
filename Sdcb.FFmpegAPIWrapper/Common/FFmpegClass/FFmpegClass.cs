@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
@@ -25,7 +26,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 
         public static implicit operator AVClass*(FFmpegClass data) => data._p;
 
-        public string Name => Marshal.PtrToStringUTF8((IntPtr)_p->class_name);
+        public string Name => Marshal.PtrToStringUTF8((IntPtr)_p->class_name)!;
 
         public string Version => _p->version.ToFourCC();
 
@@ -52,6 +53,12 @@ namespace Sdcb.FFmpegAPIWrapper.Common
                 yield return valGetter(p);
                 p += unitSize;
             }
+        }
+
+        [ModuleInitializer]
+        internal static void OnLoad()
+        {
+            ffmpeg.RootPath = "";
         }
     }
 }
