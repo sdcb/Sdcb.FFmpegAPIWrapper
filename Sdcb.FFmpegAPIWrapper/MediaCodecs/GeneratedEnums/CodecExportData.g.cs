@@ -30,5 +30,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         VideoEncParams = 4,
         
+        /// <summary>
+        /// <para>AV_CODEC_EXPORT_DATA_FILM_GRAIN = (1 &lt;&lt; 3).</para>
+        /// <see cref="ffmpeg.AV_CODEC_EXPORT_DATA_FILM_GRAIN" />
+        /// </summary>
+        FilmGrain = 8,
+        
     }
 }

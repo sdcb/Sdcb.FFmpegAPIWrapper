@@ -320,7 +320,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <para>Frame flags, a combination of.</para>
+        /// <para>Frame flags, a combination of lavu_frame_flags.</para>
         /// <see cref="AVFrame.flags" />
         /// </summary>
         public int Flags

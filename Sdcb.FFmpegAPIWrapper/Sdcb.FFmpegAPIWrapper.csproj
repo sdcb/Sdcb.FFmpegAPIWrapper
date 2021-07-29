@@ -55,7 +55,7 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="FFmpeg.AutoGen" Version="4.3.0.3" />
+    <PackageReference Include="FFmpeg.AutoGen" Version="4.4.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

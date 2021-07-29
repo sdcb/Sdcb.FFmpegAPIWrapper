@@ -1,14 +1,15 @@
 <Query Kind="Statements">
-  <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
+  <NuGetReference>FFmpeg.AutoGen</NuGetReference>
   <Namespace>FFmpeg.AutoGen</Namespace>
-  <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
-  <Namespace>System.CodeDom.Compiler</Namespace>
   <Namespace>Microsoft.CSharp</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
   <Namespace>System.CodeDom</Namespace>
+  <Namespace>System.CodeDom.Compiler</Namespace>
 </Query>
 
 #load ".\common"
 #load "generate\write-class"
+#nullable enable
 
 string baseDir = Path.GetFullPath(Path.Combine(Util.CurrentQuery.Location, @"..\..\MediaCodecs\GeneratedTypes"));
 Directory.CreateDirectory(baseDir);

@@ -32,14 +32,14 @@ namespace Sdcb.FFmpegAPIWrapper.Toolboxs
             }
         }
 
-        public static byte[] SaveImage(this Frame frame, OutputFormat? format = null, string? formatName = null)
+        public static byte[] Encode(this Frame frame, OutputFormat? format = null, string? formatName = null)
         {
             using FormatContext fc = FormatContext.AllocOutput(format, formatName);
-            using var io = MediaIO.OpenDynamic();
+            using DynamicMediaIO io = MediaIO.OpenDynamic();
             fc.IO = io;
             WriteImageTo(frame, fc);
 
-            using var dm = io.GetBufferAndClose();
+            using DisposableDataPointer dm = io.GetBufferAndClose();
             return dm.AsSpan().ToArray();
         }
 

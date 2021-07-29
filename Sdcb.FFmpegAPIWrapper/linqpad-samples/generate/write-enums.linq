@@ -1,5 +1,5 @@
 <Query Kind="Statements">
-  <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
+  <NuGetReference>FFmpeg.AutoGen</NuGetReference>
   <Namespace>FFmpeg.AutoGen</Namespace>
   <Namespace>Microsoft.CSharp</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>

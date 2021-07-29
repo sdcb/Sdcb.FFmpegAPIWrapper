@@ -8,7 +8,7 @@ using static FFmpeg.AutoGen.ffmpeg;
 namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
     /// <summary>
-    /// <para>MPEG vs JPEG YUV range.</para>
+    /// <para>Visual content value range.</para>
     /// <see cref="AVColorRange" />
     /// </summary>
     public enum ColorRange
@@ -19,13 +19,13 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         Unspecified = 0,
         
         /// <summary>
-        /// <para>the normal 219*2^(n-8) &quot;MPEG&quot; YUV ranges.</para>
+        /// <para>Narrow or limited range content.</para>
         /// <see cref="AVColorRange.AVCOL_RANGE_MPEG" />
         /// </summary>
         Mpeg = 1,
         
         /// <summary>
-        /// <para>the normal 2^n-1 &quot;JPEG&quot; YUV ranges.</para>
+        /// <para>Full range content.</para>
         /// <see cref="AVColorRange.AVCOL_RANGE_JPEG" />
         /// </summary>
         Jpeg = 2,

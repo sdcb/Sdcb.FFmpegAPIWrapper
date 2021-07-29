@@ -1,17 +1,17 @@
 <Query Kind="Program">
-  <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
+  <NuGetReference>FFmpeg.AutoGen</NuGetReference>
   <Namespace>FFmpeg.AutoGen</Namespace>
-  <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
-  <Namespace>System.CodeDom.Compiler</Namespace>
   <Namespace>Microsoft.CSharp</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
   <Namespace>System.CodeDom</Namespace>
+  <Namespace>System.CodeDom.Compiler</Namespace>
 </Query>
 
 #load ".\common"
+#nullable enable
 
 void Main()
 {
-
 }
 
 void WriteClass(GenerateOption option)
@@ -149,7 +149,8 @@ string Convert(FieldInfo field, string pointerName, Dictionary<string, string> p
 
 	bool isCallback = field.FieldType.Name.EndsWith("_func");
 	bool isObsolete = obsolete != null;
-	string modifier = (isCallback || isObsolete) ? "internal" : "public";
+	bool isUnused = field.Name.Contains("unused");
+	string modifier = (isCallback || isObsolete || isUnused) ? "internal" : "public";
 
 	return BuildFieldDocument(field) + BuildPrefix(field, obsolete) + method switch
 	{

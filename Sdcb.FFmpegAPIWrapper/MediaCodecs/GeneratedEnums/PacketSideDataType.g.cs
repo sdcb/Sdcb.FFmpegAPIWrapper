@@ -225,12 +225,21 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         DoviConf = 29,
         
         /// <summary>
+        /// <para>Timecode which conforms to SMPTE ST 12-1:2014.</para>
+        /// <para> The data is an array of 4 uint32_t where the first uint32_t describes how many (1-3) of the other timecodes are used.</para>
+        /// <para> The timecode format is described in the documentation of av_timecode_get_smpte_from_framenum() function in libavutil/timecode.</para>
+        /// <para>h.</para>
+        /// <see cref="AVPacketSideDataType.AV_PKT_DATA_S12M_TIMECODE" />
+        /// </summary>
+        S12mTimecode = 30,
+        
+        /// <summary>
         /// <para>The number of side data types.</para>
         /// <para> This is not part of the public API/ABI in the sense that it may change when new side data types are added.</para>
         /// <para> This must stay the last enum value.</para>
         /// <para> If its value becomes huge, some code using it needs to be updated as it assumes it to be smaller than other limits.</para>
         /// <see cref="AVPacketSideDataType.AV_PKT_DATA_NB" />
         /// </summary>
-        Nb = 30,
+        Nb = 31,
     }
 }

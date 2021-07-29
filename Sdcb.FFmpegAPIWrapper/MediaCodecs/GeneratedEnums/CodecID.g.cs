@@ -983,6 +983,26 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         Avs2 = 192,
         
         /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_PGX" />
+        /// </summary>
+        Pgx = 193,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_AVS3" />
+        /// </summary>
+        Avs3 = 194,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_MSP2" />
+        /// </summary>
+        Msp2 = 195,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_VVC" />
+        /// </summary>
+        Vvc = 196,
+        
+        /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_Y41P" />
         /// </summary>
         Y41p = 32768,
@@ -1248,6 +1268,41 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         Pfm = 32820,
         
         /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_MOBICLIP" />
+        /// </summary>
+        Mobiclip = 32821,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_PHOTOCD" />
+        /// </summary>
+        Photocd = 32822,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_IPU" />
+        /// </summary>
+        Ipu = 32823,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_ARGO" />
+        /// </summary>
+        Argo = 32824,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_CRI" />
+        /// </summary>
+        Cri = 32825,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_SIMBIOSIS_IMX" />
+        /// </summary>
+        SimbiosisImx = 32826,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_SGA_VIDEO" />
+        /// </summary>
+        SgaVideo = 32827,
+        
+        /// <summary>
         /// <para>A dummy id pointing at the start of audio codecs.</para>
         /// <see cref="AVCodecID.AV_CODEC_ID_FIRST_AUDIO" />
         /// </summary>
@@ -1432,6 +1487,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <see cref="AVCodecID.AV_CODEC_ID_PCM_VIDC" />
         /// </summary>
         PcmVidc = 67588,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_PCM_SGA" />
+        /// </summary>
+        PcmSga = 67589,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_QT" />
@@ -1677,6 +1737,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_CUNNING" />
         /// </summary>
         AdpcmImaCunning = 71697,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_MOFLEX" />
+        /// </summary>
+        AdpcmImaMoflex = 71698,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_AMR_NB" />
@@ -2204,6 +2269,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <see cref="AVCodecID.AV_CODEC_ID_HCA" />
         /// </summary>
         Hca = 88089,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_FASTAUDIO" />
+        /// </summary>
+        Fastaudio = 88090,
         
         /// <summary>
         /// <para>A dummy ID pointing at the start of subtitle codecs.</para>

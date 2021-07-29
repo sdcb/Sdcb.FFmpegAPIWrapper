@@ -28,7 +28,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         public static FormatContext FromNative(AVFormatContext* ptr, bool isOwner) => new FormatContext(ptr, isOwner);
         
         /// <summary>
-        /// <para>A class for logging and Exports (de)muxer private options if they exist.</para>
+        /// <para>A class for logging and avoptions.</para>
+        /// <para> Set by avformat_alloc_context().</para>
+        /// <para> Exports (de)muxer private options if they exist.</para>
         /// <see cref="AVFormatContext.av_class" />
         /// </summary>
         public FFmpegClass Class
@@ -409,9 +411,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>Flags for the user to detect events happening on the file.</para>
-        /// <para> Flags must be cleared by the user once the event has been handled.</para>
-        /// <para> A combination of AVFMT_EVENT_FLAG_*.</para>
+        /// <para>Flags indicating events happening on the file, a combination of AVFMT_EVENT_FLAG_*.</para>
         /// <see cref="AVFormatContext.event_flags" />
         /// </summary>
         public EventFlag EventFlags

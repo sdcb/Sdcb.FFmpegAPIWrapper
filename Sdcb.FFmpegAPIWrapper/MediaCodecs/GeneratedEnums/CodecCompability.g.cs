@@ -80,10 +80,16 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         ParamChange = 0x4000U,
         
         /// <summary>
-        /// <para>AV_CODEC_CAP_AUTO_THREADS = (1 &lt;&lt; 15).</para>
+        /// <para>AV_CODEC_CAP_AUTO_THREADS = AV_CODEC_CAP_OTHER_THREADS.</para>
         /// <see cref="ffmpeg.AV_CODEC_CAP_AUTO_THREADS" />
         /// </summary>
         AutoThreads = 0x8000U,
+        
+        /// <summary>
+        /// <para>AV_CODEC_CAP_OTHER_THREADS = (1 &lt;&lt; 15).</para>
+        /// <see cref="ffmpeg.AV_CODEC_CAP_OTHER_THREADS" />
+        /// </summary>
+        OtherThreads = 0x8000U,
         
         /// <summary>
         /// <para>AV_CODEC_CAP_VARIABLE_FRAME_SIZE = (1 &lt;&lt; 16).</para>

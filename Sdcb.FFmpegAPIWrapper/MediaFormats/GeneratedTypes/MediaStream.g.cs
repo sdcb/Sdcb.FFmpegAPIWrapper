@@ -193,9 +193,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>Flags for the user to detect events happening on the stream.</para>
-        /// <para> Flags must be cleared by the user once the event has been handled.</para>
-        /// <para> A combination of AVSTREAM_EVENT_FLAG_*.</para>
+        /// <para>Flags indicating events happening on the stream, a combination of AVSTREAM_EVENT_FLAG_*.</para>
         /// <see cref="AVStream.event_flags" />
         /// </summary>
         public int EventFlags
@@ -228,12 +226,12 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <see cref="AVStream.info" />
+        /// <see cref="AVStream.unused" />
         /// </summary>
-        public AVStream_info* Info
+        internal IntPtr Unused
         {
-            get => _ptr->info;
-            set => _ptr->info = value;
+            get => (IntPtr)_ptr->unused;
+            set => _ptr->unused = (void*)value;
         }
         
         /// <summary>
@@ -322,31 +320,30 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>last packet in packet_buffer for this stream when muxing.</para>
-        /// <see cref="AVStream.last_in_packet_buffer" />
+        /// <see cref="AVStream.unused7" />
         /// </summary>
-        public AVPacketList* LastInPacketBuffer
+        internal IntPtr Unused7
         {
-            get => _ptr->last_in_packet_buffer;
-            set => _ptr->last_in_packet_buffer = value;
+            get => (IntPtr)_ptr->unused7;
+            set => _ptr->unused7 = (void*)value;
         }
         
         /// <summary>
-        /// <see cref="AVStream.probe_data" />
+        /// <see cref="AVStream.unused6" />
         /// </summary>
-        public AVProbeData ProbeData
+        internal AVProbeData Unused6
         {
-            get => _ptr->probe_data;
-            set => _ptr->probe_data = value;
+            get => _ptr->unused6;
+            set => _ptr->unused6 = value;
         }
         
         /// <summary>
-        /// <see cref="AVStream.pts_buffer" />
+        /// <see cref="AVStream.unused5" />
         /// </summary>
-        public long_array17 PtsBuffer
+        internal long_array17 Unused5
         {
-            get => _ptr->pts_buffer;
-            set => _ptr->pts_buffer = value;
+            get => _ptr->unused5;
+            set => _ptr->unused5 = value;
         }
         
         /// <summary>
@@ -388,230 +385,30 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>Details of the MPEG-TS program which created this stream.</para>
-        /// <see cref="AVStream.program_num" />
+        /// <see cref="AVStream.unused8" />
         /// </summary>
-        public int ProgramNum
+        internal int Unused8
         {
-            get => _ptr->program_num;
-            set => _ptr->program_num = value;
+            get => _ptr->unused8;
+            set => _ptr->unused8 = value;
         }
         
         /// <summary>
-        /// <see cref="AVStream.pmt_version" />
+        /// <see cref="AVStream.unused9" />
         /// </summary>
-        public int PmtVersion
+        internal int Unused9
         {
-            get => _ptr->pmt_version;
-            set => _ptr->pmt_version = value;
+            get => _ptr->unused9;
+            set => _ptr->unused9 = value;
         }
         
         /// <summary>
-        /// <see cref="AVStream.pmt_stream_idx" />
+        /// <see cref="AVStream.unused10" />
         /// </summary>
-        public int PmtStreamIdx
+        internal int Unused10
         {
-            get => _ptr->pmt_stream_idx;
-            set => _ptr->pmt_stream_idx = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.interleaver_chunk_size" />
-        /// </summary>
-        public long InterleaverChunkSize
-        {
-            get => _ptr->interleaver_chunk_size;
-            set => _ptr->interleaver_chunk_size = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.interleaver_chunk_duration" />
-        /// </summary>
-        public long InterleaverChunkDuration
-        {
-            get => _ptr->interleaver_chunk_duration;
-            set => _ptr->interleaver_chunk_duration = value;
-        }
-        
-        /// <summary>
-        /// <para>stream probing state -1 -&gt; probing finished 0 -&gt; no probing requested rest -&gt; perform probing with request_probe being the minimum score to accept.</para>
-        /// <see cref="AVStream.request_probe" />
-        /// </summary>
-        public int RequestProbe
-        {
-            get => _ptr->request_probe;
-            set => _ptr->request_probe = value;
-        }
-        
-        /// <summary>
-        /// <para>Indicates that everything up to the next keyframe should be discarded.</para>
-        /// <see cref="AVStream.skip_to_keyframe" />
-        /// </summary>
-        public int SkipToKeyframe
-        {
-            get => _ptr->skip_to_keyframe;
-            set => _ptr->skip_to_keyframe = value;
-        }
-        
-        /// <summary>
-        /// <para>Number of samples to skip at the start of the frame decoded from the next packet.</para>
-        /// <see cref="AVStream.skip_samples" />
-        /// </summary>
-        public int SkipSamples
-        {
-            get => _ptr->skip_samples;
-            set => _ptr->skip_samples = value;
-        }
-        
-        /// <summary>
-        /// <para>If not 0, the number of samples that should be skipped from the start of the stream (the samples are removed from packets with pts==0, which also assumes negative timestamps do not happen).</para>
-        /// <para> Intended for use with formats such as mp3 with ad-hoc gapless audio support.</para>
-        /// <see cref="AVStream.start_skip_samples" />
-        /// </summary>
-        public long StartSkipSamples
-        {
-            get => _ptr->start_skip_samples;
-            set => _ptr->start_skip_samples = value;
-        }
-        
-        /// <summary>
-        /// <para>If not 0, the first audio sample that should be discarded from the stream.</para>
-        /// <para> This is broken by design (needs global sample count), but can&#39;t be avoided for broken by design formats such as mp3 with ad-hoc gapless audio support.</para>
-        /// <see cref="AVStream.first_discard_sample" />
-        /// </summary>
-        public long FirstDiscardSample
-        {
-            get => _ptr->first_discard_sample;
-            set => _ptr->first_discard_sample = value;
-        }
-        
-        /// <summary>
-        /// <para>The sample after last sample that is intended to be discarded after first_discard_sample.</para>
-        /// <para> Works on frame boundaries only.</para>
-        /// <para> Used to prevent early EOF if the gapless info is broken (considered concatenated mp3s).</para>
-        /// <see cref="AVStream.last_discard_sample" />
-        /// </summary>
-        public long LastDiscardSample
-        {
-            get => _ptr->last_discard_sample;
-            set => _ptr->last_discard_sample = value;
-        }
-        
-        /// <summary>
-        /// <para>Number of internally decoded frames, used internally in libavformat, do not access its lifetime differs from info which is why it is not in that structure.</para>
-        /// <see cref="AVStream.nb_decoded_frames" />
-        /// </summary>
-        public int NbDecodedFrames
-        {
-            get => _ptr->nb_decoded_frames;
-            set => _ptr->nb_decoded_frames = value;
-        }
-        
-        /// <summary>
-        /// <para>Timestamp offset added to timestamps before muxing.</para>
-        /// <see cref="AVStream.mux_ts_offset" />
-        /// </summary>
-        public long MuxTsOffset
-        {
-            get => _ptr->mux_ts_offset;
-            set => _ptr->mux_ts_offset = value;
-        }
-        
-        /// <summary>
-        /// <para>Internal data to check for wrapping of the time stamp.</para>
-        /// <see cref="AVStream.pts_wrap_reference" />
-        /// </summary>
-        public long PtsWrapReference
-        {
-            get => _ptr->pts_wrap_reference;
-            set => _ptr->pts_wrap_reference = value;
-        }
-        
-        /// <summary>
-        /// <para>Options for behavior, when a wrap is detected.</para>
-        /// <see cref="AVStream.pts_wrap_behavior" />
-        /// </summary>
-        public int PtsWrapBehavior
-        {
-            get => _ptr->pts_wrap_behavior;
-            set => _ptr->pts_wrap_behavior = value;
-        }
-        
-        /// <summary>
-        /// <para>Internal data to prevent doing update_initial_durations() twice.</para>
-        /// <see cref="AVStream.update_initial_durations_done" />
-        /// </summary>
-        public int UpdateInitialDurationsDone
-        {
-            get => _ptr->update_initial_durations_done;
-            set => _ptr->update_initial_durations_done = value;
-        }
-        
-        /// <summary>
-        /// <para>Internal data to generate dts from pts.</para>
-        /// <see cref="AVStream.pts_reorder_error" />
-        /// </summary>
-        public long_array17 PtsReorderError
-        {
-            get => _ptr->pts_reorder_error;
-            set => _ptr->pts_reorder_error = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.pts_reorder_error_count" />
-        /// </summary>
-        public byte_array17 PtsReorderErrorCount
-        {
-            get => _ptr->pts_reorder_error_count;
-            set => _ptr->pts_reorder_error_count = value;
-        }
-        
-        /// <summary>
-        /// <para>Internal data to analyze DTS and detect faulty mpeg streams.</para>
-        /// <see cref="AVStream.last_dts_for_order_check" />
-        /// </summary>
-        public long LastDtsForOrderCheck
-        {
-            get => _ptr->last_dts_for_order_check;
-            set => _ptr->last_dts_for_order_check = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.dts_ordered" />
-        /// </summary>
-        public byte DtsOrdered
-        {
-            get => _ptr->dts_ordered;
-            set => _ptr->dts_ordered = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.dts_misordered" />
-        /// </summary>
-        public byte DtsMisordered
-        {
-            get => _ptr->dts_misordered;
-            set => _ptr->dts_misordered = value;
-        }
-        
-        /// <summary>
-        /// <para>Internal data to inject global side data.</para>
-        /// <see cref="AVStream.inject_global_side_data" />
-        /// </summary>
-        public int InjectGlobalSideData
-        {
-            get => _ptr->inject_global_side_data;
-            set => _ptr->inject_global_side_data = value;
-        }
-        
-        /// <summary>
-        /// <para>display aspect ratio (0 if unknown) - encoding: unused - decoding: Set by libavformat to calculate sample_aspect_ratio internally.</para>
-        /// <see cref="AVStream.display_aspect_ratio" />
-        /// </summary>
-        public MediaRational DisplayAspectRatio
-        {
-            get => _ptr->display_aspect_ratio;
-            set => _ptr->display_aspect_ratio = value;
+            get => _ptr->unused10;
+            set => _ptr->unused10 = value;
         }
         
         /// <summary>

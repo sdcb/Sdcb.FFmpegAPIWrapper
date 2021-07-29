@@ -1246,7 +1246,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         
         /// <summary>
         /// <para>Error recognition; may misdetect some more or less valid parts as errors.</para>
-        /// <para> - encoding: unused - decoding: Set by user.</para>
+        /// <para> - encoding: Set by user.</para>
+        /// <para> - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.err_recognition" />
         /// </summary>
         public int ErrRecognition
@@ -1396,20 +1397,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->active_thread_type;
             set => Pointer->active_thread_type = value;
-        }
-        
-        /// <summary>
-        /// <para>Set by the client if its custom get_buffer() callback can be called synchronously from another thread, which allows faster multithreaded decoding.</para>
-        /// <para> draw_horiz_band() will be called from other threads regardless of this setting.</para>
-        /// <para> Ignored if the default get_buffer() is used.</para>
-        /// <para> - encoding: Set by user.</para>
-        /// <para> - decoding: Set by user.</para>
-        /// <see cref="AVCodecContext.thread_safe_callbacks" />
-        /// </summary>
-        public int ThreadSafeCallbacks
-        {
-            get => Pointer->thread_safe_callbacks;
-            set => Pointer->thread_safe_callbacks = value;
         }
         
         /// <summary>
@@ -1649,17 +1636,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->seek_preroll;
             set => Pointer->seek_preroll = value;
-        }
-        
-        /// <summary>
-        /// <para>debug motion vectors - encoding: Set by user.</para>
-        /// <para> - decoding: Set by user.</para>
-        /// <see cref="AVCodecContext.debug_mv" />
-        /// </summary>
-        public int DebugMv
-        {
-            get => Pointer->debug_mv;
-            set => Pointer->debug_mv = value;
         }
         
         /// <summary>

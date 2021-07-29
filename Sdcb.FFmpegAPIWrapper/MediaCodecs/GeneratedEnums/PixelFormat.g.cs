@@ -379,15 +379,15 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         
         /// <summary>
         /// <para>alias for AV_PIX_FMT_YA8.</para>
-        /// <see cref="AVPixelFormat.AV_PIX_FMT_Y400A" />
-        /// </summary>
-        Y400a = 58,
-        
-        /// <summary>
-        /// <para>alias for AV_PIX_FMT_YA8.</para>
         /// <see cref="AVPixelFormat.AV_PIX_FMT_GRAY8A" />
         /// </summary>
         Gray8a = 58,
+        
+        /// <summary>
+        /// <para>alias for AV_PIX_FMT_YA8.</para>
+        /// <see cref="AVPixelFormat.AV_PIX_FMT_Y400A" />
+        /// </summary>
+        Y400a = 58,
         
         /// <summary>
         /// <para>packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as big-endian.</para>
@@ -1252,10 +1252,22 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         Y210le = 195,
         
         /// <summary>
+        /// <para>packed RGB 10:10:10, 30bpp, (msb)2X 10R 10G 10B(lsb), little-endian, X=unused/undefined.</para>
+        /// <see cref="AVPixelFormat.AV_PIX_FMT_X2RGB10LE" />
+        /// </summary>
+        X2rgb10le = 196,
+        
+        /// <summary>
+        /// <para>packed RGB 10:10:10, 30bpp, (msb)2X 10R 10G 10B(lsb), big-endian, X=unused/undefined.</para>
+        /// <see cref="AVPixelFormat.AV_PIX_FMT_X2RGB10BE" />
+        /// </summary>
+        X2rgb10be = 197,
+        
+        /// <summary>
         /// <para>number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions.</para>
         /// <see cref="AVPixelFormat.AV_PIX_FMT_NB" />
         /// </summary>
-        Nb = 196,
+        Nb = 198,
         
         /// <summary>
         /// <see cref="AVPixelFormat.AV_PIX_FMT_NONE" />
