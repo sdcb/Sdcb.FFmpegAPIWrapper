@@ -21,9 +21,11 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         public Packet Clone() => FromNative(av_packet_clone(this), isOwner: true);
 
         /// <summary>
+        /// Initialize optional fields of a packet with default values.
+        /// This function is deprecated. Once it's removed, sizeof(AVPacket) will not be a part of the ABI anymore.
         /// <see cref="av_init_packet(AVPacket*)"/>
-        /// <para>Note: Packet has already initialized in <see cref="Create"/>, call <see cref="Initialize"/> is not required after that.</para>
         /// </summary>
+        [Obsolete]
         private void Initialize() => av_init_packet(this);
 
         /// <summary>

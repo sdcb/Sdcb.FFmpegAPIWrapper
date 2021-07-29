@@ -17,7 +17,7 @@
     <PackageTags>linqpad-samples ffmpeg</PackageTags>
     <Configurations>Debug;Release;DebugPackage;NuGetPublish;CleanLocalNuGet;NuGetPublish-Preview</Configurations>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>4.3.0</Version>
+    <Version>4.4.0</Version>
   </PropertyGroup>
 
   <Target Name="CleanLocalNuGet" Condition="'$(Configuration)'=='CleanLocalNuGet'">
