@@ -45,12 +45,12 @@
       <PackageVersion>$(Version)-preview-$(PackageVersionSuffix)</PackageVersion>
     </PropertyGroup>
     <Exec Command="dotnet pack -p:PackageVersion=$(PackageVersion) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
-    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(PackageVersion).nupkg -Source https://nuget.org" />
+    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(PackageVersion).nupkg -Source nuget.org" />
   </Target>
 
   <Target Name="NuGetPublish" AfterTargets="Build" Condition="'$(Configuration)'=='NuGetPublish'">
     <Exec Command="dotnet pack -p:PackageVersion=$(Version) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
-    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(Version).nupkg -Source https://nuget.org" />
+    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(Version).nupkg -Source nuget.org" />
   </Target>
 
   <ItemGroup>
