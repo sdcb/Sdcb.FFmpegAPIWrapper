@@ -19,7 +19,7 @@ using FormatContext fc = FormatContext.AllocOutput(OutputFormat.Guess(shortName:
 fc.AudioCodec = Codec.FindEncoderByName("aac");
 
 MediaStream audioStream = fc.NewStream(fc.AudioCodec);
-using var audioCodec = new CodecContext(fc.AudioCodec)
+using CodecContext audioCodec = new CodecContext(fc.AudioCodec)
 {
     SampleFormat = fc.AudioCodec.SampleFormats.First(),
     BitRate = 64000,
@@ -98,7 +98,6 @@ IEnumerable<Frame> GetSampleFrames(ChannelLayout channelLayout, int sampleRate, 
 
 unsafe void FillS16Frame(Frame frame, ref float t, ref float tincr, ref int nextPts)
 {
-	
 	float tincr2 = (float)(2 * M_PI * 110.0 / frame.SampleRate / frame.SampleRate);
 	
 	Span<short> q = new Span<short>((void*)frame.Data._0, frame.Linesize._0 / 2);

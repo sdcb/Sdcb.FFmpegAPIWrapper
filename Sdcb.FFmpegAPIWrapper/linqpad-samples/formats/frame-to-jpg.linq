@@ -14,8 +14,11 @@
   <Namespace>Sdcb.FFmpegAPIWrapper.Toolboxs</Namespace>
 </Query>
 
-ffmpeg.RootPath = "";
 FFmpegLogger.LogWriter = c => Console.Write(c);
 using var frame = Frame.CreateWritableVideo(1920, 1080, PixelFormat.Yuv420p);
 VideoFrameSample.FillYuv420p(frame, 0);
-Util.Image(frame.Encode(formatName: "jpeg2000")).Dump();
+// mjpeg -> jpeg
+// apng -> png
+byte[] data = frame.Encode(formatName: "mjpeg");
+data.Length.Dump("Image Size");
+Util.Image(data).Dump();

@@ -5,7 +5,6 @@ using static FFmpeg.AutoGen.ffmpeg;
 using Sdcb.FFmpegAPIWrapper.MediaCodecs;
 using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaFormats
 {
@@ -28,7 +27,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
             AVFormatContext* ptr;
             avformat_alloc_output_context2(
                 &ptr,
-                format.HasValue ? (AVOutputFormat*)format.Value : null,
+                format ?? null,
                 formatName,
                 fileName).ThrowIfError();
             return FromNative(ptr, isOwner: true);

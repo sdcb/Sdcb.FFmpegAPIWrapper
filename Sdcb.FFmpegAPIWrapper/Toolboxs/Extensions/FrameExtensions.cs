@@ -13,7 +13,7 @@ namespace Sdcb.FFmpegAPIWrapper.Toolboxs
         public static void WriteImageTo(this Frame frame, string url, OutputFormat? format = null, string? formatName = null)
         {
             using FormatContext fc = FormatContext.AllocOutput(format, formatName, url);
-            using var io = MediaIO.OpenWrite(url);
+            using MediaIO io = MediaIO.OpenWrite(url);
             fc.IO = io;
 
             WriteImageTo(frame, fc);
@@ -22,7 +22,7 @@ namespace Sdcb.FFmpegAPIWrapper.Toolboxs
         public static void WriteImageTo(this Frame frame, Stream stream, OutputFormat? format = null, string? formatName = null, bool leaveOpen = false)
         {
             using FormatContext fc = FormatContext.AllocOutput(format, formatName);
-            using var io = MediaIO.WriteStream(stream);
+            using MediaIO io = MediaIO.WriteStream(stream);
             fc.IO = io;
 
             WriteImageTo(frame, fc);
@@ -32,15 +32,20 @@ namespace Sdcb.FFmpegAPIWrapper.Toolboxs
             }
         }
 
-        public static byte[] Encode(this Frame frame, OutputFormat? format = null, string? formatName = null)
+        public static DisposableDataPointer Encode(this Frame frame, OutputFormat? format = null, string? formatName = null)
         {
             using FormatContext fc = FormatContext.AllocOutput(format, formatName);
             using DynamicMediaIO io = MediaIO.OpenDynamic();
             fc.IO = io;
             WriteImageTo(frame, fc);
 
-            using DisposableDataPointer dm = io.GetBufferAndClose();
-            return dm.AsSpan().ToArray();
+            return io.GetBufferAndClose();
+        }
+
+        public static byte[] EncodeToBytes(this Frame frame, OutputFormat? format = null, string? formatName = null)
+        {
+            using DisposableDataPointer data = frame.Encode(format, formatName);
+            return data.AsSpan().ToArray();
         }
 
         private static void WriteImageTo(Frame frame, FormatContext fc)

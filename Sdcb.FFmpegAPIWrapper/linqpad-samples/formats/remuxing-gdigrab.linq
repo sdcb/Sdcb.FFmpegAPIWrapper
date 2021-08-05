@@ -39,14 +39,14 @@ using CodecContext encoder = new CodecContext(outputCodec)
     Width = 1920,
     Height = 1080,
     TimeBase = new MediaRational(1, framerate), 
-	PixelFormat = outputCodec.PixelFormats.Dump().First(),
+	PixelFormat = outputCodec.PixelFormats.First(),
 	BitRate = 2 * 1024 * 1024,
 };
 encoder.Open();
 outputStream.Codecpar.CopyFrom(encoder);
 
 output.DumpFormat(streamIndex: 0, outputPath, isOutput: true);
-using var io = MediaIO.OpenWrite(outputPath);
+using MediaIO io = MediaIO.OpenWrite(outputPath);
 output.IO = io;
 
 output.WriteHeader();
