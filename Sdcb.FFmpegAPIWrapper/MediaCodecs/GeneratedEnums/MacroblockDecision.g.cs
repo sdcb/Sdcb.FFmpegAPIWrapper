@@ -11,19 +11,19 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
     public enum MacroblockDecision
     {
         /// <summary>
-        /// <para>FF_MB_DECISION_SIMPLE = 0.</para>
+        /// <para>FF_MB_DECISION_SIMPLE = 0x0.</para>
         /// <see cref="ffmpeg.FF_MB_DECISION_SIMPLE" />
         /// </summary>
         Simple = 0,
         
         /// <summary>
-        /// <para>FF_MB_DECISION_BITS = 1.</para>
+        /// <para>FF_MB_DECISION_BITS = 0x1.</para>
         /// <see cref="ffmpeg.FF_MB_DECISION_BITS" />
         /// </summary>
         Bits = 1,
         
         /// <summary>
-        /// <para>FF_MB_DECISION_RD = 2.</para>
+        /// <para>FF_MB_DECISION_RD = 0x2.</para>
         /// <see cref="ffmpeg.FF_MB_DECISION_RD" />
         /// </summary>
         Rd = 2,

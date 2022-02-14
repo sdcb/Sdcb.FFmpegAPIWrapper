@@ -9,20 +9,20 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
     /// <summary>
     /// <para>YUV colorspace type.</para>
-    /// <para> These values match the ones defined by ISO/IEC 23001-8_2013 &#167; 7.</para>
+    /// <para> These values match the ones defined by ISO/IEC 23091-2_2019 subclause 8.</para>
     /// <para>3.</para>
     /// <see cref="AVColorSpace" />
     /// </summary>
     public enum ColorSpace
     {
         /// <summary>
-        /// <para>order of coefficients is actually GBR, also IEC 61966-2-1 (sRGB).</para>
+        /// <para>order of coefficients is actually GBR, also IEC 61966-2-1 (sRGB), YZX and ST 428-1.</para>
         /// <see cref="AVColorSpace.AVCOL_SPC_RGB" />
         /// </summary>
         Rgb = 0,
         
         /// <summary>
-        /// <para>also ITU-R BT1361 / IEC 61966-2-4 xvYCC709 / SMPTE RP177 Annex B.</para>
+        /// <para>also ITU-R BT1361 / IEC 61966-2-4 xvYCC709 / derived in SMPTE RP 177 Annex B.</para>
         /// <see cref="AVColorSpace.AVCOL_SPC_BT709" />
         /// </summary>
         Bt709 = 1,
@@ -33,6 +33,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         Unspecified = 2,
         
         /// <summary>
+        /// <para>reserved for future use by ITU-T and ISO/IEC just like 15-255 are.</para>
         /// <see cref="AVColorSpace.AVCOL_SPC_RESERVED" />
         /// </summary>
         Reserved = 3,
@@ -51,19 +52,19 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         Bt470bg = 5,
         
         /// <summary>
-        /// <para>also ITU-R BT601-6 525 / ITU-R BT1358 525 / ITU-R BT1700 NTSC.</para>
+        /// <para>also ITU-R BT601-6 525 / ITU-R BT1358 525 / ITU-R BT1700 NTSC / functionally identical to above.</para>
         /// <see cref="AVColorSpace.AVCOL_SPC_SMPTE170M" />
         /// </summary>
         Smpte170m = 6,
         
         /// <summary>
-        /// <para>functionally identical to above.</para>
+        /// <para>derived from 170M primaries and D65 white point, 170M is derived from BT470 System M&#39;s primaries.</para>
         /// <see cref="AVColorSpace.AVCOL_SPC_SMPTE240M" />
         /// </summary>
         Smpte240m = 7,
         
         /// <summary>
-        /// <para>Used by Dirac / VC-2 and H.</para>
+        /// <para>used by Dirac / VC-2 and H.</para>
         /// <para>264 FRext, see ITU-T SG16.</para>
         /// <see cref="AVColorSpace.AVCOL_SPC_YCGCO" />
         /// </summary>

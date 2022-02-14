@@ -9,7 +9,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
     /// <summary>
     /// <para>Color Transfer Characteristic.</para>
-    /// <para> These values match the ones defined by ISO/IEC 23001-8_2013 &#167; 7.</para>
+    /// <para> These values match the ones defined by ISO/IEC 23091-2_2019 subclause 8.</para>
     /// <para>2.</para>
     /// <see cref="AVColorTransferCharacteristic" />
     /// </summary>

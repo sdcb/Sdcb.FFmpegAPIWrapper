@@ -80,12 +80,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         Bitexact = 1024,
         
         /// <summary>
-        /// <para>AVFMT_FLAG_MP4A_LATM = 0x8000.</para>
-        /// <see cref="ffmpeg.AVFMT_FLAG_MP4A_LATM" />
-        /// </summary>
-        Mp4aLatm = 32768,
-        
-        /// <summary>
         /// <para>AVFMT_FLAG_SORT_DTS = 0x10000.</para>
         /// <see cref="ffmpeg.AVFMT_FLAG_SORT_DTS" />
         /// </summary>
@@ -96,12 +90,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <see cref="ffmpeg.AVFMT_FLAG_PRIV_OPT" />
         /// </summary>
         PrivOpt = 131072,
-        
-        /// <summary>
-        /// <para>AVFMT_FLAG_KEEP_SIDE_DATA = 0x40000.</para>
-        /// <see cref="ffmpeg.AVFMT_FLAG_KEEP_SIDE_DATA" />
-        /// </summary>
-        KeepSideData = 262144,
         
         /// <summary>
         /// <para>AVFMT_FLAG_FAST_SEEK = 0x80000.</para>

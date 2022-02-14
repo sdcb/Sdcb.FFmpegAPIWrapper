@@ -182,8 +182,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>Maximum size of the data read from input for determining the input container format.</para>
-        /// <para> Demuxing only, set by the caller before avformat_open_input().</para>
+        /// <para>Maximum number of bytes read from input in order to determine stream properties.</para>
+        /// <para> Used when reading the global header and in avformat_find_stream_info().</para>
         /// <see cref="AVFormatContext.probesize" />
         /// </summary>
         public long Probesize
@@ -579,8 +579,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>number of bytes to read maximally to identify format.</para>
-        /// <para> - encoding: unused - decoding: set by user.</para>
+        /// <para>Maximum number of bytes read from input in order to identify the AVInputFormat &quot;input format&quot;.</para>
+        /// <para> Only used when the format is not set explicitly by the caller.</para>
         /// <see cref="AVFormatContext.format_probesize" />
         /// </summary>
         public int FormatProbesize
@@ -609,17 +609,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         {
             get => (IntPtr)Pointer->format_whitelist;
             set => Pointer->format_whitelist = (byte*)value;
-        }
-        
-        /// <summary>
-        /// <para>An opaque field for libavformat internal usage.</para>
-        /// <para> Must not be accessed in any way by callers.</para>
-        /// <see cref="AVFormatContext.internal" />
-        /// </summary>
-        public AVFormatInternal* Internal
-        {
-            get => Pointer->@internal;
-            set => Pointer->@internal = value;
         }
         
         /// <summary>

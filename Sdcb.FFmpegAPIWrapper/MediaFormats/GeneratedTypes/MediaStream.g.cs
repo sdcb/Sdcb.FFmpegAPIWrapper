@@ -110,7 +110,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <para>AV_DISPOSITION_* bit field.</para>
+        /// <para>Stream disposition - a combination of AV_DISPOSITION_* flags.</para>
+        /// <para> - demuxing: set by libavformat when creating the stream or in avformat_find_stream_info().</para>
+        /// <para> - muxing: may be set by the caller before avformat_write_header().</para>
         /// <see cref="AVStream.disposition" />
         /// </summary>
         public int Disposition
@@ -226,200 +228,14 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         }
         
         /// <summary>
-        /// <see cref="AVStream.unused" />
-        /// </summary>
-        internal IntPtr Unused
-        {
-            get => (IntPtr)_ptr->unused;
-            set => _ptr->unused = (void*)value;
-        }
-        
-        /// <summary>
-        /// <para>number of bits in pts (used for wrapping control).</para>
+        /// <para>Number of bits in timestamps.</para>
+        /// <para> Used for wrapping control.</para>
         /// <see cref="AVStream.pts_wrap_bits" />
         /// </summary>
         public int PtsWrapBits
         {
             get => _ptr->pts_wrap_bits;
             set => _ptr->pts_wrap_bits = value;
-        }
-        
-        /// <summary>
-        /// <para>Timestamp corresponding to the last dts sync point.</para>
-        /// <see cref="AVStream.first_dts" />
-        /// </summary>
-        public long FirstDts
-        {
-            get => _ptr->first_dts;
-            set => _ptr->first_dts = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.cur_dts" />
-        /// </summary>
-        public long CurDts
-        {
-            get => _ptr->cur_dts;
-            set => _ptr->cur_dts = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.last_IP_pts" />
-        /// </summary>
-        public long LastIpPts
-        {
-            get => _ptr->last_IP_pts;
-            set => _ptr->last_IP_pts = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.last_IP_duration" />
-        /// </summary>
-        public int LastIpDuration
-        {
-            get => _ptr->last_IP_duration;
-            set => _ptr->last_IP_duration = value;
-        }
-        
-        /// <summary>
-        /// <para>Number of packets to buffer for codec probing.</para>
-        /// <see cref="AVStream.probe_packets" />
-        /// </summary>
-        public int ProbePackets
-        {
-            get => _ptr->probe_packets;
-            set => _ptr->probe_packets = value;
-        }
-        
-        /// <summary>
-        /// <para>Number of frames that have been demuxed during avformat_find_stream_info().</para>
-        /// <see cref="AVStream.codec_info_nb_frames" />
-        /// </summary>
-        public int CodecInfoNbFrames
-        {
-            get => _ptr->codec_info_nb_frames;
-            set => _ptr->codec_info_nb_frames = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.need_parsing" />
-        /// </summary>
-        public StreamParseType NeedParsing
-        {
-            get => (StreamParseType)_ptr->need_parsing;
-            set => _ptr->need_parsing = (AVStreamParseType)value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.parser" />
-        /// </summary>
-        public CodecParserContext Parser
-        {
-            get => CodecParserContext.FromNative(_ptr->parser, isOwner: false);
-            set => _ptr->parser = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.unused7" />
-        /// </summary>
-        internal IntPtr Unused7
-        {
-            get => (IntPtr)_ptr->unused7;
-            set => _ptr->unused7 = (void*)value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.unused6" />
-        /// </summary>
-        internal AVProbeData Unused6
-        {
-            get => _ptr->unused6;
-            set => _ptr->unused6 = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.unused5" />
-        /// </summary>
-        internal long_array17 Unused5
-        {
-            get => _ptr->unused5;
-            set => _ptr->unused5 = value;
-        }
-        
-        /// <summary>
-        /// <para>Only used if the format does not support seeking natively.</para>
-        /// <see cref="AVStream.index_entries" />
-        /// </summary>
-        public AVIndexEntry* IndexEntries
-        {
-            get => _ptr->index_entries;
-            set => _ptr->index_entries = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.nb_index_entries" />
-        /// </summary>
-        public int NbIndexEntries
-        {
-            get => _ptr->nb_index_entries;
-            set => _ptr->nb_index_entries = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.index_entries_allocated_size" />
-        /// </summary>
-        public uint IndexEntriesAllocatedSize
-        {
-            get => _ptr->index_entries_allocated_size;
-            set => _ptr->index_entries_allocated_size = value;
-        }
-        
-        /// <summary>
-        /// <para>Stream Identifier This is the MPEG-TS stream identifier +1 0 means unknown.</para>
-        /// <see cref="AVStream.stream_identifier" />
-        /// </summary>
-        public int StreamIdentifier
-        {
-            get => _ptr->stream_identifier;
-            set => _ptr->stream_identifier = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.unused8" />
-        /// </summary>
-        internal int Unused8
-        {
-            get => _ptr->unused8;
-            set => _ptr->unused8 = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.unused9" />
-        /// </summary>
-        internal int Unused9
-        {
-            get => _ptr->unused9;
-            set => _ptr->unused9 = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVStream.unused10" />
-        /// </summary>
-        internal int Unused10
-        {
-            get => _ptr->unused10;
-            set => _ptr->unused10 = value;
-        }
-        
-        /// <summary>
-        /// <para>An opaque field for libavformat internal usage.</para>
-        /// <para> Must not be accessed in any way by callers.</para>
-        /// <see cref="AVStream.internal" />
-        /// </summary>
-        public AVStreamInternal* Internal
-        {
-            get => _ptr->@internal;
-            set => _ptr->@internal = value;
         }
     }
 }

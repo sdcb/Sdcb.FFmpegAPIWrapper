@@ -25,15 +25,15 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <see cref="av_stream_new_side_data(AVStream*, AVPacketSideDataType, int)"/>
         /// </summary>
         public IntPtr NewSideData(PacketSideDataType type, int size) =>
-            NativeUtils.NotNull((IntPtr)av_stream_new_side_data(this, (AVPacketSideDataType)type, size));
+            NativeUtils.NotNull((IntPtr)av_stream_new_side_data(this, (AVPacketSideDataType)type, (ulong)size));
 
         /// <summary>
         /// <see cref="av_stream_get_side_data(AVStream*, AVPacketSideDataType, int*)"/>
         /// </summary>
         public DataPointer GetSideData(PacketSideDataType type)
         {
-            int size;
-            return new DataPointer(av_stream_get_side_data(this, (AVPacketSideDataType)type, &size), size);
+            ulong size;
+            return new DataPointer(av_stream_get_side_data(this, (AVPacketSideDataType)type, &size), (int)size);
         }
 
         /// <summary>

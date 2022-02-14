@@ -14,19 +14,19 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         None = 0,
         
         /// <summary>
-        /// <para>SLICE_FLAG_CODED_ORDER = 0x0001.</para>
+        /// <para>SLICE_FLAG_CODED_ORDER = 0x1.</para>
         /// <see cref="ffmpeg.SLICE_FLAG_CODED_ORDER" />
         /// </summary>
         CodedOrder = 1,
         
         /// <summary>
-        /// <para>SLICE_FLAG_ALLOW_FIELD = 0x0002.</para>
+        /// <para>SLICE_FLAG_ALLOW_FIELD = 0x2.</para>
         /// <see cref="ffmpeg.SLICE_FLAG_ALLOW_FIELD" />
         /// </summary>
         AllowField = 2,
         
         /// <summary>
-        /// <para>SLICE_FLAG_ALLOW_PLANE = 0x0004.</para>
+        /// <para>SLICE_FLAG_ALLOW_PLANE = 0x4.</para>
         /// <see cref="ffmpeg.SLICE_FLAG_ALLOW_PLANE" />
         /// </summary>
         AllowPlane = 4,

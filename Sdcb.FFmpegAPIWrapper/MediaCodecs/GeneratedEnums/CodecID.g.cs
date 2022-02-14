@@ -1005,302 +1005,307 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_Y41P" />
         /// </summary>
-        Y41p = 32768,
+        Y41p = 197,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_AVRP" />
         /// </summary>
-        Avrp = 32769,
+        Avrp = 198,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_012V" />
         /// </summary>
-        _012v = 32770,
+        _012v = 199,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_AVUI" />
         /// </summary>
-        Avui = 32771,
+        Avui = 200,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_AYUV" />
         /// </summary>
-        Ayuv = 32772,
+        Ayuv = 201,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_TARGA_Y216" />
         /// </summary>
-        TargaY216 = 32773,
+        TargaY216 = 202,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_V308" />
         /// </summary>
-        V308 = 32774,
+        V308 = 203,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_V408" />
         /// </summary>
-        V408 = 32775,
+        V408 = 204,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_YUV4" />
         /// </summary>
-        Yuv4 = 32776,
+        Yuv4 = 205,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_AVRN" />
         /// </summary>
-        Avrn = 32777,
+        Avrn = 206,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_CPIA" />
         /// </summary>
-        Cpia = 32778,
+        Cpia = 207,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_XFACE" />
         /// </summary>
-        Xface = 32779,
+        Xface = 208,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SNOW" />
         /// </summary>
-        Snow = 32780,
+        Snow = 209,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SMVJPEG" />
         /// </summary>
-        Smvjpeg = 32781,
+        Smvjpeg = 210,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_APNG" />
         /// </summary>
-        Apng = 32782,
+        Apng = 211,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_DAALA" />
         /// </summary>
-        Daala = 32783,
+        Daala = 212,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_CFHD" />
         /// </summary>
-        Cfhd = 32784,
+        Cfhd = 213,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_TRUEMOTION2RT" />
         /// </summary>
-        Truemotion2rt = 32785,
+        Truemotion2rt = 214,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_M101" />
         /// </summary>
-        M101 = 32786,
+        M101 = 215,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MAGICYUV" />
         /// </summary>
-        Magicyuv = 32787,
+        Magicyuv = 216,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SHEERVIDEO" />
         /// </summary>
-        Sheervideo = 32788,
+        Sheervideo = 217,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_YLC" />
         /// </summary>
-        Ylc = 32789,
+        Ylc = 218,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PSD" />
         /// </summary>
-        Psd = 32790,
+        Psd = 219,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PIXLET" />
         /// </summary>
-        Pixlet = 32791,
+        Pixlet = 220,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SPEEDHQ" />
         /// </summary>
-        Speedhq = 32792,
+        Speedhq = 221,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_FMVC" />
         /// </summary>
-        Fmvc = 32793,
+        Fmvc = 222,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SCPR" />
         /// </summary>
-        Scpr = 32794,
+        Scpr = 223,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_CLEARVIDEO" />
         /// </summary>
-        Clearvideo = 32795,
+        Clearvideo = 224,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_XPM" />
         /// </summary>
-        Xpm = 32796,
+        Xpm = 225,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_AV1" />
         /// </summary>
-        Av1 = 32797,
+        Av1 = 226,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_BITPACKED" />
         /// </summary>
-        Bitpacked = 32798,
+        Bitpacked = 227,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MSCC" />
         /// </summary>
-        Mscc = 32799,
+        Mscc = 228,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SRGC" />
         /// </summary>
-        Srgc = 32800,
+        Srgc = 229,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SVG" />
         /// </summary>
-        Svg = 32801,
+        Svg = 230,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_GDV" />
         /// </summary>
-        Gdv = 32802,
+        Gdv = 231,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_FITS" />
         /// </summary>
-        Fits = 32803,
+        Fits = 232,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_IMM4" />
         /// </summary>
-        Imm4 = 32804,
+        Imm4 = 233,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PROSUMER" />
         /// </summary>
-        Prosumer = 32805,
+        Prosumer = 234,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MWSC" />
         /// </summary>
-        Mwsc = 32806,
+        Mwsc = 235,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_WCMV" />
         /// </summary>
-        Wcmv = 32807,
+        Wcmv = 236,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_RASC" />
         /// </summary>
-        Rasc = 32808,
+        Rasc = 237,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_HYMT" />
         /// </summary>
-        Hymt = 32809,
+        Hymt = 238,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ARBC" />
         /// </summary>
-        Arbc = 32810,
+        Arbc = 239,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_AGM" />
         /// </summary>
-        Agm = 32811,
+        Agm = 240,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_LSCR" />
         /// </summary>
-        Lscr = 32812,
+        Lscr = 241,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_VP4" />
         /// </summary>
-        Vp4 = 32813,
+        Vp4 = 242,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_IMM5" />
         /// </summary>
-        Imm5 = 32814,
+        Imm5 = 243,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MVDV" />
         /// </summary>
-        Mvdv = 32815,
+        Mvdv = 244,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MVHA" />
         /// </summary>
-        Mvha = 32816,
+        Mvha = 245,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_CDTOONS" />
         /// </summary>
-        Cdtoons = 32817,
+        Cdtoons = 246,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MV30" />
         /// </summary>
-        Mv30 = 32818,
+        Mv30 = 247,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_NOTCHLC" />
         /// </summary>
-        Notchlc = 32819,
+        Notchlc = 248,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PFM" />
         /// </summary>
-        Pfm = 32820,
+        Pfm = 249,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MOBICLIP" />
         /// </summary>
-        Mobiclip = 32821,
+        Mobiclip = 250,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PHOTOCD" />
         /// </summary>
-        Photocd = 32822,
+        Photocd = 251,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_IPU" />
         /// </summary>
-        Ipu = 32823,
+        Ipu = 252,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ARGO" />
         /// </summary>
-        Argo = 32824,
+        Argo = 253,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_CRI" />
         /// </summary>
-        Cri = 32825,
+        Cri = 254,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SIMBIOSIS_IMX" />
         /// </summary>
-        SimbiosisImx = 32826,
+        SimbiosisImx = 255,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SGA_VIDEO" />
         /// </summary>
-        SgaVideo = 32827,
+        SgaVideo = 256,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_GEM" />
+        /// </summary>
+        Gem = 257,
         
         /// <summary>
         /// <para>A dummy id pointing at the start of audio codecs.</para>
@@ -1466,32 +1471,32 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PCM_S64LE" />
         /// </summary>
-        PcmS64le = 67584,
+        PcmS64le = 65567,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PCM_S64BE" />
         /// </summary>
-        PcmS64be = 67585,
+        PcmS64be = 65568,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PCM_F16LE" />
         /// </summary>
-        PcmF16le = 67586,
+        PcmF16le = 65569,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PCM_F24LE" />
         /// </summary>
-        PcmF24le = 67587,
+        PcmF24le = 65570,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PCM_VIDC" />
         /// </summary>
-        PcmVidc = 67588,
+        PcmVidc = 65571,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PCM_SGA" />
         /// </summary>
-        PcmSga = 67589,
+        PcmSga = 65572,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_QT" />
@@ -1651,97 +1656,102 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_AFC" />
         /// </summary>
-        AdpcmAfc = 71680,
+        AdpcmAfc = 69663,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_OKI" />
         /// </summary>
-        AdpcmImaOki = 71681,
+        AdpcmImaOki = 69664,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_DTK" />
         /// </summary>
-        AdpcmDtk = 71682,
+        AdpcmDtk = 69665,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_RAD" />
         /// </summary>
-        AdpcmImaRad = 71683,
+        AdpcmImaRad = 69666,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_G726LE" />
         /// </summary>
-        AdpcmG726le = 71684,
+        AdpcmG726le = 69667,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_THP_LE" />
         /// </summary>
-        AdpcmThpLe = 71685,
+        AdpcmThpLe = 69668,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_PSX" />
         /// </summary>
-        AdpcmPsx = 71686,
+        AdpcmPsx = 69669,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_AICA" />
         /// </summary>
-        AdpcmAica = 71687,
+        AdpcmAica = 69670,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_DAT4" />
         /// </summary>
-        AdpcmImaDat4 = 71688,
+        AdpcmImaDat4 = 69671,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_MTAF" />
         /// </summary>
-        AdpcmMtaf = 71689,
+        AdpcmMtaf = 69672,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_AGM" />
         /// </summary>
-        AdpcmAgm = 71690,
+        AdpcmAgm = 69673,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_ARGO" />
         /// </summary>
-        AdpcmArgo = 71691,
+        AdpcmArgo = 69674,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_SSI" />
         /// </summary>
-        AdpcmImaSsi = 71692,
+        AdpcmImaSsi = 69675,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_ZORK" />
         /// </summary>
-        AdpcmZork = 71693,
+        AdpcmZork = 69676,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_APM" />
         /// </summary>
-        AdpcmImaApm = 71694,
+        AdpcmImaApm = 69677,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_ALP" />
         /// </summary>
-        AdpcmImaAlp = 71695,
+        AdpcmImaAlp = 69678,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_MTF" />
         /// </summary>
-        AdpcmImaMtf = 71696,
+        AdpcmImaMtf = 69679,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_CUNNING" />
         /// </summary>
-        AdpcmImaCunning = 71697,
+        AdpcmImaCunning = 69680,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_MOFLEX" />
         /// </summary>
-        AdpcmImaMoflex = 71698,
+        AdpcmImaMoflex = 69681,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_ADPCM_IMA_ACORN" />
+        /// </summary>
+        AdpcmImaAcorn = 69682,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_AMR_NB" />
@@ -1786,17 +1796,17 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SDX2_DPCM" />
         /// </summary>
-        Sdx2Dpcm = 83968,
+        Sdx2Dpcm = 81924,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_GREMLIN_DPCM" />
         /// </summary>
-        GremlinDpcm = 83969,
+        GremlinDpcm = 81925,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_DERF_DPCM" />
         /// </summary>
-        DerfDpcm = 83970,
+        DerfDpcm = 81926,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MP2" />
@@ -2143,137 +2153,142 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_FFWAVESYNTH" />
         /// </summary>
-        Ffwavesynth = 88064,
+        Ffwavesynth = 86084,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SONIC" />
         /// </summary>
-        Sonic = 88065,
+        Sonic = 86085,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SONIC_LS" />
         /// </summary>
-        SonicLs = 88066,
+        SonicLs = 86086,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_EVRC" />
         /// </summary>
-        Evrc = 88067,
+        Evrc = 86087,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SMV" />
         /// </summary>
-        Smv = 88068,
+        Smv = 86088,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_DSD_LSBF" />
         /// </summary>
-        DsdLsbf = 88069,
+        DsdLsbf = 86089,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_DSD_MSBF" />
         /// </summary>
-        DsdMsbf = 88070,
+        DsdMsbf = 86090,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_DSD_LSBF_PLANAR" />
         /// </summary>
-        DsdLsbfPlanar = 88071,
+        DsdLsbfPlanar = 86091,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_DSD_MSBF_PLANAR" />
         /// </summary>
-        DsdMsbfPlanar = 88072,
+        DsdMsbfPlanar = 86092,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_4GV" />
         /// </summary>
-        _4gv = 88073,
+        _4gv = 86093,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_INTERPLAY_ACM" />
         /// </summary>
-        InterplayAcm = 88074,
+        InterplayAcm = 86094,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_XMA1" />
         /// </summary>
-        Xma1 = 88075,
+        Xma1 = 86095,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_XMA2" />
         /// </summary>
-        Xma2 = 88076,
+        Xma2 = 86096,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_DST" />
         /// </summary>
-        Dst = 88077,
+        Dst = 86097,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ATRAC3AL" />
         /// </summary>
-        Atrac3al = 88078,
+        Atrac3al = 86098,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ATRAC3PAL" />
         /// </summary>
-        Atrac3pal = 88079,
+        Atrac3pal = 86099,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_DOLBY_E" />
         /// </summary>
-        DolbyE = 88080,
+        DolbyE = 86100,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_APTX" />
         /// </summary>
-        Aptx = 88081,
+        Aptx = 86101,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_APTX_HD" />
         /// </summary>
-        AptxHd = 88082,
+        AptxHd = 86102,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SBC" />
         /// </summary>
-        Sbc = 88083,
+        Sbc = 86103,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ATRAC9" />
         /// </summary>
-        Atrac9 = 88084,
+        Atrac9 = 86104,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_HCOM" />
         /// </summary>
-        Hcom = 88085,
+        Hcom = 86105,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ACELP_KELVIN" />
         /// </summary>
-        AcelpKelvin = 88086,
+        AcelpKelvin = 86106,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MPEGH_3D_AUDIO" />
         /// </summary>
-        Mpegh3dAudio = 88087,
+        Mpegh3dAudio = 86107,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SIREN" />
         /// </summary>
-        Siren = 88088,
+        Siren = 86108,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_HCA" />
         /// </summary>
-        Hca = 88089,
+        Hca = 86109,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_FASTAUDIO" />
         /// </summary>
-        Fastaudio = 88090,
+        Fastaudio = 86110,
+        
+        /// <summary>
+        /// <see cref="AVCodecID.AV_CODEC_ID_MSNSIREN" />
+        /// </summary>
+        Msnsiren = 86111,
         
         /// <summary>
         /// <para>A dummy ID pointing at the start of subtitle codecs.</para>
@@ -2330,87 +2345,87 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MICRODVD" />
         /// </summary>
-        Microdvd = 96256,
+        Microdvd = 94217,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_EIA_608" />
         /// </summary>
-        Eia608 = 96257,
+        Eia608 = 94218,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_JACOSUB" />
         /// </summary>
-        Jacosub = 96258,
+        Jacosub = 94219,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SAMI" />
         /// </summary>
-        Sami = 96259,
+        Sami = 94220,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_REALTEXT" />
         /// </summary>
-        Realtext = 96260,
+        Realtext = 94221,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_STL" />
         /// </summary>
-        Stl = 96261,
+        Stl = 94222,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SUBVIEWER1" />
         /// </summary>
-        Subviewer1 = 96262,
+        Subviewer1 = 94223,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SUBVIEWER" />
         /// </summary>
-        Subviewer = 96263,
+        Subviewer = 94224,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SUBRIP" />
         /// </summary>
-        Subrip = 96264,
+        Subrip = 94225,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_WEBVTT" />
         /// </summary>
-        Webvtt = 96265,
+        Webvtt = 94226,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_MPL2" />
         /// </summary>
-        Mpl2 = 96266,
+        Mpl2 = 94227,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_VPLAYER" />
         /// </summary>
-        Vplayer = 96267,
+        Vplayer = 94228,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_PJS" />
         /// </summary>
-        Pjs = 96268,
+        Pjs = 94229,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ASS" />
         /// </summary>
-        Ass = 96269,
+        Ass = 94230,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_HDMV_TEXT_SUBTITLE" />
         /// </summary>
-        HdmvTextSubtitle = 96270,
+        HdmvTextSubtitle = 94231,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_TTML" />
         /// </summary>
-        Ttml = 96271,
+        Ttml = 94232,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_ARIB_CAPTION" />
         /// </summary>
-        AribCaption = 96272,
+        AribCaption = 94233,
         
         /// <summary>
         /// <para>A dummy ID pointing at the start of various fake codecs.</para>
@@ -2437,42 +2452,42 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_BINTEXT" />
         /// </summary>
-        Bintext = 100352,
+        Bintext = 98307,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_XBIN" />
         /// </summary>
-        Xbin = 100353,
+        Xbin = 98308,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_IDF" />
         /// </summary>
-        Idf = 100354,
+        Idf = 98309,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_OTF" />
         /// </summary>
-        Otf = 100355,
+        Otf = 98310,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_SMPTE_KLV" />
         /// </summary>
-        SmpteKlv = 100356,
+        SmpteKlv = 98311,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_DVD_NAV" />
         /// </summary>
-        DvdNav = 100357,
+        DvdNav = 98312,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_TIMED_ID3" />
         /// </summary>
-        TimedId3 = 100358,
+        TimedId3 = 98313,
         
         /// <summary>
         /// <see cref="AVCodecID.AV_CODEC_ID_BIN_DATA" />
         /// </summary>
-        BinData = 100359,
+        BinData = 98314,
         
         /// <summary>
         /// <para>codec_id is not known (like AV_CODEC_ID_NONE) but lavf should attempt to identify it.</para>

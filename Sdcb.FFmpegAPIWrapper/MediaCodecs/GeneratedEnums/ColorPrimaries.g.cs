@@ -9,8 +9,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
     /// <summary>
     /// <para>Chromaticity coordinates of the source primaries.</para>
-    /// <para> These values match the ones defined by ISO/IEC 23001-8_2013 &#167; 7.</para>
-    /// <para>1.</para>
+    /// <para> These values match the ones defined by ISO/IEC 23091-2_2019 subclause 8.</para>
+    /// <para>1 and ITU-T H.</para>
+    /// <para>273.</para>
     /// <see cref="AVColorPrimaries" />
     /// </summary>
     public enum ColorPrimaries
@@ -21,7 +22,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         Reserved0 = 0,
         
         /// <summary>
-        /// <para>also ITU-R BT1361 / IEC 61966-2-4 / SMPTE RP177 Annex B.</para>
+        /// <para>also ITU-R BT1361 / IEC 61966-2-4 / SMPTE RP 177 Annex B.</para>
         /// <see cref="AVColorPrimaries.AVCOL_PRI_BT709" />
         /// </summary>
         Bt709 = 1,
@@ -56,7 +57,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         Smpte170m = 6,
         
         /// <summary>
-        /// <para>functionally identical to above.</para>
+        /// <para>identical to above, also called &quot;SMPTE C&quot; even though it uses D65.</para>
         /// <see cref="AVColorPrimaries.AVCOL_PRI_SMPTE240M" />
         /// </summary>
         Smpte240m = 7,
@@ -98,7 +99,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         
         /// <summary>
         /// <para>EBU Tech.</para>
-        /// <para> 3213-E / JEDEC P22 phosphors.</para>
+        /// <para> 3213-E (nothing there) / one of JEDEC P22 group phosphors.</para>
         /// <see cref="AVColorPrimaries.AVCOL_PRI_EBU3213" />
         /// </summary>
         Ebu3213 = 22,

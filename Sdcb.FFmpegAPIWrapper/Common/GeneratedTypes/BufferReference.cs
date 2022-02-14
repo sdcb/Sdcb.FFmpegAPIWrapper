@@ -1,5 +1,4 @@
 using System;
-using Sdcb.FFmpegAPIWrapper.Common;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 
@@ -13,7 +12,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         /// </summary>
         /// <returns></returns>
         public BufferReference Alloc(int size, bool zeroInitialized = true) => FromNative(
-            zeroInitialized ? av_buffer_alloc(size) : av_buffer_allocz(size),
+            zeroInitialized ? av_buffer_alloc((ulong)size) : av_buffer_allocz((ulong)size),
             isOwner: true);
 
         public BufferReference Create(Span<byte> data, Action<IntPtr, IntPtr> free, IntPtr opaque, int flags)
@@ -21,7 +20,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
             if (data.Length == 0) throw new ArgumentOutOfRangeException(nameof(data));
             fixed (byte* ptr = data)
             {
-                AVBufferRef* res = av_buffer_create(ptr, data.Length, new av_buffer_create_free((o, d) => free((IntPtr)o, (IntPtr)d)), (void*)opaque, flags);
+                AVBufferRef* res = av_buffer_create(ptr, (ulong)data.Length, new av_buffer_create_free((o, d) => free((IntPtr)o, (IntPtr)d)), (void*)opaque, flags);
                 if (res == null) throw FFmpegException.NoMemory("falied to allocate AVBufferRef");
                 return FromNative(res, isOwner: true);
             }
@@ -66,7 +65,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         public void Realloc(int size)
         {
             AVBufferRef* ptr = this;
-            av_buffer_realloc(&ptr, size);
+            av_buffer_realloc(&ptr, (ulong)size);
             _nativePointer = (IntPtr)ptr;
         }
 

@@ -14,19 +14,19 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         None = 0,
         
         /// <summary>
-        /// <para>PARSER_FLAG_COMPLETE_FRAMES = 0x0001.</para>
+        /// <para>PARSER_FLAG_COMPLETE_FRAMES = 0x1.</para>
         /// <see cref="ffmpeg.PARSER_FLAG_COMPLETE_FRAMES" />
         /// </summary>
         CompleteFrames = 1,
         
         /// <summary>
-        /// <para>PARSER_FLAG_ONCE = 0x0002.</para>
+        /// <para>PARSER_FLAG_ONCE = 0x2.</para>
         /// <see cref="ffmpeg.PARSER_FLAG_ONCE" />
         /// </summary>
         Once = 2,
         
         /// <summary>
-        /// <para>PARSER_FLAG_FETCHED_OFFSET = 0x0004.</para>
+        /// <para>PARSER_FLAG_FETCHED_OFFSET = 0x4.</para>
         /// <see cref="ffmpeg.PARSER_FLAG_FETCHED_OFFSET" />
         /// </summary>
         FetchedOffset = 4,

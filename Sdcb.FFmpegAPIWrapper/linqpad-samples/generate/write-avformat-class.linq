@@ -50,7 +50,7 @@ WriteStruct(new GenerateOption(typeof(AVInputFormat), ns, "InputFormat")
 		["mime_type"] = str(),
 		["flags"] = force("FormatInputFlag"), 
 	}, 
-	PrivateMemberFrom = nameof(AVInputFormat.next),
+	PrivateMemberFrom = nameof(AVInputFormat.raw_codec_id),
 	WriteStub = true, 
 });
 
@@ -65,7 +65,7 @@ WriteStruct(new GenerateOption(typeof(AVOutputFormat), ns, "OutputFormat")
 		["flags"] = force("FormatOutputFlag"), 
 	},
 	AdditionalNamespaces = new string[] { "Sdcb.FFmpegAPIWrapper.MediaCodecs" },
-	PrivateMemberFrom = nameof(AVOutputFormat.next),
+	PrivateMemberFrom = nameof(AVOutputFormat.priv_data_size),
 	WriteStub = true, 
 });
 

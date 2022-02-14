@@ -44,9 +44,10 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         }
         
         /// <summary>
+        /// <para>Size of data in bytes.</para>
         /// <see cref="AVBufferRef.size" />
         /// </summary>
-        public int Size
+        public ulong Size
         {
             get => Pointer->size;
             set => Pointer->size = value;

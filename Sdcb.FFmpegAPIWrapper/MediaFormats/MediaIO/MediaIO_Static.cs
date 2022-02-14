@@ -101,16 +101,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         public static string GetUrlProtocol(string url) => avio_find_protocol_name(url);
 
         /// <summary>
-        /// <see cref="avpriv_io_move(string, string)"/>
-        /// </summary>
-        public static void Move(string source, string destination) => avpriv_io_move(source, destination);
-
-        /// <summary>
-        /// <see cref="avpriv_io_delete(string)"/>
-        /// </summary>
-        public static void Delete(string source) => avpriv_io_delete(source);
-
-        /// <summary>
         /// <see cref="avio_check(string, int)"/>
         /// </summary>
         public static MediaIOFlags Check(string url, MediaIOFlags flags) => (MediaIOFlags)avio_check(url, (int)flags).ThrowIfError();

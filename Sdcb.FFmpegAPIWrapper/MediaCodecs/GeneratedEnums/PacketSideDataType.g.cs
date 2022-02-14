@@ -234,12 +234,19 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         S12mTimecode = 30,
         
         /// <summary>
+        /// <para>HDR10+ dynamic metadata associated with a video frame.</para>
+        /// <para> The metadata is in the form of the AVDynamicHDRPlus struct and contains information for color volume transform - application 4 of SMPTE 2094-40:2016 standard.</para>
+        /// <see cref="AVPacketSideDataType.AV_PKT_DATA_DYNAMIC_HDR10_PLUS" />
+        /// </summary>
+        DynamicHdr10Plus = 31,
+        
+        /// <summary>
         /// <para>The number of side data types.</para>
         /// <para> This is not part of the public API/ABI in the sense that it may change when new side data types are added.</para>
         /// <para> This must stay the last enum value.</para>
         /// <para> If its value becomes huge, some code using it needs to be updated as it assumes it to be smaller than other limits.</para>
         /// <see cref="AVPacketSideDataType.AV_PKT_DATA_NB" />
         /// </summary>
-        Nb = 31,
+        Nb = 32,
     }
 }

@@ -934,18 +934,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <para>If non-zero, the decoded audio and video frames returned from avcodec_decode_video2() and avcodec_decode_audio4() are reference-counted and are valid indefinitely.</para>
-        /// <para> The caller must free them with av_frame_unref() when they are not needed anymore.</para>
-        /// <para> Otherwise, the decoded frames must not be freed by the caller and are only valid until the next decode call.</para>
-        /// <see cref="AVCodecContext.refcounted_frames" />
-        /// </summary>
-        public int RefcountedFrames
-        {
-            get => Pointer->refcounted_frames;
-            set => Pointer->refcounted_frames = value;
-        }
-        
-        /// <summary>
         /// <para>amount of qscale change between easy &amp; hard scenes (0.</para>
         /// <para>0-1.</para>
         /// <para>0).</para>
@@ -1103,78 +1091,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <see cref="AVCodecContext.mv_bits" />
-        /// </summary>
-        public int MvBits
-        {
-            get => Pointer->mv_bits;
-            set => Pointer->mv_bits = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.header_bits" />
-        /// </summary>
-        public int HeaderBits
-        {
-            get => Pointer->header_bits;
-            set => Pointer->header_bits = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.i_tex_bits" />
-        /// </summary>
-        public int ITexBits
-        {
-            get => Pointer->i_tex_bits;
-            set => Pointer->i_tex_bits = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.p_tex_bits" />
-        /// </summary>
-        public int PTexBits
-        {
-            get => Pointer->p_tex_bits;
-            set => Pointer->p_tex_bits = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.i_count" />
-        /// </summary>
-        public int ICount
-        {
-            get => Pointer->i_count;
-            set => Pointer->i_count = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.p_count" />
-        /// </summary>
-        public int PCount
-        {
-            get => Pointer->p_count;
-            set => Pointer->p_count = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.skip_count" />
-        /// </summary>
-        public int SkipCount
-        {
-            get => Pointer->skip_count;
-            set => Pointer->skip_count = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVCodecContext.misc_bits" />
-        /// </summary>
-        public int MiscBits
-        {
-            get => Pointer->misc_bits;
-            set => Pointer->misc_bits = value;
-        }
-        
-        /// <summary>
         /// <para>pass1 encoding statistics output buffer - encoding: Set by libavcodec.</para>
         /// <para> - decoding: unused.</para>
         /// <see cref="AVCodecContext.stats_out" />
@@ -1284,10 +1200,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <para>Hardware accelerator context.</para>
         /// <para> For some hardware accelerators, a global context needs to be provided by the user.</para>
         /// <para> In that case, this holds display-dependent data FFmpeg cannot instantiate itself.</para>
-        /// <para> Please refer to the FFmpeg HW accelerator documentation to know how to fill this is.</para>
-        /// <para> e.</para>
-        /// <para>g.</para>
-        /// <para> for VA API, this is a struct vaapi_context.</para>
+        /// <para> Please refer to the FFmpeg HW accelerator documentation to know how to fill this.</para>
         /// <para> - encoding: unused - decoding: Set by user.</para>
         /// <see cref="AVCodecContext.hwaccel_context" />
         /// </summary>
@@ -1710,17 +1623,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => BufferReference.FromNative(Pointer->hw_frames_ctx, isOwner: false);
             set => Pointer->hw_frames_ctx = value;
-        }
-        
-        /// <summary>
-        /// <para>Control the form of AVSubtitle.</para>
-        /// <para>rects[N]-&gt;ass - decoding: set by user - encoding: unused.</para>
-        /// <see cref="AVCodecContext.sub_text_format" />
-        /// </summary>
-        public int SubTextFormat
-        {
-            get => Pointer->sub_text_format;
-            set => Pointer->sub_text_format = value;
         }
         
         /// <summary>

@@ -123,6 +123,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 
         protected override void DisposeNative() => Free();
 
-        public static string GetColorspaceName(ColorSpace val) => av_get_colorspace_name((AVColorSpace)val);
+        public static string GetColorspaceName(ColorSpace val) => av_color_space_name((AVColorSpace)val);
     }
 }

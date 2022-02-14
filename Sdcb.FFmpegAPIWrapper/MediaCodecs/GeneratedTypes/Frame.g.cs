@@ -26,6 +26,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <para>pointer to the picture/channel planes.</para>
         /// <para> This might be different from the first allocated byte.</para>
+        /// <para> For video, it could even point to the end of the image data.</para>
         /// <see cref="AVFrame.data" />
         /// </summary>
         public Ptr8 Data
@@ -35,8 +36,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <para>For video, size in bytes of each picture line.</para>
-        /// <para> For audio, size in bytes of each plane.</para>
+        /// <para>For video, a positive or negative value, which is typically indicating the size in bytes of each picture line, but it can also be: - the negative byte size of lines for vertical flipping (with data[n] pointing to the end of the data - a positive or negative multiple of the byte size as for accessing even and odd fields of a frame (possibly flipped).</para>
         /// <see cref="AVFrame.linesize" />
         /// </summary>
         public Int32x8 Linesize
@@ -151,6 +151,17 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->pkt_dts;
             set => Pointer->pkt_dts = value;
+        }
+        
+        /// <summary>
+        /// <para>Time base for the timestamps in this frame.</para>
+        /// <para> In the future, this field may be set on frames output by decoders or filters, but its value will be by default ignored on input to encoders or filters.</para>
+        /// <see cref="AVFrame.time_base" />
+        /// </summary>
+        public MediaRational TimeBase
+        {
+            get => Pointer->time_base;
+            set => Pointer->time_base = value;
         }
         
         /// <summary>
@@ -270,7 +281,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         
         /// <summary>
         /// <para>AVBuffer references backing the data for this frame.</para>
-        /// <para> If all elements of this array are NULL, then this frame is not reference counted.</para>
+        /// <para> All the pointers in data and extended_data must point inside one of the buffers in buf or extended_buf.</para>
         /// <para> This array must be filled contiguously -- if buf[i] is non-NULL then buf[j] must also be non-NULL for all j &lt; i.</para>
         /// <see cref="AVFrame.buf" />
         /// </summary>
@@ -453,44 +464,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         {
             get => Pointer->pkt_size;
             set => Pointer->pkt_size = value;
-        }
-        
-        /// <summary>
-        /// <para>QP table.</para>
-        /// <see cref="AVFrame.qscale_table" />
-        /// </summary>
-        public sbyte* QscaleTable
-        {
-            get => Pointer->qscale_table;
-            set => Pointer->qscale_table = value;
-        }
-        
-        /// <summary>
-        /// <para>QP store stride.</para>
-        /// <see cref="AVFrame.qstride" />
-        /// </summary>
-        public int Qstride
-        {
-            get => Pointer->qstride;
-            set => Pointer->qstride = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVFrame.qscale_type" />
-        /// </summary>
-        public int QscaleType
-        {
-            get => Pointer->qscale_type;
-            set => Pointer->qscale_type = value;
-        }
-        
-        /// <summary>
-        /// <see cref="AVFrame.qp_table_buf" />
-        /// </summary>
-        public BufferReference QpTableBuf
-        {
-            get => BufferReference.FromNative(Pointer->qp_table_buf, isOwner: false);
-            set => Pointer->qp_table_buf = value;
         }
         
         /// <summary>

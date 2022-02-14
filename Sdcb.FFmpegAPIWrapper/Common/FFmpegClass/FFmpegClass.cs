@@ -54,11 +54,5 @@ namespace Sdcb.FFmpegAPIWrapper.Common
                 p += unitSize;
             }
         }
-
-        [ModuleInitializer]
-        internal static void OnLoad()
-        {
-            ffmpeg.RootPath = "";
-        }
     }
 }
