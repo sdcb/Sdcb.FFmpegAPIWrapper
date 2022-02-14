@@ -8,6 +8,7 @@
   <Namespace>System.Runtime.InteropServices</Namespace>
 </Query>
 
+ffmpeg.RootPath = "";
 MediaMath.Gcd(12, 18).Dump("gcd(12, 18)");
 MediaMath.Rescale(3, 4, 5).Dump("3*4/5");
 MediaMath.Rescale(3, 4, 5, MediaRounding.AwayZero).Dump("3*4/5, away-zero");

@@ -2,8 +2,10 @@
   <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
   <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
   <Namespace>Sdcb.FFmpegAPIWrapper.MediaFormats</Namespace>
+  <Namespace>FFmpeg.AutoGen</Namespace>
 </Query>
 
+ffmpeg.RootPath = "";
 TestProtocols().Dump();
 
 IEnumerable<object> TestProtocols()

@@ -14,6 +14,8 @@
 
 void Main1()
 {
+	// 向桌面输出h265
+	ffmpeg.RootPath = "";
 	FFmpegLogger.LogWriter = x => Console.Write(x);
 	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
 
@@ -23,16 +25,18 @@ void Main1()
 
 void Main2()
 {
+	// 将h265转换为jpg保存
+	ffmpeg.RootPath = "";
 	FFmpegLogger.LogWriter = x => Console.Write(x);
-	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
+	string h265File = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
 
-	using Stream file = File.OpenRead(destPath);
-	string yuvFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo-jpg";
-	Directory.CreateDirectory(yuvFolder);
+	using Stream file = File.OpenRead(h265File);
+	string jpgFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo-jpg";
+	Directory.CreateDirectory(jpgFolder);
 	int i = 0;
 	foreach (Frame x in DecodeSampleH265(file))
 	{
-		x.WriteImageTo(yuvFolder + @$"\{i++}.jpg");
+		x.WriteImageTo(jpgFolder + @$"\{i++}.jpg");
 	}
 }
 

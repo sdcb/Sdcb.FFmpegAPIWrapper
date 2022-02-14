@@ -15,6 +15,7 @@
   <Namespace>Sdcb.FFmpegAPIWrapper.MediaDevices</Namespace>
 </Query>
 
+ffmpeg.RootPath = "";
 FFmpegLogger.LogWriter = c => Console.Write(c);
 //FFmpegLogger.LogLevel = LogLevel.Debug;
 string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "gdigrab.mp4");
@@ -36,11 +37,11 @@ Codec outputCodec = Codec.FindEncoderByName("libx264");
 var outputStream = new MediaStream(output);
 using CodecContext encoder = new CodecContext(outputCodec)
 {
-    Width = 1920,
+    Width = 3840,
     Height = 1080,
     TimeBase = new MediaRational(1, framerate), 
 	PixelFormat = outputCodec.PixelFormats.First(),
-	BitRate = 2 * 1024 * 1024,
+	BitRate = 4 * 1024 * 1024,
 };
 encoder.Open();
 outputStream.Codecpar.CopyFrom(encoder);

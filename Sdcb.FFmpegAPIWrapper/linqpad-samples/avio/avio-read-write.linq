@@ -1,8 +1,10 @@
 <Query Kind="Statements">
   <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
-  <Namespace>Sdcb.FFmpegAPIWrapper.MediaMuxers</Namespace>
+  <Namespace>FFmpeg.AutoGen</Namespace>
+  <Namespace>Sdcb.FFmpegAPIWrapper.MediaFormats</Namespace>
 </Query>
 
+ffmpeg.RootPath = "";
 CheckProtocols();
 TestReadWrite();
 TestReadHttp();
@@ -29,18 +31,12 @@ void TestReadWrite()
 		using var io = MediaIO.Open(tempFile, MediaIOFlags.Write);
 		io.Write(Encoding.UTF8.GetBytes("Hello World").AsSpan());
 	}
-	string tempFile2 = tempFile + ".temp";
-	MediaIO.Move(tempFile, tempFile2);
-	File.Exists(tempFile2).Dump("exist " + tempFile2);
-	File.Copy(tempFile2, tempFile);
-	MediaIO.Delete(tempFile2);
-	File.Exists(tempFile2).Dump("exist " + tempFile2 + " (deleted)");
 	{
 		using var io = MediaIO.Open(tempFile, MediaIOFlags.Read);
 		var buffer = new byte[4096].AsSpan();
 		int len = io.Read(buffer);
 		string text = Encoding.UTF8.GetString(buffer.Slice(0, len).ToArray());
-		Console.WriteLine(text);
+		text.Dump(nameof(TestReadWrite));
 	}
 	File.Delete(tempFile);
 }

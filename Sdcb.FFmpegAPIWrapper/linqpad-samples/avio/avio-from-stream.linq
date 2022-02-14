@@ -7,6 +7,8 @@
   <Namespace>System.Runtime.CompilerServices</Namespace>
 </Query>
 
+ffmpeg.RootPath = "";
+
 {
 	using var ms = new MemoryStream();
 	using var io = MediaIO.WriteStream(ms);

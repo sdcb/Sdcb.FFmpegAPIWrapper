@@ -14,6 +14,7 @@
   <Namespace>Sdcb.FFmpegAPIWrapper.Toolboxs</Namespace>
 </Query>
 
+ffmpeg.RootPath = "";
 FFmpegLogger.LogWriter = c => Console.Write(c);
 using FormatContext fc = FormatContext.AllocOutput(OutputFormat.Guess(shortName: "adts"));
 fc.AudioCodec = Codec.FindEncoderByName("aac");

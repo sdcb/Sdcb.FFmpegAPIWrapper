@@ -1,9 +1,11 @@
 <Query Kind="Statements">
   <NuGetReference Prerelease="true">Sdcb.FFmpegAPIWrapper</NuGetReference>
   <Namespace>Sdcb.FFmpegAPIWrapper.Common</Namespace>
+  <Namespace>FFmpeg.AutoGen</Namespace>
 </Query>
 
 Util.NewProcess = true;
+ffmpeg.RootPath = "";
 new
 {
 	FFmpegLogger.LogFlags, 
