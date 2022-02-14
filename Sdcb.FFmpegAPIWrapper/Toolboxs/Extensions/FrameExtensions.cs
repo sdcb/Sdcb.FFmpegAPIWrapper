@@ -2,7 +2,6 @@
 using Sdcb.FFmpegAPIWrapper.MediaCodecs;
 using Sdcb.FFmpegAPIWrapper.MediaFormats;
 using Sdcb.FFmpegAPIWrapper.Swscales;
-using System;
 using System.IO;
 using System.Linq;
 

@@ -1,7 +1,5 @@
 ﻿using System;
 using static FFmpeg.AutoGen.ffmpeg;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace Sdcb.FFmpegAPIWrapper.Common

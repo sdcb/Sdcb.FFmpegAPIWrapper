@@ -1,5 +1,4 @@
 ﻿using FFmpeg.AutoGen;
-using static FFmpeg.AutoGen.ffmpeg;
 using System;
 using System.Runtime.InteropServices;
 

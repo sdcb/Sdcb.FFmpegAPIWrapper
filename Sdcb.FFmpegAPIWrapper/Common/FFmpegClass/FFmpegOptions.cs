@@ -1,7 +1,6 @@
 ﻿using System;
 using static FFmpeg.AutoGen.ffmpeg;
 using System.Collections.Generic;
-using System.Text;
 using FFmpeg.AutoGen;
 using System.Linq;
 using Sdcb.FFmpegAPIWrapper.MediaCodecs;

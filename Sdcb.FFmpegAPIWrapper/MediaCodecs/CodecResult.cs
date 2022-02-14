@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static FFmpeg.AutoGen.ffmpeg;
-
-namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
+﻿namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 {
     public enum CodecResult
     {

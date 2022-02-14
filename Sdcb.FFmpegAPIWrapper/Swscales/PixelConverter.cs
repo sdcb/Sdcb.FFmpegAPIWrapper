@@ -2,11 +2,9 @@
 using static FFmpeg.AutoGen.ffmpeg;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Sdcb.FFmpegAPIWrapper.MediaCodecs;
 using FFmpeg.AutoGen;
 using Sdcb.FFmpegAPIWrapper.MediaUtils;
-using System.Reflection;
 using System.Linq;
 
 namespace Sdcb.FFmpegAPIWrapper.Swscales

@@ -4,7 +4,6 @@ using Sdcb.FFmpegAPIWrapper.MediaFormats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using static FFmpeg.AutoGen.ffmpeg;
 
 namespace Sdcb.FFmpegAPIWrapper.MediaDevices

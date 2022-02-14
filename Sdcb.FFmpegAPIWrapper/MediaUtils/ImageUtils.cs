@@ -1,8 +1,6 @@
 ﻿using Sdcb.FFmpegAPIWrapper.MediaCodecs;
 using static FFmpeg.AutoGen.ffmpeg;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using FFmpeg.AutoGen;
 using Sdcb.FFmpegAPIWrapper.Common;
 

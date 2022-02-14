@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FFmpeg.AutoGen;
+﻿using FFmpeg.AutoGen;
 
 namespace Sdcb.FFmpegAPIWrapper.Common
 {
