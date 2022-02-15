@@ -1,88 +1,89 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/sdcb/Sdcb.FFmpegAPIWrapper</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/sdcb/Sdcb.FFmpegAPIWrapper</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <Description>API Wrapper for FFmpeg library for .NET, note this is not a CLI wrapper.</Description>
-    <Authors>sdcb</Authors>
-    <Company>sdcb</Company>
-    <Copyright>sdcb</Copyright>
-    <ApplicationIcon></ApplicationIcon>
-    <PackageIcon>ffmpeg.png</PackageIcon>
-    <PackageTags>linqpad-samples ffmpeg</PackageTags>
-    <Configurations>Debug;Release;DebugPackage;NuGetPublish;CleanLocalNuGet;NuGetPublish-Preview</Configurations>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>5.0.0</Version>
-  </PropertyGroup>
-
-  <Target Name="CleanLocalNuGet" Condition="'$(Configuration)'=='CleanLocalNuGet'">
-    <Delete Files="$(SolutionDir)nuget/*.nupkg" />
-  </Target>
-
-  <PropertyGroup>
-    <PackageVersionSuffix>$([System.DateTime]::Now.ToString("yyyyMMdd'-'HHmmss"))</PackageVersionSuffix>
-    <Nullable>enable</Nullable>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPackage|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NuGetPublish|AnyCPU'">
-    <Optimize>True</Optimize>
-  </PropertyGroup>
-
-  <Target Name="DebugPackage" AfterTargets="Build" Condition="'$(Configuration)'=='DebugPackage'">
     <PropertyGroup>
-      <PackageVersion>$(Version)-preview-$(PackageVersionSuffix)</PackageVersion>
+        <TargetFramework>net6.0</TargetFramework>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/sdcb/Sdcb.FFmpegAPIWrapper</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/sdcb/Sdcb.FFmpegAPIWrapper.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Description>API Wrapper for FFmpeg library for .NET, note this is not a CLI wrapper.</Description>
+        <Authors>sdcb</Authors>
+        <Company>sdcb</Company>
+        <Copyright>sdcb</Copyright>
+        <ApplicationIcon></ApplicationIcon>
+        <PackageIcon>ffmpeg.png</PackageIcon>
+        <PackageTags>linqpad-samples ffmpeg</PackageTags>
+        <Configurations>Debug;Release;DebugPackage;NuGetPublish;CleanLocalNuGet;NuGetPublish-Preview</Configurations>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Version>5.0.0</Version>
     </PropertyGroup>
-    <Exec Command="dotnet pack -p:PackageVersion=$(PackageVersion) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget" />
-  </Target>
 
-  <Target Name="NuGetPublish-Preview" AfterTargets="Build" Condition="'$(Configuration)'=='NuGetPublish-Preview'">
+    <Target Name="CleanLocalNuGet" Condition="'$(Configuration)'=='CleanLocalNuGet'">
+        <Delete Files="$(SolutionDir)nuget/*.nupkg" />
+    </Target>
+
     <PropertyGroup>
-      <PackageVersion>$(Version)-preview-$(PackageVersionSuffix)</PackageVersion>
+        <PackageVersionSuffix>$([System.DateTime]::Now.ToString("yyyyMMdd'-'HHmmss"))</PackageVersionSuffix>
+        <Nullable>enable</Nullable>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
-    <Exec Command="dotnet pack -p:PackageVersion=$(PackageVersion) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
-    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(PackageVersion).nupkg -Source nuget.org" />
-  </Target>
 
-  <Target Name="NuGetPublish" AfterTargets="Build" Condition="'$(Configuration)'=='NuGetPublish'">
-    <Exec Command="dotnet pack -p:PackageVersion=$(Version) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
-    <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(Version).nupkg -Source nuget.org" />
-  </Target>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPackage|AnyCPU'">
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FFmpeg.AutoGen" Version="5.0.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NuGetPublish|AnyCPU'">
+        <Optimize>True</Optimize>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\asset\ffmpeg.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="linqpad-samples\*.linq" Pack="True" PackagePath="linqpad-samples" />
-  </ItemGroup>
+    <Target Name="DebugPackage" AfterTargets="Build" Condition="'$(Configuration)'=='DebugPackage'">
+        <PropertyGroup>
+            <PackageVersion>$(Version)-preview-$(PackageVersionSuffix)</PackageVersion>
+        </PropertyGroup>
+        <Exec Command="dotnet pack -p:PackageVersion=$(PackageVersion) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
+        <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(PackageVersion).nupkg -Source $(PROGET_TEST_URL)" />
+    </Target>
 
-  <ItemGroup>
-    <Folder Include="linqpad-samples\" />
-  </ItemGroup>
+    <Target Name="NuGetPublish-Preview" AfterTargets="Build" Condition="'$(Configuration)'=='NuGetPublish-Preview'">
+        <PropertyGroup>
+            <PackageVersion>$(Version)-preview-$(PackageVersionSuffix)</PackageVersion>
+        </PropertyGroup>
+        <Exec Command="dotnet pack -p:PackageVersion=$(PackageVersion) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
+        <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(PackageVersion).nupkg -Source nuget.org" />
+    </Target>
+
+    <Target Name="NuGetPublish" AfterTargets="Build" Condition="'$(Configuration)'=='NuGetPublish'">
+        <Exec Command="dotnet pack -p:PackageVersion=$(Version) --no-build --configuration $(Configuration) --output &quot;$(SolutionDir)nuget\" />
+        <Exec Command="nuget push $(SolutionDir)nuget\$(PackageId).$(Version).nupkg -Source nuget.org" />
+    </Target>
+
+    <ItemGroup>
+        <PackageReference Include="FFmpeg.AutoGen" Version="5.0.0" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\asset\ffmpeg.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="linqpad-samples\*.linq" Pack="True" PackagePath="linqpad-samples" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="linqpad-samples\" />
+    </ItemGroup>
 
 </Project>
