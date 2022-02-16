@@ -8,8 +8,7 @@
   <Namespace>System.Runtime.InteropServices</Namespace>
 </Query>
 
-ffmpeg.RootPath = "";
-using var dic = new MediaDictionary();
+using MediaDictionary dic = new MediaDictionary();
 dic.Add("1", "One");
 dic["2"] = "Two";
 dic["3"] = "Three";

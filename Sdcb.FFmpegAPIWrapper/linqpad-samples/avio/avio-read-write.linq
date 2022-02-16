@@ -4,7 +4,6 @@
   <Namespace>Sdcb.FFmpegAPIWrapper.MediaFormats</Namespace>
 </Query>
 
-ffmpeg.RootPath = "";
 CheckProtocols();
 TestReadWrite();
 TestReadHttp();

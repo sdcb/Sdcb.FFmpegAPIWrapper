@@ -8,7 +8,6 @@
   <Namespace>System.Runtime.InteropServices</Namespace>
 </Query>
 
-ffmpeg.RootPath = "";
 var a = new MediaRational(2, 3);
 var b = new MediaRational(3, 4);
 var c = new MediaRational(100, 101);

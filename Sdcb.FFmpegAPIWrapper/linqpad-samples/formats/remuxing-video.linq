@@ -14,7 +14,6 @@
   <Namespace>Sdcb.FFmpegAPIWrapper.Toolboxs</Namespace>
 </Query>
 
-ffmpeg.RootPath = "";
 FFmpegLogger.LogWriter = c => Console.Write(c);
 //FFmpegLogger.LogLevel = LogLevel.Debug;
 string inputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "muxing.mp4");

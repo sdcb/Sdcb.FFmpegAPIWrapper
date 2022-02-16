@@ -15,7 +15,6 @@
 void Main1()
 {
 	// 向桌面输出h265
-	ffmpeg.RootPath = "";
 	FFmpegLogger.LogWriter = x => Console.Write(x);
 	string destPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
 
@@ -26,7 +25,6 @@ void Main1()
 void Main2()
 {
 	// 将h265转换为jpg保存
-	ffmpeg.RootPath = "";
 	FFmpegLogger.LogWriter = x => Console.Write(x);
 	string h265File = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\avcodec-context-demo.h265";
 

@@ -12,7 +12,6 @@
   <Namespace>System.Runtime.InteropServices</Namespace>
 </Query>
 
-ffmpeg.RootPath = "";
 FFmpegLogger.LogWriter = c => Console.Write(c);
 using FormatContext fc = FormatContext.AllocOutput(formatName: "mp4");
 

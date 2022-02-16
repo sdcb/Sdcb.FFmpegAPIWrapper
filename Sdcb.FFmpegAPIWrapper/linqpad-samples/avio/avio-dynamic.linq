@@ -7,7 +7,6 @@
   <Namespace>System.Runtime.CompilerServices</Namespace>
 </Query>
 
-ffmpeg.RootPath = "";
 using DynamicMediaIO io = MediaIO.OpenDynamic();
 io.WriteString("Hello World");
 io.Flush();

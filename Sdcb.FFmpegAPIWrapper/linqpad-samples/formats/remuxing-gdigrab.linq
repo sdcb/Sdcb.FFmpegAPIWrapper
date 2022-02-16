@@ -15,7 +15,6 @@
   <Namespace>Sdcb.FFmpegAPIWrapper.MediaDevices</Namespace>
 </Query>
 
-ffmpeg.RootPath = "";
 FFmpegLogger.LogWriter = c => Console.Write(c);
 //FFmpegLogger.LogLevel = LogLevel.Debug;
 string outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "gdigrab.mp4");

@@ -5,7 +5,6 @@
   <Namespace>FFmpeg.AutoGen</Namespace>
 </Query>
 
-ffmpeg.RootPath = "";
 TestProtocols().Dump();
 
 IEnumerable<object> TestProtocols()

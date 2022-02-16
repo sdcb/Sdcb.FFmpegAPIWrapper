@@ -5,7 +5,6 @@
 </Query>
 
 Util.NewProcess = true;
-ffmpeg.RootPath = "";
 new
 {
 	FFmpegLogger.LogFlags, 
