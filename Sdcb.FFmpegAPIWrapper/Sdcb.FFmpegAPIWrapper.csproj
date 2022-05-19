@@ -2,8 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://github.com/sdcb/Sdcb.FFmpegAPIWrapper</PackageProjectUrl>
         <RepositoryUrl>https://github.com/sdcb/Sdcb.FFmpegAPIWrapper.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
@@ -27,6 +26,7 @@
         <PackageVersionSuffix>$([System.DateTime]::Now.ToString("yyyyMMdd'-'HHmmss"))</PackageVersionSuffix>
         <Nullable>enable</Nullable>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPackage|AnyCPU'">
