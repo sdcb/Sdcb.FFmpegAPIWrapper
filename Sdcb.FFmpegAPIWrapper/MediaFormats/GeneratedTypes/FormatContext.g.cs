@@ -507,9 +507,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para> - encoding: unused - decoding: Set by user.</para>
         /// <see cref="AVFormatContext.avio_flags" />
         /// </summary>
-        public MediaIOFlags AvioFlags
+        public AvioFlags AvioFlags
         {
-            get => (MediaIOFlags)Pointer->avio_flags;
+            get => (AvioFlags)Pointer->avio_flags;
             set => Pointer->avio_flags = (int)value;
         }
         
@@ -518,9 +518,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para> - encoding: unused - decoding: Read by user.</para>
         /// <see cref="AVFormatContext.duration_estimation_method" />
         /// </summary>
-        public DurationEstimationMethod DurationEstimationMethod
+        public AVDurationEstimationMethod DurationEstimationMethod
         {
-            get => (DurationEstimationMethod)Pointer->duration_estimation_method;
+            get => (AVDurationEstimationMethod)Pointer->duration_estimation_method;
             set => Pointer->duration_estimation_method = (AVDurationEstimationMethod)value;
         }
         

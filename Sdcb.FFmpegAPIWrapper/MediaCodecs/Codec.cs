@@ -62,7 +62,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		public IEnumerable<PixelFormat> PixelFormats => NativeUtils.ReadSequence(
 			p: (IntPtr)_p->pix_fmts, 
 			unitSize: sizeof(AVPixelFormat), 
-			exitCondition: p => *(AVPixelFormat*)p == AVPixelFormat.AV_PIX_FMT_NONE, 
+			exitCondition: p => *(AVPixelFormat*)p == AVPixelFormat.None, 
 			valGetter: p => *(PixelFormat*)p);
 
 		/// <summary>
@@ -80,7 +80,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 		public IEnumerable<SampleFormat> SampleFormats => NativeUtils.ReadSequence(
 			p: (IntPtr)_p->sample_fmts,
 			unitSize: sizeof(AVSampleFormat),
-			exitCondition: p => *(AVSampleFormat*)p == AVSampleFormat.AV_SAMPLE_FMT_NONE,
+			exitCondition: p => *(AVSampleFormat*)p == AVSampleFormat.None,
 			valGetter: p => *(SampleFormat*)p);
 
 		/// <summary>

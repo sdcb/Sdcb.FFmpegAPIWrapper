@@ -154,17 +154,6 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         }
         
         /// <summary>
-        /// <para>Time base for the timestamps in this frame.</para>
-        /// <para> In the future, this field may be set on frames output by decoders or filters, but its value will be by default ignored on input to encoders or filters.</para>
-        /// <see cref="AVFrame.time_base" />
-        /// </summary>
-        public MediaRational TimeBase
-        {
-            get => Pointer->time_base;
-            set => Pointer->time_base = value;
-        }
-        
-        /// <summary>
         /// <para>picture number in bitstream order.</para>
         /// <see cref="AVFrame.coded_picture_number" />
         /// </summary>

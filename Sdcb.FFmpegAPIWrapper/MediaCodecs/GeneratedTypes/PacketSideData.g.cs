@@ -43,7 +43,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="AVPacketSideData.size" />
         /// </summary>
-        public ulong Size
+        public int Size
         {
             get => _ptr->size;
             set => _ptr->size = value;

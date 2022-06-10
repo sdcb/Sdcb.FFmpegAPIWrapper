@@ -13,7 +13,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="avio_open2(AVIOContext**, string, int, AVIOInterruptCB*, AVDictionary**)"/>
         /// </summary>
-        public static unsafe MediaIO Open(string url, MediaIOFlags flags = MediaIOFlags.Read, MediaDictionary? options = null)
+        public static unsafe MediaIO Open(string url, AvioFlags flags = AvioFlags.Read, MediaDictionary? options = null)
         {
             AVIOContext* ctx = null;
             AVDictionary* dictPtr = options;
@@ -23,8 +23,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
             return new MediaIO(ctx, isOwner: true);
         }
 
-        public static unsafe MediaIO OpenRead(string url, MediaDictionary? options = null) => Open(url, MediaIOFlags.Read, options);
-        public static unsafe MediaIO OpenWrite(string url, MediaDictionary? options = null) => Open(url, MediaIOFlags.Write, options);
+        public static unsafe MediaIO OpenRead(string url, MediaDictionary? options = null) => Open(url, AvioFlags.Read, options);
+        public static unsafe MediaIO OpenWrite(string url, MediaDictionary? options = null) => Open(url, AvioFlags.Write, options);
 
         /// <summary>
         /// <see cref="avio_open_dyn_buf(AVIOContext**)"/>
@@ -103,7 +103,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="avio_check(string, int)"/>
         /// </summary>
-        public static MediaIOFlags Check(string url, MediaIOFlags flags) => (MediaIOFlags)avio_check(url, (int)flags).ThrowIfError();
+        public static AvioFlags Check(string url, AvioFlags flags) => (AvioFlags)avio_check(url, (int)flags).ThrowIfError();
 
         /// <summary>
         /// <see cref="avio_enum_protocols(void**, int)"/>

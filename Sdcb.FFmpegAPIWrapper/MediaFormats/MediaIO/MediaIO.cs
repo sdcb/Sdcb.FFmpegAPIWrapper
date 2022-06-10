@@ -188,7 +188,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <param name="time">the stream time the current bytestream pos corresponds to 
         /// (in AV_TIME_BASE units), or AV_NOPTS_VALUE if unknown or not applicable</param>
         /// <param name="type">the kind of data written starting at the current pos</param>
-        public unsafe void WriteMarker(long time, DataMarkerTypes type) => avio_write_marker(this, time, (AVIODataMarkerType)type);
+        public unsafe void WriteMarker(long time, AVIODataMarkerType type) => avio_write_marker(this, time, type);
 
         /// <summary>
         /// <see cref="avio_flush(AVIOContext*)"/>
