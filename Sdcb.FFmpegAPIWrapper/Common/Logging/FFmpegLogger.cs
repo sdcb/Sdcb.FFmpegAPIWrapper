@@ -11,9 +11,9 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 		/// <see cref="av_log_get_level"/>
 		/// <see cref="av_log_set_level(int)"/>
 		/// </summary>
-		public static LogLevel LogLevel
+		public static AVLog LogLevel
         {
-			get => (LogLevel)av_log_get_level();
+			get => (AVLog)av_log_get_level();
 			set => av_log_set_level((int)value);
         }
 
@@ -21,9 +21,9 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 		/// <see cref="av_log_get_flags"/>
 		/// <see cref="av_log_set_flags(int)"/>
 		/// </summary>
-		public static LogFlags LogFlags
+		public static AVLog LogFlags
         {
-			get => (LogFlags)av_log_get_flags();
+			get => (AVLog)av_log_get_flags();
 			set => av_log_set_flags((int)value);
         }
 
@@ -35,17 +35,17 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 			set => av_log_set_callback(LogCallback = value switch
 			{
 				null => av_log_default_callback, 
-				_ => (av_log_set_callback_callback)((p0, level, format, vl) =>
-				{
-					if (level > av_log_get_level()) return;
+				_ => (p0, level, format, vl) =>
+                {
+                    if (level > av_log_get_level()) return;
 
-					const int lineSize = 1024;
-					int printPrefix = 1;
-					byte* lineBuffer = stackalloc byte[lineSize];
-					av_log_format_line2(p0, level, format, vl, lineBuffer, lineSize, &printPrefix);
-					value.Invoke(Marshal.PtrToStringUTF8((IntPtr)lineBuffer)!);
-				})
-			});
+                    const int lineSize = 1024;
+                    int printPrefix = 1;
+                    byte* lineBuffer = stackalloc byte[lineSize];
+                    av_log_format_line2(p0, level, format, vl, lineBuffer, lineSize, &printPrefix);
+                    value.Invoke(Marshal.PtrToStringUTF8((IntPtr)lineBuffer)!);
+                }
+            });
         }
 
 		private static av_log_set_callback_callback? LogCallback;
@@ -53,16 +53,16 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 		/// <summary>
 		/// <see cref="av_log(void*, int, string)"/>
 		/// </summary>
-		public unsafe static void Log(LogLevel level, string message) => av_log(null, (int)level, message);
+		public unsafe static void Log(AVLog level, string message) => av_log(null, (int)level, message);
 
-		public static void LogTrace(string message) => Log(LogLevel.Trace, message);
-		public static void LogDebug(string message) => Log(LogLevel.Debug, message);
-		public static void LogVerbose(string message) => Log(LogLevel.Verbose, message);
-		public static void LogInfo(string message) => Log(LogLevel.Info, message);
-		public static void LogWarning(string message) => Log(LogLevel.Warning, message);
-		public static void LogError(string message) => Log(LogLevel.Error, message);
-		public static void LogFatal(string message) => Log(LogLevel.Fatal, message);
-		public static void LogPanic(string message) => Log(LogLevel.Panic, message);
-		public static void LogQuiet(string message) => Log(LogLevel.Quiet, message);
+		public static void LogTrace(string message) => Log(AVLog.Trace, message);
+		public static void LogDebug(string message) => Log(AVLog.Debug, message);
+		public static void LogVerbose(string message) => Log(AVLog.Verbose, message);
+		public static void LogInfo(string message) => Log(AVLog.Info, message);
+		public static void LogWarning(string message) => Log(AVLog.Warning, message);
+		public static void LogError(string message) => Log(AVLog.Error, message);
+		public static void LogFatal(string message) => Log(AVLog.Fatal, message);
+		public static void LogPanic(string message) => Log(AVLog.Panic, message);
+		public static void LogQuiet(string message) => Log(AVLog.Quiet, message);
     }
 }

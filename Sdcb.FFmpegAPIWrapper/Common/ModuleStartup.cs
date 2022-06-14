@@ -10,7 +10,6 @@ namespace Sdcb.FFmpegAPIWrapper.Common
 #pragma warning restore CA2255 // 不应在库中使用 “ModuleInitializer” 属性
         public static void OnStart()
         {
-            ffmpeg.RootPath = "";
         }
     }
 }

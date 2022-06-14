@@ -507,9 +507,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para> - encoding: unused - decoding: Set by user.</para>
         /// <see cref="AVFormatContext.avio_flags" />
         /// </summary>
-        public MediaIOFlags AvioFlags
+        public AVIOFlags AvioFlags
         {
-            get => (MediaIOFlags)Pointer->avio_flags;
+            get => (AVIOFlags)Pointer->avio_flags;
             set => Pointer->avio_flags = (int)value;
         }
         

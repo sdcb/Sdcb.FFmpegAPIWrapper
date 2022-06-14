@@ -15,7 +15,7 @@
         <PackageTags>linqpad-samples ffmpeg</PackageTags>
         <Configurations>Debug;Release;DebugPackage;NuGetPublish;CleanLocalNuGet;NuGetPublish-Preview</Configurations>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Version>5.0.0</Version>
+        <VersionPrefix>5.0.1</VersionPrefix>
     </PropertyGroup>
 
     <Target Name="CleanLocalNuGet" Condition="'$(Configuration)'=='CleanLocalNuGet'">
@@ -59,11 +59,11 @@
     </Target>
 
     <ItemGroup>
-        <PackageReference Include="FFmpeg.AutoGen" Version="5.0.0" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Sdcb.FFmpeg.AutoGen" Version="5.0.1-preview-1" />
     </ItemGroup>
 
     <ItemGroup>
