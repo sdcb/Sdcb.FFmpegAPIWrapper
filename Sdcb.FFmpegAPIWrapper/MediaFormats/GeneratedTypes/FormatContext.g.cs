@@ -518,9 +518,9 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <para> - encoding: unused - decoding: Read by user.</para>
         /// <see cref="AVFormatContext.duration_estimation_method" />
         /// </summary>
-        public DurationEstimationMethod DurationEstimationMethod
+        public AVDurationEstimationMethod DurationEstimationMethod
         {
-            get => (DurationEstimationMethod)Pointer->duration_estimation_method;
+            get => (AVDurationEstimationMethod)Pointer->duration_estimation_method;
             set => Pointer->duration_estimation_method = (AVDurationEstimationMethod)value;
         }
         

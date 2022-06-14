@@ -24,7 +24,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaFormats
         /// <summary>
         /// <see cref="av_stream_new_side_data(AVStream*, AVPacketSideDataType, int)"/>
         /// </summary>
-        public IntPtr NewSideData(PacketSideDataType type, int size) =>
+        public IntPtr NewSideData(PacketSideDataType type, long size) =>
             NativeUtils.NotNull((IntPtr)av_stream_new_side_data(this, (AVPacketSideDataType)type, (ulong)size));
 
         /// <summary>

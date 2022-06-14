@@ -137,39 +137,5 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             get => Pointer->pos;
             set => Pointer->pos = value;
         }
-        
-        /// <summary>
-        /// <para>for some private data of the user.</para>
-        /// <see cref="AVPacket.opaque" />
-        /// </summary>
-        public IntPtr Opaque
-        {
-            get => (IntPtr)Pointer->opaque;
-            set => Pointer->opaque = (void*)value;
-        }
-        
-        /// <summary>
-        /// <para>AVBufferRef for free use by the API user.</para>
-        /// <para> FFmpeg will never check the contents of the buffer ref.</para>
-        /// <para> FFmpeg calls av_buffer_unref() on it when the packet is unreferenced.</para>
-        /// <para> av_packet_copy_props() calls create a new reference with av_buffer_ref() for the target packet&#39;s opaque_ref field.</para>
-        /// <see cref="AVPacket.opaque_ref" />
-        /// </summary>
-        public BufferReference OpaqueRef
-        {
-            get => BufferReference.FromNative(Pointer->opaque_ref, isOwner: false);
-            set => Pointer->opaque_ref = value;
-        }
-        
-        /// <summary>
-        /// <para>Time base of the packet&#39;s timestamps.</para>
-        /// <para> In the future, this field may be set on packets output by encoders or demuxers, but its value will be by default ignored on input to decoders or muxers.</para>
-        /// <see cref="AVPacket.time_base" />
-        /// </summary>
-        public MediaRational TimeBase
-        {
-            get => Pointer->time_base;
-            set => Pointer->time_base = value;
-        }
     }
 }

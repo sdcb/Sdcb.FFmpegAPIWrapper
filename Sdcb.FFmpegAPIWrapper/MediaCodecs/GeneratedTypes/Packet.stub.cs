@@ -58,7 +58,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="av_packet_new_side_data(AVPacket*, AVPacketSideDataType, int)"/>
         /// </summary>
-        public IntPtr NewSideData(PacketSideDataType type, int size) => (IntPtr)av_packet_new_side_data(this, (AVPacketSideDataType)type, (ulong)size);
+        public IntPtr NewSideData(PacketSideDataType type, long size) => (IntPtr)av_packet_new_side_data(this, (AVPacketSideDataType)type, (ulong)size);
 
         /// <summary>
         /// <see cref="av_packet_add_side_data(AVPacket*, AVPacketSideDataType, byte*, ulong)"/>
@@ -74,7 +74,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// <summary>
         /// <see cref="av_packet_shrink_side_data(AVPacket*, AVPacketSideDataType, int)"/>
         /// </summary>
-        public void ShinkSideData(PacketSideDataType type, int size) => av_packet_shrink_side_data(this, (AVPacketSideDataType)type, (ulong)size).ThrowIfError();
+        public void ShinkSideData(PacketSideDataType type, long size) => av_packet_shrink_side_data(this, (AVPacketSideDataType)type, (ulong)size).ThrowIfError();
 
         /// <summary>
         /// <see cref="av_packet_get_side_data(AVPacket*, AVPacketSideDataType, int*)"/>

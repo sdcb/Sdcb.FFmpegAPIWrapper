@@ -11,7 +11,7 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         /// <see cref="av_buffer_allocz(int)"/>
         /// </summary>
         /// <returns></returns>
-        public BufferReference Alloc(int size, bool zeroInitialized = true) => FromNative(
+        public BufferReference Alloc(long size, bool zeroInitialized = true) => FromNative(
             zeroInitialized ? av_buffer_alloc((ulong)size) : av_buffer_allocz((ulong)size),
             isOwner: true);
 
@@ -62,10 +62,10 @@ namespace Sdcb.FFmpegAPIWrapper.Common
         /// <see cref="av_buffer_realloc(AVBufferRef**, int)"/>
         /// </summary>
         /// <param name="size"></param>
-        public void Realloc(int size)
+        public void Realloc(ulong size)
         {
             AVBufferRef* ptr = this;
-            av_buffer_realloc(&ptr, (ulong)size);
+            av_buffer_realloc(&ptr, size);
             _nativePointer = (IntPtr)ptr;
         }
 
