@@ -50,10 +50,10 @@ namespace Sdcb.FFmpegAPIWrapper.Swscales
         /// <summary>
         /// <see cref="sws_scale(SwsContext*, byte*[], int[], int, int, byte*[], int[])"/>
         /// </summary>
-        public void Convert(Ptr4 sourceData, Int32x4 sourceLinesize, int sourceSliceH, Ptr4 destData, Int32x4 destLinesize, int sourceSliceY = 0) =>
+        public void Convert(byte_ptrArray4 sourceData, int_array4 sourceLinesize, int sourceSliceH, byte_ptrArray4 destData, int_array4 destLinesize, int sourceSliceY = 0) =>
             sws_scale(this,
-                srcSlice: sourceData.ToBytePtrArray(), srcStride: sourceLinesize.ToArray(), srcSliceY: sourceSliceY, srcSliceH: sourceSliceH,
-                destData.ToBytePtrArray(), destLinesize.ToArray()).ThrowIfError();
+                srcSlice: sourceData.ToArray(), srcStride: sourceLinesize.ToArray(), srcSliceY: sourceSliceY, srcSliceH: sourceSliceH,
+                destData.ToArray(), destLinesize.ToArray()).ThrowIfError();
 
         public FFmpegOptions Options => new FFmpegOptions(this);
 

@@ -55,7 +55,7 @@ namespace Sdcb.FFmpegAPIWrapper.Swresamples
         /// <summary>
         /// <see cref="swr_convert(SwrContext*, byte**, int, byte**, int)"/>
         /// </summary>
-        public int Convert(Ptr8 outData, int outCount, Ptr8 inData, int inCount)
+        public int Convert(byte_ptrArray8 outData, int outCount, byte_ptrArray8 inData, int inCount)
         {
             return swr_convert(this, (byte**)&outData, outCount, (byte**)&inData, inCount).ThrowIfError();
         }

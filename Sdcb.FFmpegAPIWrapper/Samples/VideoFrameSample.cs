@@ -18,13 +18,14 @@ namespace Sdcb.FFmpegAPIWrapper.Samples
 
 		public static unsafe void FillYuv420p(Frame frame, long i)
 		{
-			int linesize0 = frame.Linesize._0;
-			int linesize1 = frame.Linesize._1;
-			int linesize2 = frame.Linesize._2;
+            FFmpeg.AutoGen.int_array8 linesize = frame.Linesize;
+			int linesize0 = linesize._[0];
+			int linesize1 = linesize._[1];
+			int linesize2 = linesize._[2];
 
-			byte* data0 = (byte*)frame.Data._0;
-			byte* data1 = (byte*)frame.Data._1;
-			byte* data2 = (byte*)frame.Data._2;
+			byte* data0 = frame.Data._0;
+			byte* data1 = frame.Data._1;
+			byte* data2 = frame.Data._2;
 
 			/* prepare a dummy image */
 			/* Y */
