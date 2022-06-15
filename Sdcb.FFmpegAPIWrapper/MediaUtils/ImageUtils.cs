@@ -22,7 +22,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaUtils
             int width, 
             int height, 
             DataPointer dest, 
-            Ptr4 sourceData, Int32x4 sourceLinesize, 
+            byte_ptrArray4 sourceData, int_array4 sourceLinesize, 
             int align = 1)
         {
             return av_image_copy_to_buffer(
@@ -35,7 +35,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaUtils
         /// <summary>
         /// <see cref="av_image_fill_linesizes(ref int_array4, AVPixelFormat, int)"/>
         /// </summary>
-        public static unsafe Int32x4 GetLinesize(PixelFormat pixelFormat, int width)
+        public static unsafe int_array4 GetLinesize(PixelFormat pixelFormat, int width)
         {
             int_array4 linesizes;
             av_image_fill_linesizes(ref linesizes, (AVPixelFormat)pixelFormat, width).ThrowIfError();
@@ -45,7 +45,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaUtils
         /// <summary>
         /// <see cref="av_image_fill_pointers(ref byte_ptrArray4, AVPixelFormat, int, byte*, int_array4)"/>
         /// </summary>
-        public static unsafe Ptr4 ToPlaneData(IntPtr sourceData, Int32x4 linesizes, PixelFormat pixelFormat, int height)
+        public static unsafe byte_ptrArray4 ToPlaneData(IntPtr sourceData, int_array4 linesizes, PixelFormat pixelFormat, int height)
         {
             byte_ptrArray4 ret = default;
             av_image_fill_pointers(ret, (AVPixelFormat)pixelFormat, height, (byte*)sourceData, linesizes).ThrowIfError();

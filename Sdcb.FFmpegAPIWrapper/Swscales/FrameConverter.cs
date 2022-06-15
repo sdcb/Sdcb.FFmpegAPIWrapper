@@ -31,10 +31,10 @@ namespace Sdcb.FFmpegAPIWrapper.Swscales
                     destFrame.Width, destFrame.Height, (PixelFormat)destFrame.Format, flags));
 
             sws_scale(this,
-                srcSlice: ((Ptr4)sourceFrame.Data).ToBytePtrArray(),
-                srcStride: ((Int32x4)sourceFrame.Linesize).ToArray(),
+                srcSlice: sourceFrame.Data.ToArray4(),
+                srcStride: sourceFrame.Linesize.ToArray4(),
                 srcSliceY: 0, srcSliceH: sourceFrame.Height,
-                dst: ((Ptr4)destFrame.Data).ToBytePtrArray(), ((Int32x4)destFrame.Linesize).ToArray()).ThrowIfError();
+                dst: destFrame.Data.ToArray4(), destFrame.Linesize.ToArray4()).ThrowIfError();
         }
 
         /// <summary>

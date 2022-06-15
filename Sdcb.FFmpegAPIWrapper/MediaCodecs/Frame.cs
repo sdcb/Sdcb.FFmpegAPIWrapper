@@ -104,7 +104,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
             var buffer = new byte[ImageUtils.GetBufferSize((PixelFormat)Format, Width, Height, align)];
             fixed (byte* ptr = buffer)
             {
-                ImageUtils.CopyToBuffer((PixelFormat)Format, Width, Height, new DataPointer(ptr, buffer.Length), (Ptr4)Data, (Int32x4)Linesize, align);
+                ImageUtils.CopyToBuffer((PixelFormat)Format, Width, Height, new DataPointer(ptr, buffer.Length), (byte_ptrArray4)Data, (int_array4)Linesize, align);
             }
             return buffer;
         }
@@ -117,7 +117,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
 
             fixed (byte* ptr = buffer)
             {
-                ImageUtils.CopyToBuffer((PixelFormat)Format, Width, Height, new DataPointer(ptr, buffer.Length), (Ptr4)Data, (Int32x4)Linesize, align);
+                ImageUtils.CopyToBuffer((PixelFormat)Format, Width, Height, new DataPointer(ptr, buffer.Length), (byte_ptrArray4)Data, (int_array4)Linesize, align);
             }
         }
 
