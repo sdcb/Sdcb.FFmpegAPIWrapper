@@ -31,8 +31,8 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         /// </summary>
         public byte_ptrArray8 Data
         {
-            get => (byte_ptrArray8)Pointer->data;
-            set => Pointer->data = (byte_ptrArray8)value;
+            get => Pointer->data;
+            set => Pointer->data = value;
         }
         
         /// <summary>
@@ -42,7 +42,7 @@ namespace Sdcb.FFmpegAPIWrapper.MediaCodecs
         public int_array8 Linesize
         {
             get => Pointer->linesize;
-            set => Pointer->linesize = (int_array8)value;
+            set => Pointer->linesize = value;
         }
         
         /// <summary>
