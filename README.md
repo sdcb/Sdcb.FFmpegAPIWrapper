@@ -3,6 +3,10 @@ Sdcb.FFmpegAPIWrapper ![NuGet Version](https://img.shields.io/nuget/v/Sdcb.FFmpe
 
 .NET FFmpeg API Warpper Library, currently based on [FFmpeg.AutoGen](https://github.com/Ruslan-B/FFmpeg.AutoGen). 
 
+> Note: **this project has deprecated** because it's very hard to make it flexiable and powerful by reference to FFmpeg.AutoGen, please use **Sdcb.FFmpeg https://github.com/sdcb/sdcb.ffmpeg**
+> 
+> 注意：**这个项目已停止维护**，因为用上了FFmpeg.AutoGen之后项目变得很僵硬，请使用我写的新的更好的**Sdcb.FFmpeg：https://github.com/sdcb/sdcb.ffmpeg**
+
 Status
 ======
 
